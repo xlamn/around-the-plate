@@ -28,7 +28,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  bloc: ^9.0.0
   camera: ^0.11.2
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.1
   forui: ^0.14.1
   forui_assets: ^0.14.0
   path_provider: ^2.1.5
