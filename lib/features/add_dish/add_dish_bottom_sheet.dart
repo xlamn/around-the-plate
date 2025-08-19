@@ -1,24 +1,37 @@
 import 'dart:io';
 
+import 'package:around_the_plate/features/add_dish/widgets/controls/add_dish_origin_select.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-const countries = [
-  'Vietnam',
-  'United States',
-  'Japan',
-  'South Korea',
-  'France',
-  'Germany',
-  'Italy',
-  'Spain',
-  'United Kingdom',
-];
+import 'widgets/add_dish_app_bar.dart';
+import 'widgets/controls/add_dish_date_field.dart';
+import 'widgets/controls/add_dish_name_text_field.dart';
+import 'widgets/controls/add_dish_rating_slider.dart';
 
-class AddPlateScreen extends StatelessWidget {
+class AddDishBottomSheet extends StatefulWidget {
   final String imagePath;
 
-  const AddPlateScreen({super.key, required this.imagePath});
+  const AddDishBottomSheet({super.key, required this.imagePath});
+
+  @override
+  State<AddDishBottomSheet> createState() => _AddDishBottomSheetState();
+}
+
+class _AddDishBottomSheetState extends State<AddDishBottomSheet>
+    with TickerProviderStateMixin {
+  late final TextEditingController _nameTextFieldController =
+      TextEditingController();
+  late final FSelectController<String> _originSelectController =
+      FSelectController(vsync: this);
+  late final FDateFieldController _dateFieldController = FDateFieldController(
+    vsync: this,
+    initialDate: DateTime.now(),
+  );
+  late final FContinuousSliderController _ratingSliderController =
+      FContinuousSliderController(
+        selection: FSliderSelection(max: 0.5),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +40,9 @@ class AddPlateScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          spacing: 16,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                FButton(
-                  onPress: () {},
-                  child: const Text("Add Dish"),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+            AddDishAppBar(),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -50,82 +51,29 @@ class AddPlateScreen extends StatelessWidget {
                   child: SizedBox(
                     height: 100,
                     width: 100,
-                    child: Image.file(File(imagePath)),
+                    child: Image.file(File(widget.imagePath)),
                   ),
                 ),
-                Expanded(
-                  child: FTextField(
-                    label: const Text('Dish Name'),
-                    hint: 'Spaghetti Carbonara',
-                    maxLines: 1,
-                  ),
+                AddDishNameTextField(
+                  controller: _nameTextFieldController,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            FSelect<String>(
-              label: const Text('Dish Origin'),
-              hint: 'Select a country',
-              format: (s) => s,
-              children: [
-                for (final country in countries) FSelectItem(country, country),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ClearableDateField(),
-            const SizedBox(height: 16),
-            FSlider(
-              label: const Text('Rating'),
-              layout: FLayout.ltr,
-              tooltipBuilder: (style, value) {
-                final hex = (value * 100).round() / 10;
-                return Text('$hex');
-              },
-              controller: FContinuousSliderController(
-                selection: FSliderSelection(max: 0.5), // initial value
-              ),
-              marks: const [
-                FSliderMark(value: 0.0, label: Text('0')),
-                FSliderMark(value: 0.1, label: Text('1')),
-                FSliderMark(value: 0.2, label: Text('2')),
-                FSliderMark(value: 0.3, label: Text('3')),
-                FSliderMark(value: 0.4, label: Text('4')),
-                FSliderMark(value: 0.5, label: Text('5')),
-                FSliderMark(value: 0.6, label: Text('6')),
-                FSliderMark(value: 0.7, label: Text('7')),
-                FSliderMark(value: 0.8, label: Text('8')),
-                FSliderMark(value: 0.9, label: Text('9')),
-                FSliderMark(value: 1.0, label: Text('10')),
-              ],
-            ),
+            AddDishOriginSelect(controller: _originSelectController),
+            AddDishDateField(controller: _dateFieldController),
+            AddDishRatingSlider(controller: _ratingSliderController),
           ],
         ),
       ),
     );
   }
-}
-
-class ClearableDateField extends StatefulWidget {
-  @override
-  State<ClearableDateField> createState() => _State();
-}
-
-class _State extends State<ClearableDateField>
-    with SingleTickerProviderStateMixin {
-  late final FDateFieldController _controller = FDateFieldController(
-    vsync: this,
-    initialDate: DateTime.now(),
-  );
-
-  @override
-  Widget build(BuildContext context) => FDateField(
-    controller: _controller,
-    label: const Text('Date'),
-  );
 
   @override
   void dispose() {
-    _controller.dispose();
+    _nameTextFieldController.dispose();
+    _originSelectController.dispose();
+    _dateFieldController.dispose();
+    _ratingSliderController.dispose();
     super.dispose();
   }
 }

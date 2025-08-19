@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-import '../../features/add_plate/add_plate_bottom_sheet.dart';
+import '../../features/add_dish/add_dish_bottom_sheet.dart';
 import '../../features/take_picture/take_picture_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               context: context,
               isDismissible: false,
               enableDrag: false,
-              builder: (_) => AddPlateScreen(
+              builder: (_) => AddDishBottomSheet(
                 imagePath: imagePath,
               ),
             );
