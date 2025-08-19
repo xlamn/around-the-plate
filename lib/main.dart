@@ -1,5 +1,5 @@
-import 'package:around_the_plate/pages/home/home.dart';
-import 'package:around_the_plate/pages/map/world_map.dart';
+import 'package:around_the_plate/pages/home/home_screen.dart';
+import 'package:around_the_plate/pages/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
@@ -73,8 +73,8 @@ final headers = [
 ];
 
 final contents = [
-  Home(),
-  WorldMap(),
+  HomeScreen(),
+  MapScreen(),
   Column(
     children: [
       const SizedBox(height: 5),
