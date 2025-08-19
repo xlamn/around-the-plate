@@ -37,7 +37,7 @@ class AddPlateScreen extends StatelessWidget {
                 ),
                 FButton(
                   onPress: () {},
-                  child: const Text("Save"),
+                  child: const Text("Add Dish"),
                 ),
               ],
             ),
@@ -55,7 +55,7 @@ class AddPlateScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: FTextField(
-                    label: const Text('Plate Name'),
+                    label: const Text('Dish Name'),
                     hint: 'Spaghetti Carbonara',
                     maxLines: 1,
                   ),
@@ -64,7 +64,7 @@ class AddPlateScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             FSelect<String>(
-              label: const Text('Plate Origin'),
+              label: const Text('Dish Origin'),
               hint: 'Select a country',
               format: (s) => s,
               children: [
