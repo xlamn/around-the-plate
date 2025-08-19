@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import '../add_plate/add_plate_screen.dart';
-
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({super.key, required this.camera});
 
@@ -65,13 +63,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             if (!context.mounted) return;
 
-            await Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => AddPlateScreen(
-                  imagePath: image.path,
-                ),
-              ),
-            );
+            Navigator.pop(context, image.path);
           } catch (e) {
             print(e);
           }

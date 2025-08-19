@@ -1,7 +1,9 @@
-import 'package:around_the_plate/features/take_picture/take_picture_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
+
+import '../../features/add_plate/add_plate_bottom_sheet.dart';
+import '../../features/take_picture/take_picture_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,15 +17,28 @@ class HomeScreen extends StatelessWidget {
           final cameras = await availableCameras();
           final firstCamera = cameras.first;
           if (!context.mounted) return;
-          await Navigator.of(context).push(
+          final imagePath = await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => TakePictureScreen(
                 camera: firstCamera,
               ),
             ),
           );
+
+          if (!context.mounted) return;
+
+          if (imagePath != null) {
+            showModalBottomSheet(
+              context: context,
+              isDismissible: false,
+              enableDrag: false,
+              builder: (_) => AddPlateScreen(
+                imagePath: imagePath,
+              ),
+            );
+          }
         },
-        child: const Text('Create new entry'),
+        child: const Text('Add New Plate'),
       ),
       body: Column(
         spacing: 16.0,
