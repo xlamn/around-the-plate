@@ -1,12 +1,8 @@
-import 'package:around_the_plate/pages/home/home_screen.dart';
-import 'package:around_the_plate/pages/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const App());
-}
+import '../pages/home/home_screen.dart';
+import '../pages/map/map_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -22,19 +18,19 @@ class App extends StatelessWidget {
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
       builder: (_, child) => FTheme(data: theme, child: child!),
       theme: theme.toApproximateMaterialTheme(),
-      home: _Application(),
+      home: AppView(),
     );
   }
 }
 
-class _Application extends StatefulWidget {
-  const _Application();
+class AppView extends StatefulWidget {
+  const AppView({super.key});
 
   @override
-  State<_Application> createState() => _ApplicationState();
+  State<AppView> createState() => _AppViewState();
 }
 
-class _ApplicationState extends State<_Application> {
+class _AppViewState extends State<AppView> {
   int index = 0;
 
   @override

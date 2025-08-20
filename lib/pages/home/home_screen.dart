@@ -2,9 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-import '../../features/add_dish/add_dish_bottom_sheet.dart';
-import '../../features/dishes_overview/widgets/dishes_overview.dart';
-import '../../features/take_picture/take_picture_screen.dart';
+import '../../features/add_dish/view/add_dish_bottom_sheet.dart';
+import '../../features/dishes_overview/view/dishes_overview.dart';
+import '../../features/take_picture/view/take_picture_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

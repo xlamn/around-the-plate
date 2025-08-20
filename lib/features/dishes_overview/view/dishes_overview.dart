@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubits/dishes_overview/dishes_overview_cubit.dart';
 import '../cubits/dishes_overview/dishes_overview_state.dart';
-import 'dish_card.dart';
+import '../widgets/dish_card.dart';
 
 class DishesOverview extends StatelessWidget {
   const DishesOverview({super.key});
