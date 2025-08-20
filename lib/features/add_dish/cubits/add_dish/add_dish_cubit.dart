@@ -1,4 +1,4 @@
-import 'package:around_the_plate/models/dish.dart';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'add_dish_state.dart';

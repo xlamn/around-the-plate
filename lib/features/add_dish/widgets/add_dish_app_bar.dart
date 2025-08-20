@@ -1,7 +1,7 @@
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-import '../../../models/dish.dart';
 import 'add_dish_save_button.dart';
 
 class AddDishAppBar extends StatelessWidget {

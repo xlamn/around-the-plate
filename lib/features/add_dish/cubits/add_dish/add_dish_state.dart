@@ -1,6 +1,5 @@
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../../models/dish.dart';
 
 abstract class AddDishState extends Equatable {
   const AddDishState();

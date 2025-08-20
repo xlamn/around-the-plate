@@ -1,8 +1,8 @@
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
-import '../../../models/dish.dart';
 import '../cubits/add_dish/add_dish_cubit.dart';
 
 class AddDishSaveButton extends StatelessWidget {

@@ -58,7 +58,7 @@ class DishesOverviewView extends StatelessWidget {
             }
           }
         },
-        child: const Text('Add New Plate'),
+        child: const Text('Add New Dish'),
       ),
       body: Column(
         spacing: 16.0,

@@ -1,7 +1,6 @@
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
-
-import '../../../models/dish.dart';
 
 class DishCard extends StatelessWidget {
   final Dish dish;
