@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
 import '../../features/add_dish/add_dish_bottom_sheet.dart';
+import '../../features/dishes_overview/widgets/dishes_overview.dart';
 import '../../features/take_picture/take_picture_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -43,18 +44,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         spacing: 16.0,
         children: [
-          FCard(
-            title: const Text('Dish 1'),
-            subtitle: const Text(
-              'Make changes to your account here. Click save when you are done.',
-            ),
-          ),
-          FCard(
-            title: const Text('Dish 2'),
-            subtitle: const Text(
-              'Make changes to your account here. Click save when you are done.',
-            ),
-          ),
+          DishesOverview(),
         ],
       ),
     );

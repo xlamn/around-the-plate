@@ -12,16 +12,30 @@ import 'widgets/controls/add_dish_name_text_field.dart';
 import 'widgets/controls/add_dish_origin_select.dart';
 import 'widgets/controls/add_dish_rating_slider.dart';
 
-class AddDishBottomSheet extends StatefulWidget {
+class AddDishBottomSheet extends StatelessWidget {
   final String imagePath;
 
   const AddDishBottomSheet({super.key, required this.imagePath});
 
   @override
-  State<AddDishBottomSheet> createState() => _AddDishBottomSheetState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AddDishCubit(),
+      child: AddDishBottomSheetView(imagePath: imagePath),
+    );
+  }
 }
 
-class _AddDishBottomSheetState extends State<AddDishBottomSheet>
+class AddDishBottomSheetView extends StatefulWidget {
+  final String imagePath;
+
+  const AddDishBottomSheetView({super.key, required this.imagePath});
+
+  @override
+  State<AddDishBottomSheetView> createState() => _AddDishBottomSheetViewState();
+}
+
+class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     with TickerProviderStateMixin {
   late final TextEditingController _nameTextFieldController =
       TextEditingController();
@@ -39,45 +53,42 @@ class _AddDishBottomSheetState extends State<AddDishBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _addDishCubit,
-      child: BlocListener<AddDishCubit, AddDishState>(
-        listener: (context, state) {
-          if (state is AddDishSuccess) {
-            Navigator.pop(context);
-          }
-        },
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 16,
-              children: [
-                AddDishAppBar(
-                  nameController: _nameTextFieldController,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.file(File(widget.imagePath)),
-                      ),
+    return BlocListener<AddDishCubit, AddDishState>(
+      listener: (context, state) {
+        if (state is AddDishSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 16,
+            children: [
+              AddDishAppBar(
+                nameController: _nameTextFieldController,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.file(File(widget.imagePath)),
                     ),
-                    AddDishNameTextField(
-                      controller: _nameTextFieldController,
-                    ),
-                  ],
-                ),
-                AddDishOriginSelect(controller: _originSelectController),
-                AddDishDateField(controller: _dateFieldController),
-                AddDishRatingSlider(controller: _ratingSliderController),
-              ],
-            ),
+                  ),
+                  AddDishNameTextField(
+                    controller: _nameTextFieldController,
+                  ),
+                ],
+              ),
+              AddDishOriginSelect(controller: _originSelectController),
+              AddDishDateField(controller: _dateFieldController),
+              AddDishRatingSlider(controller: _ratingSliderController),
+            ],
           ),
         ),
       ),
