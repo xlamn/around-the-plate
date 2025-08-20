@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-import '../start/view/start_page.dart';
+import '../home/view/home.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -17,7 +17,7 @@ class App extends StatelessWidget {
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
       builder: (_, child) => FTheme(data: theme, child: child!),
       theme: theme.toApproximateMaterialTheme(),
-      home: StartPage(),
+      home: Home(),
     );
   }
 }

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart' hide Tab;
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
 
-import '../../pages/home/home_screen.dart';
-import '../../pages/map/map_screen.dart';
+import '../../features/dishes_overview/view/dishes_overview_page.dart';
+import '../../features/map_overview/view/map_overview_page.dart';
 
-class StartPage extends StatefulWidget {
-  const StartPage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<StartPage> createState() => _StartPageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _HomeState extends State<Home> {
   int index = 0;
 
   @override
@@ -51,8 +51,8 @@ final headers = [
 ];
 
 final contents = [
-  HomeScreen(),
-  MapScreen(),
+  DishesOverviewPage(),
+  MapOverviewPage(),
   Column(
     children: [
       const SizedBox(height: 5),
