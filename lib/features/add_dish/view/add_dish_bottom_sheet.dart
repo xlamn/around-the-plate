@@ -56,7 +56,8 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     return BlocListener<AddDishCubit, AddDishState>(
       listener: (context, state) {
         if (state is AddDishSuccess) {
-          Navigator.pop(context);
+          final forceRefresh = true;
+          Navigator.pop(context, forceRefresh);
         }
       },
       child: SafeArea(

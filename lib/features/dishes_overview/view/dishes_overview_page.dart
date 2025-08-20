@@ -44,7 +44,7 @@ class DishesOverviewView extends StatelessWidget {
           if (!context.mounted) return;
 
           if (imagePath != null) {
-            showModalBottomSheet(
+            final bool? forceRefresh = await showModalBottomSheet(
               context: context,
               isDismissible: false,
               enableDrag: false,
@@ -52,6 +52,10 @@ class DishesOverviewView extends StatelessWidget {
                 imagePath: imagePath,
               ),
             );
+            if (forceRefresh != null && forceRefresh) {
+              if (!context.mounted) return;
+              context.read<DishesOverviewCubit>().loadDishes();
+            }
           }
         },
         child: const Text('Add New Plate'),
