@@ -4,18 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_dish_state.dart';
 
 class AddDishCubit extends Cubit<AddDishState> {
-  AddDishCubit() : super(AddDishInitial());
+  AddDishCubit() : super(AddDishState());
 
   Future<void> addDish(Dish dish) async {
     try {
-      emit(AddDishLoading());
+      emit(state.copyWith(status: AddDishStatus.loading));
 
       // save dish in database
       await Future.delayed(Duration(seconds: 1));
 
-      emit(AddDishSuccess(dish: dish));
+      emit(state.copyWith(status: AddDishStatus.success, dish: dish));
     } catch (e) {
-      emit(AddDishError("Failed to add dish"));
+      emit(state.copyWith(status: AddDishStatus.failure));
     }
   }
 }

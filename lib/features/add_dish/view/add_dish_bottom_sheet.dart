@@ -55,7 +55,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
   Widget build(BuildContext context) {
     return BlocListener<AddDishCubit, AddDishState>(
       listener: (context, state) {
-        if (state is AddDishSuccess) {
+        if (state.status == AddDishStatus.success) {
           final forceRefresh = true;
           Navigator.pop(context, forceRefresh);
         }
