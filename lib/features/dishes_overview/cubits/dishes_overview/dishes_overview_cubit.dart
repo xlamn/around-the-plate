@@ -1,25 +1,40 @@
+import 'dart:async';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'dishes_overview_state.dart';
 
 class DishesOverviewCubit extends Cubit<DishesOverviewState> {
-  DishesOverviewCubit() : super(const DishesOverviewState());
+  final DishesRepository _dishesRepository;
+  StreamSubscription<List<Dish>>? _dishesSubscription;
 
-  Future<void> loadDishes() async {
-    try {
-      emit(state.copyWith(status: () => DishesOverviewStatus.loading));
+  DishesOverviewCubit({
+    required DishesRepository dishesRepository,
+  }) : _dishesRepository = dishesRepository,
+       super(DishesOverviewState());
 
-      // load dishes from database
-      await Future.delayed(Duration(seconds: 1));
+  void loadDishes() {
+    emit(state.copyWith(status: () => DishesOverviewStatus.loading));
 
-      emit(
-        state.copyWith(
-          status: () => DishesOverviewStatus.success,
-          dishes: () => [],
-        ),
-      );
-    } catch (e) {
-      emit(state.copyWith(status: () => DishesOverviewStatus.failure));
-    }
+    _dishesSubscription?.cancel(); // avoid multiple subscriptions
+
+    _dishesSubscription = _dishesRepository.getDishes().listen(
+      (dishes) {
+        emit(
+          state.copyWith(
+            status: () => DishesOverviewStatus.success,
+            dishes: () => dishes,
+          ),
+        );
+      },
+      onError: (_) {
+        emit(state.copyWith(status: () => DishesOverviewStatus.failure));
+      },
+    );
+  }
+
+  @override
+  Future<void> close() {
+    _dishesSubscription?.cancel();
+    return super.close();
   }
 }

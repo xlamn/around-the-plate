@@ -1,20 +1,21 @@
-import 'package:equatable/equatable.dart';
+import 'package:isar/isar.dart';
 
-class Dish extends Equatable {
+part 'dish.g.dart';
+
+@collection
+class Dish {
+  Id id = Isar.autoIncrement;
   final String name;
   final String imagePath;
   final String origin;
   final DateTime date;
   final double rating;
 
-  const Dish({
+  Dish({
     required this.name,
     required this.imagePath,
     required this.origin,
     required this.date,
     required this.rating,
   });
-
-  @override
-  List<Object?> get props => [name, imagePath];
 }

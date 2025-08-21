@@ -37,8 +37,8 @@ dependencies:
   path_provider: ^2.1.5
   path: ^1.9.1
 
-  local_storage_dishes_api:
-    path: packages/local_storage_dishes_api
+  isar_storage_dishes_api:
+    path: packages/isar_storage_dishes_api
   dishes_api:
     path: packages/dishes_api
   dishes_repository:

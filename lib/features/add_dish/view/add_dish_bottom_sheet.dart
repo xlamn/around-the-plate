@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
@@ -20,7 +21,9 @@ class AddDishBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddDishCubit(),
+      create: (_) => AddDishCubit(
+        dishesRepository: context.read<DishesRepository>(),
+      ),
       child: AddDishBottomSheetView(imagePath: imagePath),
     );
   }
@@ -49,7 +52,6 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       FContinuousSliderController(
         selection: FSliderSelection(max: 0.5),
       );
-  late final _addDishCubit = AddDishCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,6 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     _originSelectController.dispose();
     _dateFieldController.dispose();
     _ratingSliderController.dispose();
-    _addDishCubit.close();
     super.dispose();
   }
 }
