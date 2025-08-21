@@ -5,7 +5,6 @@ import 'package:isar/isar.dart';
 import 'package:rxdart/subjects.dart';
 
 class IsarStorageDishesApi extends DishesApi {
-  /// {@macro isar_storage_dishes_api}
   IsarStorageDishesApi({
     required Isar isar,
   }) : _isar = isar {
@@ -51,6 +50,5 @@ class IsarStorageDishesApi extends DishesApi {
   @override
   Future<void> close() async {
     await _dishStreamController.close();
-    // Note: Do not close the Isar instance unless you’re done using it globally.
   }
 }
