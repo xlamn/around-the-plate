@@ -11,8 +11,8 @@ class DishCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FCard(
       title: Text(dish.name),
-      subtitle: const Text(
-        'Make changes to your account here. Click save when you are done.',
+      subtitle: Text(
+        dish.origin,
       ),
     );
   }

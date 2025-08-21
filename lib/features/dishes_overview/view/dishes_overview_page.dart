@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
@@ -15,7 +16,9 @@ class DishesOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => DishesOverviewCubit()..loadDishes(),
+      create: (_) => DishesOverviewCubit(
+        dishesRepository: context.read<DishesRepository>(),
+      )..loadDishes(),
       child: DishesOverviewView(),
     );
   }
@@ -44,7 +47,7 @@ class DishesOverviewView extends StatelessWidget {
           if (!context.mounted) return;
 
           if (imagePath != null) {
-            final bool? forceRefresh = await showModalBottomSheet(
+            await showModalBottomSheet(
               context: context,
               isDismissible: false,
               enableDrag: false,
@@ -52,10 +55,6 @@ class DishesOverviewView extends StatelessWidget {
                 imagePath: imagePath,
               ),
             );
-            if (forceRefresh != null && forceRefresh) {
-              if (!context.mounted) return;
-              context.read<DishesOverviewCubit>().loadDishes();
-            }
           }
         },
         child: const Text('Add New Dish'),
@@ -73,6 +72,7 @@ class DishesOverviewView extends StatelessWidget {
                 return const Center(child: Text('No dishes available'));
               } else {
                 return ListView.builder(
+                  shrinkWrap: true,
                   itemCount: state.dishes.length,
                   itemBuilder: (context, index) {
                     final dish = state.dishes[index];
