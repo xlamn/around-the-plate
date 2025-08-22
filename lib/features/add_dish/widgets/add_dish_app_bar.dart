@@ -5,9 +5,9 @@ import 'package:forui/forui.dart';
 import 'add_dish_save_button.dart';
 
 class AddDishAppBar extends StatelessWidget {
-  final TextEditingController nameController;
+  final Dish Function() getDish;
 
-  const AddDishAppBar({super.key, required this.nameController});
+  const AddDishAppBar({super.key, required this.getDish});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +18,7 @@ class AddDishAppBar extends StatelessWidget {
           icon: const Icon(FIcons.x),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        AddDishSaveButton(
-          dish: Dish(
-            name: nameController.text,
-            date: DateTime.now(),
-            imagePath: '',
-            origin: '',
-            rating: 1.0,
-          ),
-        ),
+        AddDishSaveButton(getDish: getDish),
       ],
     );
   }

@@ -58,8 +58,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     return BlocListener<AddDishCubit, AddDishState>(
       listener: (context, state) {
         if (state.status == AddDishStatus.success) {
-          final forceRefresh = true;
-          Navigator.pop(context, forceRefresh);
+          Navigator.pop(context);
         }
       },
       child: SafeArea(
@@ -70,7 +69,16 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
             spacing: 16,
             children: [
               AddDishAppBar(
-                nameController: _nameTextFieldController,
+                getDish: () => Dish(
+                  name: _nameTextFieldController.text,
+                  date: _dateFieldController.value ?? DateTime.now(),
+                  imagePath: widget.imagePath,
+                  origin: _originSelectController.value ?? '',
+                  rating: _ratingSliderController
+                      .selection
+                      .extent
+                      .max, // find rating
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
