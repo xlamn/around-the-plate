@@ -32,6 +32,8 @@ dependencies:
   camera: ^0.11.2
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
+  flutter_localizations:
+    sdk: flutter
   forui: ^0.14.1
   forui_assets: ^0.14.0
   path_provider: ^2.1.5
@@ -47,6 +49,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
