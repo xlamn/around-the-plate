@@ -1,7 +1,7 @@
 import 'package:around_the_plate/features/dishes_overview/view/dishes_overview_page.dart';
 import 'package:around_the_plate/features/map_overview/view/map_overview_page.dart';
 import 'package:around_the_plate/features/settings_overview/view/settings_overview_page.dart';
-import 'package:around_the_plate/home/view/home.dart';
+import 'package:around_the_plate/home/home.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:forui/forui.dart';
@@ -12,12 +12,23 @@ import '../../helpers/helpers.dart';
 void main() {
   late DishesRepository dishesRepository;
 
-  setUp(() {
-    dishesRepository = MockDishesRepository();
-    when(dishesRepository.getDishes).thenAnswer((_) => const Stream.empty());
+  group('`$Home`', () {
+    setUp(() {
+      dishesRepository = MockDishesRepository();
+      when(dishesRepository.getDishes).thenAnswer((_) => const Stream.empty());
+    });
+
+    testWidgets('renders HomeView', (tester) async {
+      await tester.pumpApp(
+        const Home(),
+        dishesRepository: dishesRepository,
+      );
+
+      expect(find.byType(HomeView), findsOneWidget);
+    });
   });
 
-  group('`Home`', () {
+  group('`$HomeView`', () {
     testWidgets('renders `$DishesOverviewPage` initially', (tester) async {
       await tester.pumpApp(
         const Home(),

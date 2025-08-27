@@ -1,50 +1,56 @@
+import 'package:around_the_plate/home/cubits/home_cubit.dart';
 import 'package:flutter/material.dart' hide Tab;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
 import '../../features/dishes_overview/view/dishes_overview_page.dart';
 import '../../features/map_overview/view/map_overview_page.dart';
 import '../../features/settings_overview/view/settings_overview_page.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  Widget build(BuildContext context) {
+    return BlocProvider<HomeCubit>(
+      create: (_) => HomeCubit(),
+      child: HomeView(),
+    );
+  }
 }
 
-class _HomeState extends State<Home> {
-  int index = 0;
-  late final List<FHeader> headers;
-  late final List<Widget> contents;
+class HomeView extends StatelessWidget {
+  HomeView({super.key});
 
-  @override
-  void initState() {
-    super.initState();
-
-    headers = [
-      const FHeader(title: Text('Home')),
-      const FHeader(title: Text('Map')),
-      FHeader(
-        title: const Text('Settings'),
-        suffixes: [FHeaderAction(icon: Icon(FIcons.ellipsis), onPress: () {})],
-      ),
-    ];
-
-    contents = [
-      DishesOverviewPage(),
-      MapOverviewPage(),
-      SettingsOverviewPage(),
-    ];
-  }
+  final List<FHeader> headers = [
+    const FHeader(title: Text('Home')),
+    const FHeader(title: Text('Map')),
+    FHeader(
+      title: const Text('Settings'),
+      suffixes: [
+        FHeaderAction(
+          icon: Icon(FIcons.ellipsis),
+          onPress: () {},
+        ),
+      ],
+    ),
+  ];
+  final List<Widget> contents = [
+    DishesOverviewPage(),
+    MapOverviewPage(),
+    SettingsOverviewPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = context.select((HomeCubit cubit) => cubit.state);
+
     return FScaffold(
-      header: headers[index],
+      header: headers[selectedIndex],
       footer: FBottomNavigationBar(
-        index: index,
-        onChange: (index) => setState(() => this.index = index),
+        index: selectedIndex,
+        onChange: (index) => context.read<HomeCubit>().changeTab(index),
         children: const [
           FBottomNavigationBarItem(
             icon: Icon(FIcons.house),
@@ -61,7 +67,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       child: IndexedStack(
-        index: index,
+        index: selectedIndex,
         children: contents,
       ),
     );
