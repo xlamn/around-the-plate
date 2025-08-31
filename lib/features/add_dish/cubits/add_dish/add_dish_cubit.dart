@@ -14,11 +14,14 @@ class AddDishCubit extends Cubit<AddDishState> {
   Future<void> addDish(Dish dish) async {
     try {
       emit(state.copyWith(status: AddDishStatus.loading));
-
       await _dishesRepository.saveDish(dish);
-      emit(state.copyWith(status: AddDishStatus.success, dish: dish));
+      emit(
+        state.copyWith(status: AddDishStatus.success, dish: dish),
+      );
     } catch (e) {
-      emit(state.copyWith(status: AddDishStatus.failure));
+      emit(
+        state.copyWith(status: AddDishStatus.failure),
+      );
     }
   }
 }
