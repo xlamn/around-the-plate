@@ -17,28 +17,34 @@ const DishSchema = CollectionSchema(
   name: r'Dish',
   id: 2300651841800446026,
   properties: {
-    r'date': PropertySchema(
+    r'category': PropertySchema(
       id: 0,
+      name: r'category',
+      type: IsarType.byte,
+      enumMap: _DishcategoryEnumValueMap,
+    ),
+    r'date': PropertySchema(
+      id: 1,
       name: r'date',
       type: IsarType.dateTime,
     ),
     r'imagePath': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'imagePath',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'origin': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'origin',
       type: IsarType.string,
     ),
     r'rating': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'rating',
       type: IsarType.double,
     )
@@ -75,11 +81,12 @@ void _dishSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.date);
-  writer.writeString(offsets[1], object.imagePath);
-  writer.writeString(offsets[2], object.name);
-  writer.writeString(offsets[3], object.origin);
-  writer.writeDouble(offsets[4], object.rating);
+  writer.writeByte(offsets[0], object.category.index);
+  writer.writeDateTime(offsets[1], object.date);
+  writer.writeString(offsets[2], object.imagePath);
+  writer.writeString(offsets[3], object.name);
+  writer.writeString(offsets[4], object.origin);
+  writer.writeDouble(offsets[5], object.rating);
 }
 
 Dish _dishDeserialize(
@@ -89,11 +96,13 @@ Dish _dishDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Dish(
-    date: reader.readDateTime(offsets[0]),
-    imagePath: reader.readString(offsets[1]),
-    name: reader.readString(offsets[2]),
-    origin: reader.readString(offsets[3]),
-    rating: reader.readDouble(offsets[4]),
+    category: _DishcategoryValueEnumMap[reader.readByteOrNull(offsets[0])] ??
+        DishCategory.appetizer,
+    date: reader.readDateTime(offsets[1]),
+    imagePath: reader.readString(offsets[2]),
+    name: reader.readString(offsets[3]),
+    origin: reader.readString(offsets[4]),
+    rating: reader.readDouble(offsets[5]),
   );
   object.id = id;
   return object;
@@ -107,19 +116,39 @@ P _dishDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (_DishcategoryValueEnumMap[reader.readByteOrNull(offset)] ??
+          DishCategory.appetizer) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _DishcategoryEnumValueMap = {
+  'appetizer': 0,
+  'dessert': 1,
+  'drink': 2,
+  'meal': 3,
+  'snack': 4,
+  'unknown': 5,
+};
+const _DishcategoryValueEnumMap = {
+  0: DishCategory.appetizer,
+  1: DishCategory.dessert,
+  2: DishCategory.drink,
+  3: DishCategory.meal,
+  4: DishCategory.snack,
+  5: DishCategory.unknown,
+};
 
 Id _dishGetId(Dish object) {
   return object.id;
@@ -209,6 +238,59 @@ extension DishQueryWhere on QueryBuilder<Dish, Dish, QWhereClause> {
 }
 
 extension DishQueryFilter on QueryBuilder<Dish, Dish, QFilterCondition> {
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> categoryEqualTo(
+      DishCategory value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> categoryGreaterThan(
+    DishCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> categoryLessThan(
+    DishCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> categoryBetween(
+    DishCategory lower,
+    DishCategory upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Dish, Dish, QAfterFilterCondition> dateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -767,6 +849,18 @@ extension DishQueryObject on QueryBuilder<Dish, Dish, QFilterCondition> {}
 extension DishQueryLinks on QueryBuilder<Dish, Dish, QFilterCondition> {}
 
 extension DishQuerySortBy on QueryBuilder<Dish, Dish, QSortBy> {
+  QueryBuilder<Dish, Dish, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<Dish, Dish, QAfterSortBy> sortByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
@@ -829,6 +923,18 @@ extension DishQuerySortBy on QueryBuilder<Dish, Dish, QSortBy> {
 }
 
 extension DishQuerySortThenBy on QueryBuilder<Dish, Dish, QSortThenBy> {
+  QueryBuilder<Dish, Dish, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<Dish, Dish, QAfterSortBy> thenByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
@@ -903,6 +1009,12 @@ extension DishQuerySortThenBy on QueryBuilder<Dish, Dish, QSortThenBy> {
 }
 
 extension DishQueryWhereDistinct on QueryBuilder<Dish, Dish, QDistinct> {
+  QueryBuilder<Dish, Dish, QDistinct> distinctByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category');
+    });
+  }
+
   QueryBuilder<Dish, Dish, QDistinct> distinctByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'date');
@@ -941,6 +1053,12 @@ extension DishQueryProperty on QueryBuilder<Dish, Dish, QQueryProperty> {
   QueryBuilder<Dish, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Dish, DishCategory, QQueryOperations> categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
     });
   }
 
