@@ -17,6 +17,7 @@ void main() {
     dishesRepository = MockDishesRepository();
     dish = Dish(
       name: 'Pizza',
+      category: DishCategory.meal,
       imagePath: '',
       origin: '',
       date: DateTime.now(),

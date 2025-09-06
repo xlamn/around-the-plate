@@ -8,6 +8,7 @@ import 'package:forui/forui.dart';
 import '../cubits/add_dish/add_dish_cubit.dart';
 import '../cubits/add_dish/add_dish_state.dart';
 import '../widgets/add_dish_app_bar.dart';
+import '../widgets/controls/add_dish_category_select.dart';
 import '../widgets/controls/add_dish_date_field.dart';
 import '../widgets/controls/add_dish_name_text_field.dart';
 import '../widgets/controls/add_dish_origin_select.dart';
@@ -42,6 +43,8 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     with TickerProviderStateMixin {
   late final TextEditingController _nameTextFieldController =
       TextEditingController();
+  late final FSelectController<DishCategory> _categorySelectController =
+      FSelectController(vsync: this);
   late final FSelectController<String> _originSelectController =
       FSelectController(vsync: this);
   late final FDateFieldController _dateFieldController = FDateFieldController(
@@ -72,12 +75,14 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                 getDish: () => Dish(
                   name: _nameTextFieldController.text,
                   date: _dateFieldController.value ?? DateTime.now(),
+                  category:
+                      _categorySelectController.value ?? DishCategory.unknown,
                   imagePath: widget.imagePath,
                   origin: _originSelectController.value ?? '',
                   rating: _ratingSliderController
                       .selection
                       .extent
-                      .max, // find rating
+                      .max, // TODO: find rating
                 ),
               ),
               Row(
@@ -96,6 +101,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                   ),
                 ],
               ),
+              AddDishCategorySelect(controller: _categorySelectController),
               AddDishOriginSelect(controller: _originSelectController),
               AddDishDateField(controller: _dateFieldController),
               AddDishRatingSlider(controller: _ratingSliderController),
