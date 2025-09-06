@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
 class AddDishCategorySelect extends StatelessWidget {
-  final FSelectController<String> controller;
+  final FSelectController<DishCategory> controller;
 
   const AddDishCategorySelect({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return FSelect<String>(
+    return FSelect<DishCategory>(
       controller: controller,
       label: const Text('Dish Category'),
       hint: 'Select a category',
-      format: (s) => s,
+      format: (c) => c.name,
       children: [
         for (final category in DishCategory.values)
           FSelectItem(category.name, category),

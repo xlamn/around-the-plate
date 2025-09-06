@@ -51,6 +51,7 @@ class DishesOverviewView extends StatelessWidget {
               context: context,
               isDismissible: false,
               enableDrag: false,
+              isScrollControlled: true,
               builder: (_) => AddDishBottomSheet(
                 imagePath: imagePath,
               ),
