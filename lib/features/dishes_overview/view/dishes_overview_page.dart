@@ -6,8 +6,8 @@ import 'package:forui/forui.dart';
 
 import '../../add_dish/view/add_dish_bottom_sheet.dart';
 import '../../take_picture/view/take_picture_screen.dart';
-import '../cubits/dishes_overview/dishes_overview_cubit.dart';
-import '../cubits/dishes_overview/dishes_overview_state.dart';
+import '../cubits/dishes_overview_cubit.dart';
+import '../cubits/dishes_overview_state.dart';
 import '../widgets/dish_card.dart';
 
 class DishesOverviewPage extends StatelessWidget {
