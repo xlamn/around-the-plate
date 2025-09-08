@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({super.key, required this.camera});
@@ -45,6 +47,50 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     _controller,
                   ),
                 ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FButton.icon(
+                      onPress: () async {
+                        try {
+                          final ImagePicker picker = ImagePicker();
+                          // Pick an image.
+                          final XFile? image = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+
+                          if (!context.mounted) return;
+
+                          if (image == null) {
+                            return;
+                          }
+
+                          Navigator.pop(context, image.path);
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: Icon(FIcons.image),
+                    ),
+                    FButton.icon(
+                      onPress: () async {
+                        try {
+                          // Ensure that the camera is initialized.
+                          await _initializeControllerFuture;
+                          final image = await _controller.takePicture();
+
+                          if (!context.mounted) return;
+
+                          Navigator.pop(context, image.path);
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: Icon(FIcons.camera),
+                    ),
+                  ],
+                ),
               ],
             );
           } else {
@@ -53,22 +99,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             );
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            // Ensure that the camera is initialized.
-            await _initializeControllerFuture;
-            final image = await _controller.takePicture();
-
-            if (!context.mounted) return;
-
-            Navigator.pop(context, image.path);
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: const Icon(Icons.camera_alt),
       ),
     );
   }
