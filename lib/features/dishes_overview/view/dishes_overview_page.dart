@@ -1,13 +1,9 @@
-import 'package:camera/camera.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:forui/forui.dart';
-
-import '../../add_dish/view/add_dish_bottom_sheet.dart';
-import '../../take_picture/view/take_picture_screen.dart';
 import '../cubits/dishes_overview_cubit.dart';
 import '../cubits/dishes_overview_state.dart';
+import '../widgets/dishes_overview_add_button.dart';
 import '../widgets/dish_card.dart';
 
 class DishesOverviewPage extends StatelessWidget {
@@ -19,7 +15,7 @@ class DishesOverviewPage extends StatelessWidget {
       create: (_) => DishesOverviewCubit(
         dishesRepository: context.read<DishesRepository>(),
       )..loadDishes(),
-      child: DishesOverviewView(),
+      child: const DishesOverviewView(),
     );
   }
 }
@@ -31,37 +27,8 @@ class DishesOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FButton(
-        onPress: () async {
-          final cameras = await availableCameras();
-          final firstCamera = cameras.first;
-          if (!context.mounted) return;
-          final imagePath = await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => TakePictureScreen(
-                camera: firstCamera,
-              ),
-            ),
-          );
-
-          if (!context.mounted) return;
-
-          if (imagePath != null) {
-            await showModalBottomSheet(
-              context: context,
-              isDismissible: false,
-              enableDrag: false,
-              isScrollControlled: true,
-              builder: (_) => AddDishBottomSheet(
-                imagePath: imagePath,
-              ),
-            );
-          }
-        },
-        child: const Text('Add New Dish'),
-      ),
+      floatingActionButton: const DishesOverviewAddButton(),
       body: Column(
-        spacing: 16.0,
         children: [
           BlocBuilder<DishesOverviewCubit, DishesOverviewState>(
             builder: (context, state) {

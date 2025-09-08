@@ -35,7 +35,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture of your plate')),
+      appBar: AppBar(
+        title: const Text('Take a picture of your plate'),
+      ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -47,45 +49,22 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     _controller,
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FButton.icon(
                       onPress: () async {
-                        try {
-                          final ImagePicker picker = ImagePicker();
-                          // Pick an image.
-                          final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery,
-                          );
-
-                          if (!context.mounted) return;
-
-                          if (image == null) {
-                            return;
-                          }
-
-                          Navigator.pop(context, image.path);
-                        } catch (e) {
-                          print(e);
-                        }
+                        final imagePath = await _openGallery();
+                        if (!context.mounted && imagePath == null) return;
+                        Navigator.pop(context, imagePath);
                       },
                       child: Icon(FIcons.image),
                     ),
                     FButton.icon(
                       onPress: () async {
-                        try {
-                          // Ensure that the camera is initialized.
-                          await _initializeControllerFuture;
-                          final image = await _controller.takePicture();
-
-                          if (!context.mounted) return;
-
-                          Navigator.pop(context, image.path);
-                        } catch (e) {
-                          print(e);
-                        }
+                        final imagePath = await _takePicture(context);
+                        if (!context.mounted) return;
+                        Navigator.pop(context, imagePath);
                       },
                       child: Icon(FIcons.camera),
                     ),
@@ -101,5 +80,18 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
     );
+  }
+
+  Future<String?> _openGallery() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    return image?.path;
+  }
+
+  Future<String> _takePicture(BuildContext context) async {
+    // Ensure that the camera is initialized.
+    await _initializeControllerFuture;
+    final image = await _controller.takePicture();
+    return image.path;
   }
 }
