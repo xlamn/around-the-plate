@@ -45,6 +45,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pick the images of your favorite plate</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To take pictures of your favorite plate</string>
 	<key>NSMicrophoneUsageDescription</key>
