@@ -42,35 +42,54 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Column(
-              children: [
-                Flexible(
-                  child: CameraPreview(
-                    _controller,
+            return CameraPreview(
+              _controller,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          final imagePath = await _openGallery();
+                          if (!context.mounted || imagePath == null) {
+                            return;
+                          }
+                          Navigator.pop(context, imagePath);
+                        },
+                        child: Icon(
+                          FIcons.image,
+                          color: Colors.white,
+                          size: 36.0,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final imagePath = await _takePicture(context);
+                          if (!context.mounted) return;
+                          Navigator.pop(context, imagePath);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(32.0),
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 8.0,
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox.square(
+                        dimension: 36.0,
+                      ),
+                    ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FButton.icon(
-                      onPress: () async {
-                        final imagePath = await _openGallery();
-                        if (!context.mounted && imagePath == null) return;
-                        Navigator.pop(context, imagePath);
-                      },
-                      child: Icon(FIcons.image),
-                    ),
-                    FButton.icon(
-                      onPress: () async {
-                        final imagePath = await _takePicture(context);
-                        if (!context.mounted) return;
-                        Navigator.pop(context, imagePath);
-                      },
-                      child: Icon(FIcons.camera),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             );
           } else {
             return const Center(
