@@ -79,10 +79,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                       _categorySelectController.value ?? DishCategory.unknown,
                   imagePath: widget.imagePath,
                   origin: _originSelectController.value ?? '',
-                  rating: _ratingSliderController
-                      .selection
-                      .extent
-                      .max, // TODO: find rating
+                  rating: _ratingSliderController.selection.offset.max,
                 ),
               ),
               Row(
