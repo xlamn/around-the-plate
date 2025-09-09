@@ -19,8 +19,6 @@ void main() {
       name: 'Pizza',
       category: DishCategory.meal,
       imagePath: '',
-      origin: '',
-      date: DateTime.now(),
       rating: 1.0,
     );
   });

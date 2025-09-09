@@ -11,21 +11,45 @@ class Dish {
 
   final String imagePath;
 
-  @enumerated
-  final DishCategory category;
+  final int? categoryValue;
 
-  final String origin;
+  @ignore
+  DishCategory? get category =>
+      categoryValue != null ? DishCategory.values[categoryValue!] : null;
 
-  final DateTime date;
+  final String? origin;
 
   final double rating;
+
+  final DateTime? date;
+
+  final DateTime lastModifiedDate;
 
   Dish({
     required this.name,
     required this.imagePath,
-    required this.category,
-    required this.origin,
-    required this.date,
     required this.rating,
-  });
+    DishCategory? category,
+    this.origin,
+    this.date,
+  }) : categoryValue = category?.index,
+       lastModifiedDate = DateTime.now();
+
+  Dish copyWith({
+    String? name,
+    String? imagePath,
+    DishCategory? category,
+    String? origin,
+    double? rating,
+    DateTime? date,
+  }) {
+    return Dish(
+      name: name ?? this.name,
+      imagePath: imagePath ?? this.imagePath,
+      category: category ?? this.category,
+      origin: origin ?? this.origin,
+      rating: rating ?? this.rating,
+      date: date ?? this.date,
+    );
+  }
 }

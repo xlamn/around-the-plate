@@ -4,5 +4,4 @@ enum DishCategory {
   drink,
   meal,
   snack,
-  unknown,
 }
