@@ -1,3 +1,4 @@
+import 'package:around_the_plate/extensions/extensions.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
@@ -11,12 +12,12 @@ class AddDishCategorySelect extends StatelessWidget {
   Widget build(BuildContext context) {
     return FSelect<DishCategory>(
       controller: controller,
-      label: const Text('Dish Category'),
+      label: const Text('Category'),
       hint: 'Select a category',
-      format: (c) => c.name,
+      format: (c) => c.name.toCapitalized(),
       children: [
         for (final category in DishCategory.values)
-          FSelectItem(category.name, category),
+          FSelectItem(category.name.toCapitalized(), category),
       ],
     );
   }

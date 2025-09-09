@@ -49,7 +49,6 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       FSelectController(vsync: this);
   late final FDateFieldController _dateFieldController = FDateFieldController(
     vsync: this,
-    initialDate: DateTime.now(),
   );
   late final FContinuousSliderController _ratingSliderController =
       FContinuousSliderController(
@@ -74,11 +73,10 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
               AddDishAppBar(
                 getDish: () => Dish(
                   name: _nameTextFieldController.text,
-                  date: _dateFieldController.value ?? DateTime.now(),
-                  category:
-                      _categorySelectController.value ?? DishCategory.unknown,
+                  date: _dateFieldController.value,
+                  category: _categorySelectController.value,
                   imagePath: widget.imagePath,
-                  origin: _originSelectController.value ?? '',
+                  origin: _originSelectController.value,
                   rating: _ratingSliderController.selection.offset.max,
                 ),
               ),

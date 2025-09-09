@@ -22,8 +22,8 @@ class AddDishOriginSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     return FSelect<String>(
       controller: controller,
-      label: const Text('Dish Origin'),
-      hint: 'Select a country',
+      label: const Text('Origin'),
+      hint: 'Select an origin',
       format: (s) => s,
       children: [
         for (final country in countries) FSelectItem(country, country),

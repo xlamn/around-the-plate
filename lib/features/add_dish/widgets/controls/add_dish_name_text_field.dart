@@ -11,7 +11,7 @@ class AddDishNameTextField extends StatelessWidget {
     return Expanded(
       child: FTextField(
         controller: controller,
-        label: const Text('Dish Name'),
+        label: const Text('Name *'),
         hint: 'Spaghetti Carbonara',
         maxLines: 1,
       ),
