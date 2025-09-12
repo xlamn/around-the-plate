@@ -10,7 +10,7 @@ class AddDishCategorySelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FSelect<DishCategory>(
+    return FSelect<DishCategory>.rich(
       controller: controller,
       label: const Text('Category'),
       hint: 'Select a category',
@@ -18,7 +18,10 @@ class AddDishCategorySelect extends StatelessWidget {
       format: (c) => c.name.toCapitalized(),
       children: [
         for (final category in DishCategory.values)
-          FSelectItem(category.name.toCapitalized(), category),
+          FSelectItem(
+            title: Text(category.name.toCapitalized()),
+            value: category,
+          ),
       ],
     );
   }

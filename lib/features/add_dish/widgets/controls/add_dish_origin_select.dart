@@ -20,14 +20,15 @@ class AddDishOriginSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FSelect<String>(
+    return FSelect<String>.rich(
       controller: controller,
       label: const Text('Origin'),
       hint: 'Select an origin',
       format: (s) => s,
       clearable: true,
       children: [
-        for (final country in countries) FSelectItem(country, country),
+        for (final country in countries)
+          FSelectItem(title: Text(country), value: country),
       ],
     );
   }

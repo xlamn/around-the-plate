@@ -35,8 +35,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
-  forui: ^0.14.1
-  forui_assets: ^0.14.0
+  forui: ^0.15.1
+  forui_assets: ^0.15.0
   path_provider: ^2.1.5
   path: ^1.9.1
 
