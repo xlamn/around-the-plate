@@ -14,6 +14,7 @@ class AddDishCategorySelect extends StatelessWidget {
       controller: controller,
       label: const Text('Category'),
       hint: 'Select a category',
+      clearable: true,
       format: (c) => c.name.toCapitalized(),
       children: [
         for (final category in DishCategory.values)

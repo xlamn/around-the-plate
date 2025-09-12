@@ -25,6 +25,7 @@ class AddDishOriginSelect extends StatelessWidget {
       label: const Text('Origin'),
       hint: 'Select an origin',
       format: (s) => s,
+      clearable: true,
       children: [
         for (final country in countries) FSelectItem(country, country),
       ],

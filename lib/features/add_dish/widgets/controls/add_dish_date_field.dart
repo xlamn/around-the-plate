@@ -10,5 +10,6 @@ class AddDishDateField extends StatelessWidget {
   Widget build(BuildContext context) => FDateField(
     controller: controller,
     label: const Text('Date'),
+    clearable: true,
   );
 }
