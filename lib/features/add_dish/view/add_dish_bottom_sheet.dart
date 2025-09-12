@@ -41,6 +41,7 @@ class AddDishBottomSheetView extends StatefulWidget {
 
 class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     with TickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameTextFieldController =
       TextEditingController();
   late final FSelectController<DishCategory> _categorySelectController =
@@ -66,41 +67,47 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 16,
-            children: [
-              AddDishAppBar(
-                getDish: () => Dish(
-                  name: _nameTextFieldController.text,
-                  date: _dateFieldController.value,
-                  category: _categorySelectController.value,
-                  imagePath: widget.imagePath,
-                  origin: _originSelectController.value,
-                  rating: _ratingSliderController.selection.offset.max,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16,
+              children: [
+                AddDishAppBar(
+                  onPressed: () async {
+                    if (!_formKey.currentState!.validate()) return;
+                    await context.read<AddDishCubit>().addDish(
+                      Dish(
+                        name: _nameTextFieldController.text,
+                        date: _dateFieldController.value,
+                        category: _categorySelectController.value,
+                        imagePath: widget.imagePath,
+                        origin: _originSelectController.value,
+                        rating: _ratingSliderController.selection.offset.max,
+                      ),
+                    );
+                  },
                 ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.file(File(widget.imagePath)),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.file(File(widget.imagePath)),
+                      ),
                     ),
-                  ),
-                  AddDishNameTextField(
-                    controller: _nameTextFieldController,
-                  ),
-                ],
-              ),
-              AddDishCategorySelect(controller: _categorySelectController),
-              AddDishOriginSelect(controller: _originSelectController),
-              AddDishDateField(controller: _dateFieldController),
-              AddDishRatingSlider(controller: _ratingSliderController),
-            ],
+                    AddDishNameTextField(controller: _nameTextFieldController),
+                  ],
+                ),
+                AddDishCategorySelect(controller: _categorySelectController),
+                AddDishOriginSelect(controller: _originSelectController),
+                AddDishDateField(controller: _dateFieldController),
+                AddDishRatingSlider(controller: _ratingSliderController),
+              ],
+            ),
           ),
         ),
       ),
@@ -110,6 +117,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
   @override
   void dispose() {
     _nameTextFieldController.dispose();
+    _categorySelectController.dispose();
     _originSelectController.dispose();
     _dateFieldController.dispose();
     _ratingSliderController.dispose();

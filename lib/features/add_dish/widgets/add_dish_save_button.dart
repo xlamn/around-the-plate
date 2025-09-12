@@ -1,21 +1,15 @@
-import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
-import '../cubits/add_dish/add_dish_cubit.dart';
-
 class AddDishSaveButton extends StatelessWidget {
-  final Dish Function() getDish;
+  final Future<void> Function() onPressed;
 
-  const AddDishSaveButton({super.key, required this.getDish});
+  const AddDishSaveButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return FButton(
-      onPress: () {
-        context.read<AddDishCubit>().addDish(getDish());
-      },
+      onPress: onPressed,
       child: const Text("Add Dish"),
     );
   }

@@ -1,13 +1,12 @@
-import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
 import 'add_dish_save_button.dart';
 
 class AddDishAppBar extends StatelessWidget {
-  final Dish Function() getDish;
+  final Future<void> Function() onPressed;
 
-  const AddDishAppBar({super.key, required this.getDish});
+  const AddDishAppBar({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class AddDishAppBar extends StatelessWidget {
           icon: const Icon(FIcons.x),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        AddDishSaveButton(getDish: getDish),
+        AddDishSaveButton(onPressed: onPressed),
       ],
     );
   }

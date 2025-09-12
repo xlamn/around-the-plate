@@ -9,11 +9,14 @@ class AddDishNameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: FTextField(
+      child: FTextFormField(
         controller: controller,
         label: const Text('Name *'),
         hint: 'Spaghetti Carbonara',
         maxLines: 1,
+        autovalidateMode: AutovalidateMode.onUnfocus,
+        validator: (value) =>
+            (value?.isEmpty ?? true) ? 'Name is required' : null,
       ),
     );
   }
