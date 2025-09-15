@@ -1,5 +1,5 @@
 import 'package:around_the_plate/app/app.dart';
-import 'package:around_the_plate/home/view/home.dart';
+import 'package:around_the_plate/features/home/view/home.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

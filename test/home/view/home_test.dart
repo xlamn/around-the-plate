@@ -1,7 +1,7 @@
 import 'package:around_the_plate/features/dishes_overview/view/dishes_overview_page.dart';
 import 'package:around_the_plate/features/map_overview/view/map_overview_page.dart';
 import 'package:around_the_plate/features/settings_overview/view/settings_overview_page.dart';
-import 'package:around_the_plate/home/home.dart';
+import 'package:around_the_plate/features/home/home.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/widgets.dart';

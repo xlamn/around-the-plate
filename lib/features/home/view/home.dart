@@ -1,12 +1,12 @@
-import 'package:around_the_plate/home/cubits/home_cubit.dart';
+import 'package:around_the_plate/features/home/cubits/home_cubit.dart';
 import 'package:flutter/material.dart' hide Tab;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
-import '../../features/dishes_overview/view/dishes_overview_page.dart';
-import '../../features/map_overview/view/map_overview_page.dart';
-import '../../features/settings_overview/view/settings_overview_page.dart';
+import '../../dishes_overview/view/dishes_overview_page.dart';
+import '../../map_overview/view/map_overview_page.dart';
+import '../../settings_overview/view/settings_overview_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

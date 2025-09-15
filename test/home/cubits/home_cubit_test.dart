@@ -1,4 +1,4 @@
-import 'package:around_the_plate/home/home.dart';
+import 'package:around_the_plate/features/home/home.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
