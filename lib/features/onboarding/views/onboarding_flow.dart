@@ -4,11 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/onboarding_cubit.dart';
 import '../cubit/onboarding_state.dart';
 import 'camera/view/onboarding_camera_page.dart';
+import 'completion/view/onboarding_completion_page.dart';
 import 'introduction/view/onboarding_introduction_page.dart';
 import 'location/view/onboarding_location_page.dart';
 
 class OnboardingFlow extends StatelessWidget {
-  const OnboardingFlow({super.key});
+  final VoidCallback onFinished;
+
+  const OnboardingFlow({super.key, required this.onFinished});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,8 @@ class OnboardingFlow extends StatelessWidget {
             case OnboardingStep.location:
               return const OnboardingLocationPage();
             case OnboardingStep.done:
-              return const Scaffold(
-                body: Center(child: Text("🎉 Onboarding complete!")),
+              return OnboardingCompletionPage(
+                onFinished: onFinished,
               );
           }
         },

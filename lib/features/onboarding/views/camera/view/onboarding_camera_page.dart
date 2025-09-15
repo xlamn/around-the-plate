@@ -11,26 +11,31 @@ class OnboardingCameraPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => OnboardingCameraCubit(),
-      child: BlocBuilder<OnboardingCameraCubit, OnboardingCameraState>(
+      child: BlocConsumer<OnboardingCameraCubit, OnboardingCameraState>(
+        listenWhen: (prev, curr) {
+          return prev.status != curr.status;
+        },
+        listener: (context, state) {
+          context.read<OnboardingCubit>().nextStep();
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(title: const Text("Camera Permission")),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("We need access to your camera"),
-                ElevatedButton(
-                  onPressed: () => context
-                      .read<OnboardingCameraCubit>()
-                      .requestCameraPermission(),
-                  child: const Text("Allow"),
-                ),
-                if (state.status == CameraPermissionStatus.granted)
-                  ElevatedButton(
-                    onPressed: () => context.read<OnboardingCubit>().nextStep(),
-                    child: const Text("Continue"),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "To take photos and videos of your dishes, we need access to your camera permission",
                   ),
-              ],
+                  ElevatedButton(
+                    onPressed: () => context
+                        .read<OnboardingCameraCubit>()
+                        .requestCameraPermission(),
+                    child: const Text("Allow"),
+                  ),
+                ],
+              ),
             ),
           );
         },

@@ -11,26 +11,31 @@ class OnboardingLocationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => OnboardingLocationCubit(),
-      child: BlocBuilder<OnboardingLocationCubit, OnboardingLocationState>(
+      child: BlocConsumer<OnboardingLocationCubit, OnboardingLocationState>(
+        listenWhen: (prev, curr) {
+          return prev.status != curr.status;
+        },
+        listener: (context, state) {
+          context.read<OnboardingCubit>().nextStep();
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(title: const Text("Location Permission")),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("We need access to your location"),
-                ElevatedButton(
-                  onPressed: () => context
-                      .read<OnboardingLocationCubit>()
-                      .requestPermission(),
-                  child: const Text("Allow"),
-                ),
-                if (state.status == LocationPermissionStatus.granted)
-                  ElevatedButton(
-                    onPressed: () => context.read<OnboardingCubit>().nextStep(),
-                    child: const Text("Finish"),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "To tag the location where you ate or drank your plate, we need access to your location permission",
                   ),
-              ],
+                  ElevatedButton(
+                    onPressed: () => context
+                        .read<OnboardingLocationCubit>()
+                        .requestPermission(),
+                    child: const Text("Allow"),
+                  ),
+                ],
+              ),
             ),
           );
         },
