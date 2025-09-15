@@ -52,6 +52,6 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To enable microphone access when recording video</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To enable GPS location access for Exif data</string>
+	<string>To capture the location where your plate was eaten/drunk</string>
 </dict>
 </plist>
