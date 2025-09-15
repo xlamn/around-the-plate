@@ -1,22 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'onboarding_state.dart';
 
-class DishesOverviewCubit extends Cubit<OnboardingState> {
-  DishesOverviewCubit() : super(OnboardingState());
-  bool _hasRequested = false;
+class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingCubit() : super(const OnboardingState());
+
+  Future<void> nextStep() async {
+    switch (state.step) {
+      case OnboardingStep.introduction:
+        emit(const OnboardingState(step: OnboardingStep.camera));
+        break;
+      case OnboardingStep.camera:
+        emit(const OnboardingState(step: OnboardingStep.location));
+        break;
+      case OnboardingStep.location:
+        await _setOnboardingComplete();
+        emit(const OnboardingState(step: OnboardingStep.done));
+        break;
+      default:
+        break;
+    }
+  }
 
   checkPermissions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _hasRequested = prefs.getBool('hasRequestedPermissions') ?? false;
+    final hasRequested = prefs.getBool('hasRequestedPermissions') ?? false;
 
-    if (!_hasRequested) {
-      emit(state.copyWith(status: OnboardingStatus.initial));
+    if (!hasRequested) {
+      await nextStep();
     }
-    emit(state.copyWith(status: OnboardingStatus.success));
+    emit(const OnboardingState(step: OnboardingStep.done));
   }
 
-  requestPermission() async {
-    await Permission.location.request();
+  Future<void> _setOnboardingComplete() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasRequestedPermissions', true);
   }
 }

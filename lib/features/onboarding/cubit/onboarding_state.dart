@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
+enum OnboardingStep { introduction, camera, location, done }
 
-class OnboardingState extends Equatable {
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+class OnboardingState {
+  final OnboardingStep step;
+  const OnboardingState({this.step = OnboardingStep.introduction});
 }

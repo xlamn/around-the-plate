@@ -39,6 +39,8 @@ dependencies:
   forui_assets: ^0.15.0
   path_provider: ^2.1.5
   path: ^1.9.1
+  permission_handler: ^12.0.1
+  shared_preferences: ^2.5.3
 
   isar_storage_dishes_api:
     path: packages/isar_storage_dishes_api
