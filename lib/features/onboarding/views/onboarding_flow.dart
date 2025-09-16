@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/onboarding_cubit.dart';
-import '../cubit/onboarding_state.dart';
 import 'camera/view/onboarding_camera_page.dart';
 import 'completion/view/onboarding_completion_page.dart';
 import 'introduction/view/onboarding_introduction_page.dart';
