@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:dishes_api/src/models/dish_category.dart';
 import 'package:isar/isar.dart';
 
 part 'dish.g.dart';
 
-@collection
-class Dish {
+@Collection(inheritance: false)
+class Dish extends Equatable {
   final Id id = Isar.autoIncrement;
 
   final String name;
@@ -52,4 +53,11 @@ class Dish {
       date: date ?? this.date,
     );
   }
+
+  @ignore
+  @override
+  List<Object?> get props => [
+    name,
+    lastModifiedDate,
+  ];
 }
