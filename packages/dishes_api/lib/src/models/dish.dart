@@ -5,7 +5,7 @@ part 'dish.g.dart';
 
 @collection
 class Dish {
-  Id id = Isar.autoIncrement;
+  final Id id = Isar.autoIncrement;
 
   final String name;
 
