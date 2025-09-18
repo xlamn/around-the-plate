@@ -11,7 +11,14 @@ Coming soon.
 
 If you're new to Flutter the first thing you'll need is to follow the [setup instructions](https://docs.flutter.dev/get-started/install).
 
-Replace the placeholders in api_keys.json with your keys.
+Create a file at root called api_keys.dart and replace the placeholder values with your keys.
+```
+{
+    "GOOGLE_VISION_API_KEY": "YOUR_GOOGLE_VISION_API_KEY",
+    "MAPBOX_API_KEY": "YOUR_MAPBOX_API_KEY"
+}
+```
+
 
 Execute the following command in your terminal:
 ```
