@@ -12,7 +12,7 @@
             "program": "lib/main_development.dart",
             "args": [
                 "--dart-define-from-file",
-                "api_keys.json"
+                "lib/env/api_keys.json"
             ]
         },
         {
@@ -23,7 +23,7 @@
             "program": "lib/main_release.dart",
             "args": [
                 "--dart-define-from-file",
-                "api_keys.json"
+                "lib/env/api_keys.json"
             ]
         },
     ]
