@@ -10,10 +10,6 @@
             "type": "dart",
             "flutterMode": "debug",
             "program": "lib/main_development.dart",
-            "args": [
-                "--dart-define-from-file",
-                "lib/env/api_keys.json"
-            ]
         },
         {
             "name": "release",
@@ -21,10 +17,6 @@
             "type": "dart",
             "flutterMode": "release",
             "program": "lib/main_release.dart",
-            "args": [
-                "--dart-define-from-file",
-                "lib/env/api_keys.json"
-            ]
         },
     ]
 }

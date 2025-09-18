@@ -34,7 +34,7 @@ migrate_working_dir/
 /build/
 
 # API Keys related
-api_keys.json
+.env
 
 # Symbolication related
 app.*.symbols

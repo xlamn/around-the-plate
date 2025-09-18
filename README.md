@@ -11,18 +11,19 @@ Coming soon.
 
 If you're new to Flutter the first thing you'll need is to follow the [setup instructions](https://docs.flutter.dev/get-started/install).
 
-Create a file in the lib/env folder called api_keys.dart and replace the placeholder values with your keys.
+Create a file called .env in the root folder replace the placeholder values with your keys.
 ```
-{
-    "GOOGLE_VISION_API_KEY": "YOUR_GOOGLE_VISION_API_KEY",
-    "MAPBOX_API_KEY": "YOUR_MAPBOX_API_KEY"
-}
+GOOGLE_VISION_API_KEY=YOUR_GOOGLE_VISION_API_KEY
+MAPBOX_API_KEY=YOUR_MAPBOX_API_KEY
 ```
 
 
 Execute the following command in your terminal:
 ```
 flutter pub get
+```
+```
+dart run build_runner build -d 
 ```
 ```
 flutter run --dart-define-from-file=lib/env/api_keys.json

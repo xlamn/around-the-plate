@@ -1,6 +1,9 @@
-class Env {
-  static String get googleVisionApiKey =>
-      const String.fromEnvironment('GOOGLE_VISION_API_KEY');
-  static String get mapboxApiKey =>
-      const String.fromEnvironment('MAPBOX_API_KEY');
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied(path: '.env')
+abstract class Env {
+  @EnviedField(varName: 'MAPBOX_API_KEY', obfuscate: true)
+  static final String mapboxKey = _Env.mapboxKey;
 }
