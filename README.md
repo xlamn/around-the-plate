@@ -11,11 +11,13 @@ Coming soon.
 
 If you're new to Flutter the first thing you'll need is to follow the [setup instructions](https://docs.flutter.dev/get-started/install).
 
+Replace the placeholders in api_keys.json with your keys.
+
 Execute the following command in your terminal:
 ```
 flutter pub get
 ```
 ```
-flutter run 
+flutter run --dart-define-from-file=api_keys.json
 ```
 The app can be run on several platforms but is only determined for iOS and Android.
