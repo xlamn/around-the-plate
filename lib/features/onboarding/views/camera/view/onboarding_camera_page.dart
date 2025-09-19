@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import '../../../cubit/onboarding_cubit.dart';
 import '../cubit/onboarding_camera_cubit.dart';
 import '../cubit/onboarding_camera_state.dart';
@@ -20,19 +21,44 @@ class OnboardingCameraPage extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: const Text("Camera Permission")),
-            body: Center(
+            body: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "To take photos and videos of your dishes, we need access to your camera permission",
+                  const Placeholder(
+                    fallbackHeight: 600,
                   ),
-                  ElevatedButton(
-                    onPressed: () => context
-                        .read<OnboardingCameraCubit>()
-                        .requestCameraPermission(),
-                    child: const Text("Allow"),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 8.0,
+                      children: [
+                        Text(
+                          "Capture The Moment",
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
+                          'To take photos of your dishes, the app requires access to your phone\'s camera first.',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FButton(
+                      onPress: () => context
+                          .read<OnboardingCameraCubit>()
+                          .requestCameraPermission(),
+                      child: const Text('Continue'),
+                    ),
                   ),
                 ],
               ),
