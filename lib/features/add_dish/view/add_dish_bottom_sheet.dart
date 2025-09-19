@@ -88,20 +88,18 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                     );
                   },
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.file(File(widget.imagePath)),
-                      ),
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.file(
+                      File(widget.imagePath),
+                      fit: BoxFit.cover,
                     ),
-                    AddDishNameTextField(controller: _nameTextFieldController),
-                  ],
+                  ),
                 ),
+                AddDishNameTextField(controller: _nameTextFieldController),
                 AddDishCategorySelect(controller: _categorySelectController),
                 AddDishOriginSelect(controller: _originSelectController),
                 AddDishDateField(controller: _dateFieldController),

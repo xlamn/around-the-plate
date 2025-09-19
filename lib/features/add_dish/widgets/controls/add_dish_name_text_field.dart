@@ -8,7 +8,7 @@ class AddDishNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
       child: FTextFormField(
         controller: controller,
         label: const Text('Name *'),
