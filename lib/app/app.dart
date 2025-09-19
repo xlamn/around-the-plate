@@ -14,22 +14,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = FThemes.slate.light;
-
-    return MaterialApp(
-      // TODO: replace with your application's supported locales.
-      supportedLocales: FLocalizations.supportedLocales,
-      // TODO: add your application's localizations delegates.
-      localizationsDelegates: const [...FLocalizations.localizationsDelegates],
-      builder: (_, child) => FTheme(data: theme, child: child!),
-      theme: theme.toApproximateMaterialTheme(),
-      home: RepositoryProvider<DishesRepository>(
-        create: (_) => createDishesRepository(),
-        dispose: (repository) => repository.dispose(),
-        child: BlocProvider(
-          create: (_) => AppStartupCubit(),
-          child: const AppView(),
-        ),
+    return RepositoryProvider<DishesRepository>(
+      create: (_) => createDishesRepository(),
+      dispose: (repository) => repository.dispose(),
+      child: BlocProvider(
+        create: (_) => AppStartupCubit(),
+        child: const AppView(),
       ),
     );
   }
@@ -40,14 +30,26 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppStartupCubit, AppStartupState>(
-      builder: (context, state) {
-        return !state.isOnboardingCompleted
-            ? OnboardingFlow(
-                onFinished: context.read<AppStartupCubit>().completeOnboarding,
-              )
-            : const Home();
-      },
+    final theme = FThemes.slate.light;
+
+    return MaterialApp(
+      // TODO: replace with your application's supported locales.
+      supportedLocales: FLocalizations.supportedLocales,
+      // TODO: add your application's localizations delegates.
+      localizationsDelegates: const [...FLocalizations.localizationsDelegates],
+      builder: (_, child) => FTheme(data: theme, child: child!),
+      theme: theme.toApproximateMaterialTheme(),
+      home: BlocBuilder<AppStartupCubit, AppStartupState>(
+        builder: (context, state) {
+          return !state.isOnboardingCompleted
+              ? OnboardingFlow(
+                  onFinished: context
+                      .read<AppStartupCubit>()
+                      .completeOnboarding,
+                )
+              : const Home();
+        },
+      ),
     );
   }
 }
