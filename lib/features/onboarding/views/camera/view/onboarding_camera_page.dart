@@ -25,10 +25,11 @@ class OnboardingCameraPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Placeholder(
-                    fallbackHeight: 600,
+                  Expanded(
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
                   ),
-                  Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Column(

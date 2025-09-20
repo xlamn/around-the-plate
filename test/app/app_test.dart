@@ -4,7 +4,6 @@ import 'package:around_the_plate/features/home/view/home.dart';
 import 'package:around_the_plate/features/onboarding/views/onboarding_flow.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dishes_repository/dishes_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -29,11 +28,15 @@ void main() {
 
   group('`$App`', () {
     testWidgets('renders AppView', (tester) async {
+      when(
+        () => appStartupCubit.state,
+      ).thenReturn(AppStartupState.loaded(true));
+
       await tester.pumpWidget(
         App(createDishesRepository: () => dishesRepository),
       );
 
-      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.byType(BlocProvider<AppStartupCubit>), findsOneWidget);
       expect(find.byType(AppView), findsOneWidget);
     });
   });
@@ -42,10 +45,6 @@ void main() {
     testWidgets('renders $OnboardingFlow when onboarding not completed', (
       tester,
     ) async {
-      when(
-        () => appStartupCubit.state,
-      ).thenReturn(AppStartupState.loaded(false));
-
       await tester.pumpApp(
         dishesRepository: dishesRepository,
         BlocProvider.value(
