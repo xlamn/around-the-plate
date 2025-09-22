@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:equatable/equatable.dart';
 
-import 'onboarding_camera_state.dart';
+part 'onboarding_camera_state.dart';
 
 class OnboardingCameraCubit extends Cubit<OnboardingCameraState> {
   OnboardingCameraCubit() : super(const OnboardingCameraState());

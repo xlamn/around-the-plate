@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'onboarding_camera_cubit.dart';
 
 enum CameraPermissionStatus { initial, granted, denied, permanentlyDenied }
 
