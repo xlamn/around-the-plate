@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'onboarding_location_cubit.dart';
 
 enum LocationPermissionStatus { initial, granted, denied, permanentlyDenied }
 

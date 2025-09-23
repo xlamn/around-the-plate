@@ -1,6 +1,6 @@
 import 'package:around_the_plate/features/onboarding/cubit/onboarding_cubit.dart';
-import 'package:around_the_plate/features/onboarding/views/camera/cubit/onboarding_camera_cubit.dart';
-import 'package:around_the_plate/features/onboarding/views/camera/view/onboarding_camera_page.dart';
+import 'package:around_the_plate/features/onboarding/views/location/cubit/onboarding_location_cubit.dart';
+import 'package:around_the_plate/features/onboarding/views/location/view/onboarding_location_page.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,25 +13,25 @@ import '../../../../../helpers/helpers.dart';
 class MockOnboardingCubit extends MockBloc<OnboardingCubit, OnboardingState>
     implements OnboardingCubit {}
 
-class MockOnboardingCameraCubit
-    extends MockBloc<OnboardingCameraCubit, OnboardingCameraState>
-    implements OnboardingCameraCubit {}
+class MockOnboardingLocationCubit
+    extends MockBloc<OnboardingLocationCubit, OnboardingLocationState>
+    implements OnboardingLocationCubit {}
 
 void main() {
   late OnboardingCubit onboardingCubit;
-  late OnboardingCameraCubit onboardingCameraCubit;
+  late OnboardingLocationCubit onboardingLocationCubit;
 
   setUp(() {
     onboardingCubit = MockOnboardingCubit();
-    onboardingCameraCubit = MockOnboardingCameraCubit();
+    onboardingLocationCubit = MockOnboardingLocationCubit();
     when(
-      () => onboardingCameraCubit.state,
-    ).thenReturn(const OnboardingCameraState());
+      () => onboardingLocationCubit.state,
+    ).thenReturn(const OnboardingLocationState());
     when(
       () => onboardingCubit.state,
     ).thenReturn(const OnboardingState());
     when(
-      () => onboardingCameraCubit.requestCameraPermission(),
+      () => onboardingLocationCubit.requestLocationPermission(),
     ).thenAnswer((_) async => Future.value());
   });
 
@@ -39,23 +39,23 @@ void main() {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: onboardingCubit),
-        BlocProvider.value(value: onboardingCameraCubit),
+        BlocProvider.value(value: onboardingLocationCubit),
       ],
-      child: OnboardingCameraView(),
+      child: OnboardingLocationView(),
     );
   }
 
-  group('`$OnboardingCameraPage`', () {
-    testWidgets('renders $OnboardingCameraView', (tester) async {
-      await tester.pumpApp(buildSubject(const OnboardingCameraPage()));
+  group('`$OnboardingLocationPage`', () {
+    testWidgets('renders $OnboardingLocationView', (tester) async {
+      await tester.pumpApp(buildSubject(const OnboardingLocationPage()));
 
-      expect(find.byType(OnboardingCameraView), findsOneWidget);
+      expect(find.byType(OnboardingLocationView), findsOneWidget);
     });
   });
 
-  group('`$OnboardingCameraView`', () {
+  group('`$OnboardingLocationView`', () {
     testWidgets('initially renders correctly', (tester) async {
-      await tester.pumpApp(buildSubject(const OnboardingCameraView()));
+      await tester.pumpApp(buildSubject(const OnboardingLocationView()));
 
       expect(
         find.byWidgetPredicate(
@@ -68,23 +68,25 @@ void main() {
     });
 
     testWidgets('calls correct function when pressed', (tester) async {
-      await tester.pumpApp(buildSubject(const OnboardingCameraView()));
+      await tester.pumpApp(buildSubject(const OnboardingLocationView()));
 
       await tester.tap(find.byType(FButton));
       await tester.pump(Duration(seconds: 1));
 
-      verify(() => onboardingCameraCubit.requestCameraPermission()).called(1);
+      verify(
+        () => onboardingLocationCubit.requestLocationPermission(),
+      ).called(1);
     });
 
     testWidgets('listener calls $OnboardingCubit.nextStep()', (tester) async {
       whenListen(
-        onboardingCameraCubit,
+        onboardingLocationCubit,
         Stream.fromIterable([
-          OnboardingCameraState(status: CameraPermissionStatus.granted),
+          OnboardingLocationState(status: LocationPermissionStatus.granted),
         ]),
-        initialState: OnboardingCameraState(),
+        initialState: OnboardingLocationState(),
       );
-      await tester.pumpApp(buildSubject(const OnboardingCameraView()));
+      await tester.pumpApp(buildSubject(const OnboardingLocationView()));
       await tester.pump(Duration(seconds: 1));
 
       verify(() => onboardingCubit.nextStep()).called(1);
