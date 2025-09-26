@@ -1,7 +1,8 @@
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-import 'add_dish_state.dart';
+part 'add_dish_state.dart';
 
 class AddDishCubit extends Cubit<AddDishState> {
   final DishesRepository _dishesRepository;

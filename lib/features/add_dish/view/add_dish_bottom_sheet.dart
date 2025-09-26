@@ -6,13 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
 import '../cubits/add_dish/add_dish_cubit.dart';
-import '../cubits/add_dish/add_dish_state.dart';
 import '../widgets/add_dish_app_bar.dart';
-import '../widgets/controls/add_dish_category_select.dart';
-import '../widgets/controls/add_dish_date_field.dart';
-import '../widgets/controls/add_dish_name_text_field.dart';
-import '../widgets/controls/add_dish_origin_select.dart';
-import '../widgets/controls/add_dish_rating_slider.dart';
+import '../widgets/controls/controls.dart';
 
 class AddDishBottomSheet extends StatelessWidget {
   final String imagePath;

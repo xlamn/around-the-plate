@@ -1,5 +1,4 @@
-import 'package:dishes_repository/dishes_repository.dart';
-import 'package:equatable/equatable.dart';
+part of 'add_dish_cubit.dart';
 
 enum AddDishStatus { initial, loading, success, failure }
 
