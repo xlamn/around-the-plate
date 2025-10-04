@@ -43,6 +43,8 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       FSelectController(vsync: this);
   late final FSelectController<String> _originSelectController =
       FSelectController(vsync: this);
+  late final FSelectController<String> _locationSelectController =
+      FSelectController(vsync: this);
   late final FDateFieldController _dateFieldController = FDateFieldController(
     vsync: this,
   );
@@ -98,6 +100,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                 AddDishCategorySelect(controller: _categorySelectController),
                 AddDishOriginSelect(controller: _originSelectController),
                 AddDishDateField(controller: _dateFieldController),
+                AddDishLocationSelect(controller: _locationSelectController),
                 AddDishRatingSlider(controller: _ratingSliderController),
               ],
             ),
