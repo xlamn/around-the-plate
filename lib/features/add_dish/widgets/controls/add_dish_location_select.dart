@@ -18,6 +18,7 @@ class AddDishLocationSelect extends StatefulWidget {
 class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
   final List<DishLocation> _locations = [];
   bool _isLoading = true;
+  bool _permissionGranted = false;
 
   @override
   void initState() {
@@ -27,14 +28,11 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isLoading && _locations.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     return FSelect<DishLocation>.rich(
       controller: widget.controller,
       label: const Text('Location'),
       hint: _isLoading ? 'Loading locations...' : 'Select location',
+      enabled: _permissionGranted,
       clearable: true,
       format: (c) => c.placeName?.toCapitalized() ?? '',
       children: [
@@ -50,7 +48,11 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
   Future<void> _initLocation() async {
     try {
       final position = await _getCurrentPosition();
-      if (position == null) return;
+
+      if (position == null) {
+        setState(() => _isLoading = false);
+        return;
+      }
 
       final locations = await _getLocationsFromCoordinates(
         position.latitude,
@@ -62,16 +64,16 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
         _isLoading = false;
       });
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
       debugPrint('Error getting location: $e');
     }
   }
 
   Future<Position?> _getCurrentPosition() async {
     final status = await Permission.location.request();
-    if (status.isGranted) {
+    setState(() => _permissionGranted = status.isGranted);
+
+    if (_permissionGranted) {
       return Geolocator.getCurrentPosition();
     } else {
       return null;
