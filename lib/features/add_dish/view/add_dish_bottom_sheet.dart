@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +44,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       FSelectController(vsync: this);
   late final FSelectController<String> _originSelectController =
       FSelectController(vsync: this);
-  late final FSelectController<String> _locationSelectController =
+  late final FSelectController<DishLocation> _locationSelectController =
       FSelectController(vsync: this);
   late final FDateFieldController _dateFieldController = FDateFieldController(
     vsync: this,
@@ -80,6 +81,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                         category: _categorySelectController.value,
                         imagePath: widget.imagePath,
                         origin: _originSelectController.value,
+                        location: _locationSelectController.value,
                         rating: _ratingSliderController.selection.offset.max,
                       ),
                     );
@@ -116,6 +118,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
     _categorySelectController.dispose();
     _originSelectController.dispose();
     _dateFieldController.dispose();
+    _locationSelectController.dispose();
     _ratingSliderController.dispose();
     super.dispose();
   }
