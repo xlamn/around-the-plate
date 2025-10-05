@@ -16,7 +16,7 @@ class AddDishLocationSelect extends StatefulWidget {
 }
 
 class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
-  DishLocation? _location;
+  final List<DishLocation> _locations = [];
   bool _isLoading = true;
 
   @override
@@ -27,21 +27,21 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isLoading && _location == null) {
+    if (!_isLoading && _locations.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return FSelect<DishLocation>.rich(
       controller: widget.controller,
       label: const Text('Location'),
-      hint: _isLoading ? 'Loading location...' : 'Select location',
+      hint: _isLoading ? 'Loading locations...' : 'Select location',
       clearable: true,
       format: (c) => c.placeName?.toCapitalized() ?? '',
       children: [
-        if (_location != null)
+        for (final location in _locations)
           FSelectItem(
-            title: Text(_location!.placeName?.toCapitalized() ?? ''),
-            value: _location!,
+            title: Text(location.placeName?.toCapitalized() ?? ''),
+            value: location,
           ),
       ],
     );
@@ -52,13 +52,13 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
       final position = await _getCurrentPosition();
       if (position == null) return;
 
-      final placeName = await _getPlaceFromCoordinates(position);
+      final locations = await _getLocationsFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
       setState(() {
-        _location = DishLocation(
-          latitude: position.latitude,
-          longitude: position.longitude,
-          placeName: placeName,
-        );
+        _locations.addAll(locations);
         _isLoading = false;
       });
     } catch (e) {
@@ -78,19 +78,30 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
     }
   }
 
-  Future<String> _getPlaceFromCoordinates(Position position) async {
+  Future<List<DishLocation>> _getLocationsFromCoordinates(
+    double latitude,
+    double longitude,
+  ) async {
     final placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
+      latitude,
+      longitude,
     );
 
-    if (placemarks.isEmpty) return 'Unknown location';
+    if (placemarks.isEmpty) return [];
 
-    final place = placemarks.first;
-    return [
-      place.locality,
-      place.administrativeArea,
-      place.country,
-    ].where((e) => e != null && e.isNotEmpty).join(', ');
+    return placemarks.map((place) {
+      final placeName = [
+        place.name,
+        place.locality,
+        place.administrativeArea,
+        place.country,
+      ].where((e) => e != null && e.isNotEmpty).join(', ');
+
+      return DishLocation(
+        latitude: latitude,
+        longitude: longitude,
+        placeName: placeName,
+      );
+    }).toList();
   }
 }
