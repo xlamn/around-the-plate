@@ -1,11 +1,13 @@
 import 'package:around_the_plate/extensions/extensions.dart';
+import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddDishLocationSelect extends StatefulWidget {
-  final FSelectController<String> controller;
+  final FSelectController<DishLocation> controller;
 
   const AddDishLocationSelect({super.key, required this.controller});
 
@@ -14,47 +16,65 @@ class AddDishLocationSelect extends StatefulWidget {
 }
 
 class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
-  Position? position;
-  String? location;
+  DishLocation? _location;
+  bool _isLoading = true;
 
   @override
   void initState() {
-    _loadLocation();
+    _initLocation();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FSelect<String>.rich(
+    if (!_isLoading && _location == null) {
+      return const SizedBox.shrink();
+    }
+
+    return FSelect<DishLocation>.rich(
       controller: widget.controller,
       label: const Text('Location'),
-      hint: location ?? 'Select a location',
+      hint: _isLoading ? 'Loading location...' : 'Select location',
       clearable: true,
-      format: (c) => c.toCapitalized(),
+      format: (c) => c.placeName?.toCapitalized() ?? '',
       children: [
-        if (location != null)
+        if (_location != null)
           FSelectItem(
-            title: Text(location!.toCapitalized()),
-            value: location!,
+            title: Text(_location!.placeName?.toCapitalized() ?? ''),
+            value: _location!,
           ),
       ],
     );
   }
 
-  Future<void> _loadLocation() async {
+  Future<void> _initLocation() async {
     try {
-      final pos = await Geolocator.getCurrentPosition();
-      final place = await _getPlaceFromCoordinates(pos);
+      final position = await _getCurrentPosition();
+      if (position == null) return;
 
-      if (mounted) {
-        setState(() {
-          position = pos;
-          location = place;
-          widget.controller.value = place;
-        });
-      }
+      final placeName = await _getPlaceFromCoordinates(position);
+      setState(() {
+        _location = DishLocation(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          placeName: placeName,
+        );
+        _isLoading = false;
+      });
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       debugPrint('Error getting location: $e');
+    }
+  }
+
+  Future<Position?> _getCurrentPosition() async {
+    final status = await Permission.location.request();
+    if (status.isGranted) {
+      return Geolocator.getCurrentPosition();
+    } else {
+      return null;
     }
   }
 
@@ -64,11 +84,13 @@ class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
       position.longitude,
     );
 
-    if (placemarks.isNotEmpty) {
-      final place = placemarks.first;
-      return '${place.locality}, ${place.administrativeArea}, ${place.country}';
-    } else {
-      return 'Unknown location';
-    }
+    if (placemarks.isEmpty) return 'Unknown location';
+
+    final place = placemarks.first;
+    return [
+      place.locality,
+      place.administrativeArea,
+      place.country,
+    ].where((e) => e != null && e.isNotEmpty).join(', ');
   }
 }
