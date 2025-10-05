@@ -37,18 +37,24 @@ const DishSchema = CollectionSchema(
       name: r'lastModifiedDate',
       type: IsarType.dateTime,
     ),
-    r'name': PropertySchema(
+    r'location': PropertySchema(
       id: 4,
+      name: r'location',
+      type: IsarType.object,
+      target: r'DishLocation',
+    ),
+    r'name': PropertySchema(
+      id: 5,
       name: r'name',
       type: IsarType.string,
     ),
     r'origin': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'origin',
       type: IsarType.string,
     ),
     r'rating': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'rating',
       type: IsarType.double,
     )
@@ -60,7 +66,7 @@ const DishSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {},
+  embeddedSchemas: {r'DishLocation': DishLocationSchema},
   getId: _dishGetId,
   getLinks: _dishGetLinks,
   attach: _dishAttach,
@@ -74,6 +80,14 @@ int _dishEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.imagePath.length * 3;
+  {
+    final value = object.location;
+    if (value != null) {
+      bytesCount += 3 +
+          DishLocationSchema.estimateSize(
+              value, allOffsets[DishLocation]!, allOffsets);
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   {
     final value = object.origin;
@@ -94,9 +108,15 @@ void _dishSerialize(
   writer.writeDateTime(offsets[1], object.date);
   writer.writeString(offsets[2], object.imagePath);
   writer.writeDateTime(offsets[3], object.lastModifiedDate);
-  writer.writeString(offsets[4], object.name);
-  writer.writeString(offsets[5], object.origin);
-  writer.writeDouble(offsets[6], object.rating);
+  writer.writeObject<DishLocation>(
+    offsets[4],
+    allOffsets,
+    DishLocationSchema.serialize,
+    object.location,
+  );
+  writer.writeString(offsets[5], object.name);
+  writer.writeString(offsets[6], object.origin);
+  writer.writeDouble(offsets[7], object.rating);
 }
 
 Dish _dishDeserialize(
@@ -108,9 +128,14 @@ Dish _dishDeserialize(
   final object = Dish(
     date: reader.readDateTimeOrNull(offsets[1]),
     imagePath: reader.readString(offsets[2]),
-    name: reader.readString(offsets[4]),
-    origin: reader.readStringOrNull(offsets[5]),
-    rating: reader.readDouble(offsets[6]),
+    location: reader.readObjectOrNull<DishLocation>(
+      offsets[4],
+      DishLocationSchema.deserialize,
+      allOffsets,
+    ),
+    name: reader.readString(offsets[5]),
+    origin: reader.readStringOrNull(offsets[6]),
+    rating: reader.readDouble(offsets[7]),
   );
   return object;
 }
@@ -131,10 +156,16 @@ P _dishDeserializeProp<P>(
     case 3:
       return (reader.readDateTime(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readObjectOrNull<DishLocation>(
+        offset,
+        DishLocationSchema.deserialize,
+        allOffsets,
+      )) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
       return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -599,6 +630,22 @@ extension DishQueryFilter on QueryBuilder<Dish, Dish, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> locationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'location',
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> locationIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'location',
+      ));
+    });
+  }
+
   QueryBuilder<Dish, Dish, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -934,7 +981,14 @@ extension DishQueryFilter on QueryBuilder<Dish, Dish, QFilterCondition> {
   }
 }
 
-extension DishQueryObject on QueryBuilder<Dish, Dish, QFilterCondition> {}
+extension DishQueryObject on QueryBuilder<Dish, Dish, QFilterCondition> {
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> location(
+      FilterQuery<DishLocation> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'location');
+    });
+  }
+}
 
 extension DishQueryLinks on QueryBuilder<Dish, Dish, QFilterCondition> {}
 
@@ -1197,6 +1251,12 @@ extension DishQueryProperty on QueryBuilder<Dish, Dish, QQueryProperty> {
   QueryBuilder<Dish, DateTime, QQueryOperations> lastModifiedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastModifiedDate');
+    });
+  }
+
+  QueryBuilder<Dish, DishLocation?, QQueryOperations> locationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'location');
     });
   }
 

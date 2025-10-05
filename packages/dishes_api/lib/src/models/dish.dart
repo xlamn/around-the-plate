@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:dishes_api/src/models/dish_category.dart';
 import 'package:isar/isar.dart';
+
+import 'dish_category.dart';
+import 'dish_location.dart';
 
 part 'dish.g.dart';
 
@@ -24,6 +26,8 @@ class Dish extends Equatable {
 
   final DateTime? date;
 
+  final DishLocation? location;
+
   final DateTime lastModifiedDate;
 
   Dish({
@@ -33,6 +37,7 @@ class Dish extends Equatable {
     DishCategory? category,
     this.origin,
     this.date,
+    this.location,
   }) : categoryValue = category?.index,
        lastModifiedDate = DateTime.now();
 
@@ -43,6 +48,7 @@ class Dish extends Equatable {
     String? origin,
     double? rating,
     DateTime? date,
+    DishLocation? location,
   }) {
     return Dish(
       name: name ?? this.name,
@@ -51,6 +57,7 @@ class Dish extends Equatable {
       origin: origin ?? this.origin,
       rating: rating ?? this.rating,
       date: date ?? this.date,
+      location: location ?? this.location,
     );
   }
 
