@@ -1,5 +1,5 @@
 /// A repository that handles `dish` related requests.
-library dishes_repository;
+library;
 
 export 'package:dishes_api/dishes_api.dart' show Dish, DishCategory;
 export 'src/dishes_repository.dart';
