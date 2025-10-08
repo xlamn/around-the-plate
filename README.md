@@ -29,3 +29,7 @@ dart run build_runner build -d
 flutter run --dart-define-from-file=lib/env/api_keys.json
 ```
 The app can be run on several platforms but is only determined for iOS and Android.
+
+# Design
+
+[Figma] (https://www.figma.com/team_invite/redeem/iwxzSuONIYCzcEKynfGntB)
