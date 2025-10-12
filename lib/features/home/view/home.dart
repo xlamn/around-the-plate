@@ -23,19 +23,6 @@ class Home extends StatelessWidget {
 class HomeView extends StatelessWidget {
   HomeView({super.key});
 
-  final List<FHeader> headers = [
-    const FHeader(title: Text('Home')),
-    const FHeader(title: Text('Map')),
-    FHeader(
-      title: const Text('Settings'),
-      suffixes: [
-        FHeaderAction(
-          icon: Icon(FIcons.ellipsis),
-          onPress: () {},
-        ),
-      ],
-    ),
-  ];
   final List<Widget> contents = [
     DishesOverviewPage(),
     MapOverviewPage(),
@@ -48,7 +35,6 @@ class HomeView extends StatelessWidget {
 
     return FScaffold(
       childPad: false,
-      header: headers[selectedIndex],
       footer: FBottomNavigationBar(
         index: selectedIndex,
         onChange: (index) => context.read<HomeCubit>().changeTab(index),

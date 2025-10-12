@@ -8,6 +8,15 @@ class SettingsOverviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        FHeader(
+          title: const Text('Settings'),
+          suffixes: [
+            FHeaderAction(
+              icon: Icon(FIcons.ellipsis),
+              onPress: () {},
+            ),
+          ],
+        ),
         const SizedBox(height: 5),
         FCard(
           title: const Text('Account'),

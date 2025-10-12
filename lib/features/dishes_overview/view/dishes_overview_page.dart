@@ -1,6 +1,7 @@
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import '../cubits/dishes_overview_cubit.dart';
 import '../cubits/dishes_overview_state.dart';
 import '../widgets/dishes_overview_add_button.dart';
@@ -38,15 +39,14 @@ class DishesOverviewView extends StatelessWidget {
             return const Center(child: Text('No dishes available'));
           } else {
             return ListView.separated(
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 16.0,
-                );
-              },
               padding: const EdgeInsets.only(bottom: 100),
-              itemCount: state.dishes.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 16),
+              itemCount: state.dishes.length + 1,
               itemBuilder: (context, index) {
-                final dish = state.dishes[index];
+                if (index == 0) {
+                  return const FHeader(title: Text('Home'));
+                }
+                final dish = state.dishes[index - 1];
                 return DishCard(dish: dish);
               },
             );
