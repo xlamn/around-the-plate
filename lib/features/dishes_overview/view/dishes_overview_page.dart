@@ -43,8 +43,7 @@ class DishesOverviewView extends StatelessWidget {
                   height: 16.0,
                 );
               },
-              padding: EdgeInsets.only(bottom: 80),
-              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 100),
               itemCount: state.dishes.length,
               itemBuilder: (context, index) {
                 final dish = state.dishes[index];

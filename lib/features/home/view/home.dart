@@ -47,6 +47,7 @@ class HomeView extends StatelessWidget {
     final selectedIndex = context.select((HomeCubit cubit) => cubit.state);
 
     return FScaffold(
+      childPad: false,
       header: headers[selectedIndex],
       footer: FBottomNavigationBar(
         index: selectedIndex,

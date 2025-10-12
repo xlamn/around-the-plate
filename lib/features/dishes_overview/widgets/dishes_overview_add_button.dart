@@ -11,20 +11,23 @@ class DishesOverviewAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FButton(
-      onPress: () async {
-        final imagePath = await _getImagePath(context);
-        if (!context.mounted || imagePath == null) return;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: FButton(
+        onPress: () async {
+          final imagePath = await _getImagePath(context);
+          if (!context.mounted || imagePath == null) return;
 
-        await showModalBottomSheet(
-          context: context,
-          isDismissible: false,
-          enableDrag: false,
-          isScrollControlled: true,
-          builder: (_) => AddDishBottomSheet(imagePath: imagePath),
-        );
-      },
-      child: const Text('Add New Dish'),
+          await showModalBottomSheet(
+            context: context,
+            isDismissible: false,
+            enableDrag: false,
+            isScrollControlled: true,
+            builder: (_) => AddDishBottomSheet(imagePath: imagePath),
+          );
+        },
+        child: const Text('Add New Dish'),
+      ),
     );
   }
 
