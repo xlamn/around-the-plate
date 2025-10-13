@@ -22,35 +22,35 @@ const DishSchema = CollectionSchema(
       name: r'categoryValue',
       type: IsarType.long,
     ),
-    r'date': PropertySchema(
+    r'cuisineValue': PropertySchema(
       id: 1,
+      name: r'cuisineValue',
+      type: IsarType.long,
+    ),
+    r'date': PropertySchema(
+      id: 2,
       name: r'date',
       type: IsarType.dateTime,
     ),
     r'imagePath': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'imagePath',
       type: IsarType.string,
     ),
     r'lastModifiedDate': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'lastModifiedDate',
       type: IsarType.dateTime,
     ),
     r'location': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'location',
       type: IsarType.object,
       target: r'DishLocation',
     ),
     r'name': PropertySchema(
-      id: 5,
-      name: r'name',
-      type: IsarType.string,
-    ),
-    r'origin': PropertySchema(
       id: 6,
-      name: r'origin',
+      name: r'name',
       type: IsarType.string,
     ),
     r'rating': PropertySchema(
@@ -89,12 +89,6 @@ int _dishEstimateSize(
     }
   }
   bytesCount += 3 + object.name.length * 3;
-  {
-    final value = object.origin;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
   return bytesCount;
 }
 
@@ -105,17 +99,17 @@ void _dishSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.categoryValue);
-  writer.writeDateTime(offsets[1], object.date);
-  writer.writeString(offsets[2], object.imagePath);
-  writer.writeDateTime(offsets[3], object.lastModifiedDate);
+  writer.writeLong(offsets[1], object.cuisineValue);
+  writer.writeDateTime(offsets[2], object.date);
+  writer.writeString(offsets[3], object.imagePath);
+  writer.writeDateTime(offsets[4], object.lastModifiedDate);
   writer.writeObject<DishLocation>(
-    offsets[4],
+    offsets[5],
     allOffsets,
     DishLocationSchema.serialize,
     object.location,
   );
-  writer.writeString(offsets[5], object.name);
-  writer.writeString(offsets[6], object.origin);
+  writer.writeString(offsets[6], object.name);
   writer.writeDouble(offsets[7], object.rating);
 }
 
@@ -126,15 +120,16 @@ Dish _dishDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Dish(
-    date: reader.readDateTimeOrNull(offsets[1]),
-    imagePath: reader.readString(offsets[2]),
+    categoryValue: reader.readLongOrNull(offsets[0]),
+    cuisineValue: reader.readLongOrNull(offsets[1]),
+    date: reader.readDateTimeOrNull(offsets[2]),
+    imagePath: reader.readString(offsets[3]),
     location: reader.readObjectOrNull<DishLocation>(
-      offsets[4],
+      offsets[5],
       DishLocationSchema.deserialize,
       allOffsets,
     ),
-    name: reader.readString(offsets[5]),
-    origin: reader.readStringOrNull(offsets[6]),
+    name: reader.readString(offsets[6]),
     rating: reader.readDouble(offsets[7]),
   );
   return object;
@@ -150,21 +145,21 @@ P _dishDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readDateTime(offset)) as P;
+    case 5:
       return (reader.readObjectOrNull<DishLocation>(
         offset,
         DishLocationSchema.deserialize,
         allOffsets,
       )) as P;
-    case 5:
-      return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 7:
       return (reader.readDouble(offset)) as P;
     default:
@@ -319,6 +314,75 @@ extension DishQueryFilter on QueryBuilder<Dish, Dish, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'categoryValue',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'cuisineValue',
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'cuisineValue',
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'cuisineValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'cuisineValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'cuisineValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterFilterCondition> cuisineValueBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'cuisineValue',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -774,150 +838,6 @@ extension DishQueryFilter on QueryBuilder<Dish, Dish, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'origin',
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'origin',
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'origin',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'origin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'origin',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'origin',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterFilterCondition> originIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'origin',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<Dish, Dish, QAfterFilterCondition> ratingEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -1005,6 +925,18 @@ extension DishQuerySortBy on QueryBuilder<Dish, Dish, QSortBy> {
     });
   }
 
+  QueryBuilder<Dish, Dish, QAfterSortBy> sortByCuisineValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cuisineValue', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterSortBy> sortByCuisineValueDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cuisineValue', Sort.desc);
+    });
+  }
+
   QueryBuilder<Dish, Dish, QAfterSortBy> sortByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
@@ -1053,18 +985,6 @@ extension DishQuerySortBy on QueryBuilder<Dish, Dish, QSortBy> {
     });
   }
 
-  QueryBuilder<Dish, Dish, QAfterSortBy> sortByOrigin() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'origin', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterSortBy> sortByOriginDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'origin', Sort.desc);
-    });
-  }
-
   QueryBuilder<Dish, Dish, QAfterSortBy> sortByRating() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rating', Sort.asc);
@@ -1088,6 +1008,18 @@ extension DishQuerySortThenBy on QueryBuilder<Dish, Dish, QSortThenBy> {
   QueryBuilder<Dish, Dish, QAfterSortBy> thenByCategoryValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'categoryValue', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterSortBy> thenByCuisineValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cuisineValue', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QAfterSortBy> thenByCuisineValueDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cuisineValue', Sort.desc);
     });
   }
 
@@ -1151,18 +1083,6 @@ extension DishQuerySortThenBy on QueryBuilder<Dish, Dish, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Dish, Dish, QAfterSortBy> thenByOrigin() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'origin', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Dish, Dish, QAfterSortBy> thenByOriginDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'origin', Sort.desc);
-    });
-  }
-
   QueryBuilder<Dish, Dish, QAfterSortBy> thenByRating() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rating', Sort.asc);
@@ -1180,6 +1100,12 @@ extension DishQueryWhereDistinct on QueryBuilder<Dish, Dish, QDistinct> {
   QueryBuilder<Dish, Dish, QDistinct> distinctByCategoryValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'categoryValue');
+    });
+  }
+
+  QueryBuilder<Dish, Dish, QDistinct> distinctByCuisineValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'cuisineValue');
     });
   }
 
@@ -1209,13 +1135,6 @@ extension DishQueryWhereDistinct on QueryBuilder<Dish, Dish, QDistinct> {
     });
   }
 
-  QueryBuilder<Dish, Dish, QDistinct> distinctByOrigin(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'origin', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<Dish, Dish, QDistinct> distinctByRating() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'rating');
@@ -1233,6 +1152,12 @@ extension DishQueryProperty on QueryBuilder<Dish, Dish, QQueryProperty> {
   QueryBuilder<Dish, int?, QQueryOperations> categoryValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'categoryValue');
+    });
+  }
+
+  QueryBuilder<Dish, int?, QQueryOperations> cuisineValueProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'cuisineValue');
     });
   }
 
@@ -1263,12 +1188,6 @@ extension DishQueryProperty on QueryBuilder<Dish, Dish, QQueryProperty> {
   QueryBuilder<Dish, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
-    });
-  }
-
-  QueryBuilder<Dish, String?, QQueryOperations> originProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'origin');
     });
   }
 

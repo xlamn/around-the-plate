@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
 import 'dish_category.dart';
+import 'dish_cuisine.dart';
 import 'dish_location.dart';
 
 part 'dish.g.dart';
@@ -20,7 +21,11 @@ class Dish extends Equatable {
   DishCategory? get category =>
       categoryValue != null ? DishCategory.values[categoryValue!] : null;
 
-  final String? origin;
+  final int? cuisineValue;
+
+  @ignore
+  DishCuisine? get cuisine =>
+      cuisineValue != null ? DishCuisine.values[cuisineValue!] : null;
 
   final double rating;
 
@@ -34,18 +39,17 @@ class Dish extends Equatable {
     required this.name,
     required this.imagePath,
     required this.rating,
-    DishCategory? category,
-    this.origin,
+    this.categoryValue,
+    this.cuisineValue,
     this.date,
     this.location,
-  }) : categoryValue = category?.index,
-       lastModifiedDate = DateTime.now();
+  }) : lastModifiedDate = DateTime.now();
 
   Dish copyWith({
     String? name,
     String? imagePath,
     DishCategory? category,
-    String? origin,
+    DishCuisine? cuisine,
     double? rating,
     DateTime? date,
     DishLocation? location,
@@ -53,8 +57,8 @@ class Dish extends Equatable {
     return Dish(
       name: name ?? this.name,
       imagePath: imagePath ?? this.imagePath,
-      category: category ?? this.category,
-      origin: origin ?? this.origin,
+      categoryValue: category?.index ?? categoryValue,
+      cuisineValue: cuisine?.index ?? cuisineValue,
       rating: rating ?? this.rating,
       date: date ?? this.date,
       location: location ?? this.location,
