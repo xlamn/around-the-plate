@@ -1,27 +1,40 @@
-import 'dart:convert';
-
-import 'package:dishes_api/dishes_api.dart';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 import '../../../env/env.dart';
+import '../cubit/map_overview_cubit.dart';
 
-class MapOverviewPage extends StatefulWidget {
+class MapOverviewPage extends StatelessWidget {
   const MapOverviewPage({super.key});
 
   @override
-  State<MapOverviewPage> createState() => _MapOverviewPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => MapOverviewCubit(
+        dishesRepository: context.read<DishesRepository>(),
+      )..loadCountries(),
+      child: const MapOverviewView(),
+    );
+  }
 }
 
-class _MapOverviewPageState extends State<MapOverviewPage> {
-  MapboxMap? mapboxMap;
+class MapOverviewView extends StatefulWidget {
+  const MapOverviewView({super.key});
 
+  @override
+  State<MapOverviewView> createState() => _MapOverviewViewState();
+}
+
+class _MapOverviewViewState extends State<MapOverviewView> {
   static const _allCountriesSourceId = "countries-source";
   static const _highlightedSourceId = "countries-highlighted-source";
   static const _highlightedLayerId = "countries-highlighted-fill";
   static const _bordersLayerId = "countries-borders";
+
+  MapboxMap? mapboxMap;
 
   @override
   void initState() {
@@ -29,73 +42,71 @@ class _MapOverviewPageState extends State<MapOverviewPage> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<MapOverviewCubit, MapOverviewState>(
+        builder: (context, state) {
+          if (state.status == MapOverviewStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state.status == MapOverviewStatus.failure) {
+            return const Center(child: Text("Failed to load map"));
+          }
+          return Column(
+            children: [
+              const FHeader(title: Text('Map')),
+              Expanded(
+                child: MapWidget(
+                  cameraOptions: CameraOptions(
+                    center: Point(coordinates: Position(10, 20)),
+                    zoom: 2.0,
+                  ),
+                  styleUri: MapboxStyles.LIGHT,
+                  textureView: true,
+                  onMapCreated: _onMapCreated,
+                  onStyleLoadedListener: _onStyleLoadedCallback,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   void _onMapCreated(MapboxMap mapboxMap) {
     this.mapboxMap = mapboxMap;
   }
 
   Future<void> _onStyleLoadedCallback(StyleLoadedEventData data) async {
-    await _addCountryHighlightLayer();
+    final state = context.read<MapOverviewCubit>().state;
+    if (state.status == MapOverviewStatus.success) {
+      await _addLayers(state);
+    }
   }
 
-  Future<void> _addCountryHighlightLayer() async {
+  Future<void> _addLayers(MapOverviewState state) async {
     if (mapboxMap == null) return;
     final style = mapboxMap!.style;
 
-    // 1) Load the base GeoJSON
-    final geoJsonString = await rootBundle.loadString(
-      'assets/countries/countries.geojson',
-    );
-    final Map<String, dynamic> geoJson = jsonDecode(geoJsonString);
-
+    // Add all countries
     await style.addSource(
       GeoJsonSource(
         id: _allCountriesSourceId,
-        data: geoJsonString,
+        data: state.allCountriesGeoJson!,
       ),
     );
 
-    // 2) Build a set of lower-cased names to highlight
-    final highlightedNames = cuisineCountryMap.values
-        .map((m) => m.countryName.toLowerCase())
-        .toSet();
-
-    // 3) Build a list of highlighted features
-    final List<dynamic> highlightedFeatures = [];
-    if (geoJson['features'] is List) {
-      for (final f in geoJson['features']) {
-        try {
-          final props = f['properties'] as Map<String, dynamic>;
-          final countryName = (props['ADMIN'] ?? props['name'] ?? '')
-              .toString()
-              .toLowerCase();
-          if (highlightedNames.contains(countryName)) {
-            // Optionally add a property so you can read it later on taps
-            props['highlighted_for_cuisine'] = true;
-            highlightedFeatures.add(f);
-          }
-        } catch (_) {
-          // ignore malformed feature
-        }
-      }
-    }
-
-    // 4) Create a GeoJSON object for highlighted countries only
-    final Map<String, dynamic> highlightedGeoJson = {
-      "type": "FeatureCollection",
-      "features": highlightedFeatures,
-    };
-
-    final highlightedGeoJsonString = jsonEncode(highlightedGeoJson);
-
-    // 5) Add the highlighted source (only the filtered features)
+    // Add highlighted countries
     await style.addSource(
       GeoJsonSource(
         id: _highlightedSourceId,
-        data: highlightedGeoJsonString,
+        data: state.highlightedCountriesGeoJson!,
       ),
     );
 
-    // 6) Add the FillLayer for highlighted countries
+    // Add fill layer for highlights
     await style.addLayer(
       FillLayer(
         id: _highlightedLayerId,
@@ -105,36 +116,13 @@ class _MapOverviewPageState extends State<MapOverviewPage> {
       ),
     );
 
-    // 9) Add a border layer for all countries (optional)
+    // Optional border layer
     await style.addLayer(
       LineLayer(
         id: _bordersLayerId,
         sourceId: _allCountriesSourceId,
         lineColor: Colors.blue.withValues(alpha: 0.3).toARGB32(),
         lineWidth: 0.6,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const FHeader(title: Text('Map')),
-          Expanded(
-            child: MapWidget(
-              cameraOptions: CameraOptions(
-                center: Point(coordinates: Position(10, 20)),
-                zoom: 2.0,
-              ),
-              styleUri: MapboxStyles.LIGHT,
-              textureView: true,
-              onMapCreated: _onMapCreated,
-              onStyleLoadedListener: _onStyleLoadedCallback,
-            ),
-          ),
-        ],
       ),
     );
   }

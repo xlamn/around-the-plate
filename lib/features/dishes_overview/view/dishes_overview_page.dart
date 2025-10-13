@@ -2,10 +2,11 @@ import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
+
 import '../cubits/dishes_overview_cubit.dart';
 import '../cubits/dishes_overview_state.dart';
-import '../widgets/dishes_overview_add_button.dart';
 import '../widgets/dish_card.dart';
+import '../widgets/dishes_overview_add_button.dart';
 
 class DishesOverviewPage extends StatelessWidget {
   const DishesOverviewPage({super.key});
@@ -33,24 +34,25 @@ class DishesOverviewView extends StatelessWidget {
         builder: (context, state) {
           if (state.status == DishesOverviewStatus.loading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state.status == DishesOverviewStatus.failure) {
-            return const Center(child: Text('Failed to load dishes'));
-          } else if (state.dishes.isEmpty) {
-            return const Center(child: Text('No dishes available'));
-          } else {
-            return ListView.separated(
-              padding: const EdgeInsets.only(bottom: 100),
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-              itemCount: state.dishes.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const FHeader(title: Text('Home'));
-                }
-                final dish = state.dishes[index - 1];
-                return DishCard(dish: dish);
-              },
-            );
           }
+          if (state.status == DishesOverviewStatus.failure) {
+            return const Center(child: Text('Failed to load dishes'));
+          }
+          if (state.dishes.isEmpty) {
+            return const Center(child: Text('No dishes available'));
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.only(bottom: 100),
+            separatorBuilder: (context, index) => const SizedBox(height: 16),
+            itemCount: state.dishes.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const FHeader(title: Text('Home'));
+              }
+              final dish = state.dishes[index - 1];
+              return DishCard(dish: dish);
+            },
+          );
         },
       ),
     );
