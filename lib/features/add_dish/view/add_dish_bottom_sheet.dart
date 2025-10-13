@@ -42,7 +42,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
       TextEditingController();
   late final FSelectController<DishCategory> _categorySelectController =
       FSelectController(vsync: this);
-  late final FSelectController<String> _originSelectController =
+  late final FSelectController<DishCuisine> _cuisineSelectController =
       FSelectController(vsync: this);
   late final FSelectController<DishLocation> _locationSelectController =
       FSelectController(vsync: this);
@@ -78,9 +78,9 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                       Dish(
                         name: _nameTextFieldController.text,
                         date: _dateFieldController.value,
-                        category: _categorySelectController.value,
+                        categoryValue: _categorySelectController.value?.index,
                         imagePath: widget.imagePath,
-                        origin: _originSelectController.value,
+                        cuisineValue: _cuisineSelectController.value?.index,
                         location: _locationSelectController.value,
                         rating: _ratingSliderController.selection.offset.max,
                       ),
@@ -100,7 +100,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
                 ),
                 AddDishNameTextField(controller: _nameTextFieldController),
                 AddDishCategorySelect(controller: _categorySelectController),
-                AddDishOriginSelect(controller: _originSelectController),
+                AddDishCuisineSelect(controller: _cuisineSelectController),
                 AddDishDateField(controller: _dateFieldController),
                 AddDishLocationSelect(controller: _locationSelectController),
                 AddDishRatingSlider(controller: _ratingSliderController),
@@ -116,7 +116,7 @@ class _AddDishBottomSheetViewState extends State<AddDishBottomSheetView>
   void dispose() {
     _nameTextFieldController.dispose();
     _categorySelectController.dispose();
-    _originSelectController.dispose();
+    _cuisineSelectController.dispose();
     _dateFieldController.dispose();
     _locationSelectController.dispose();
     _ratingSliderController.dispose();

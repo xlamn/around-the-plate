@@ -53,9 +53,9 @@ class DishCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  if (dish.origin != null)
+                  if (dish.cuisine != null)
                     Text(
-                      dish.origin!,
+                      dish.cuisine!.name,
                       style:
                           Theme.of(
                             context,

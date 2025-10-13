@@ -53,7 +53,7 @@ void main() {
         dishesController.add([
           Dish(
             name: 'Pizza',
-            category: DishCategory.meal,
+            categoryValue: DishCategory.meal.index,
             imagePath: '',
             rating: 1.0,
           ),

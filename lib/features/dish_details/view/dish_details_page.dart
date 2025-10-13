@@ -42,7 +42,7 @@ class DishDetailsPage extends StatelessWidget {
             height: 64,
           ),
 
-          if (dish.origin != null) Text(dish.origin!),
+          if (dish.cuisineValue != null) Text(dish.cuisine!.name),
           if (dish.category != null) Text(dish.category!.name),
 
           Text('some more text generated with GPT'),
