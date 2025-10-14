@@ -15,7 +15,7 @@ class MapOverviewPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => MapOverviewCubit(
         dishesRepository: context.read<DishesRepository>(),
-      )..loadCountries(),
+      )..loadGeoJson(),
       child: const MapOverviewView(),
     );
   }
@@ -59,8 +59,8 @@ class _MapOverviewViewState extends State<MapOverviewView> {
               Expanded(
                 child: MapWidget(
                   cameraOptions: CameraOptions(
-                    center: Point(coordinates: Position(10, 20)),
-                    zoom: 2.0,
+                    center: Point(coordinates: Position(12.12247, 47.85637)),
+                    zoom: 2.2,
                   ),
                   styleUri: MapboxStyles.LIGHT,
                   textureView: true,
@@ -75,9 +75,7 @@ class _MapOverviewViewState extends State<MapOverviewView> {
     );
   }
 
-  void _onMapCreated(MapboxMap mapboxMap) {
-    this.mapboxMap = mapboxMap;
-  }
+  void _onMapCreated(MapboxMap mapboxMap) => this.mapboxMap = mapboxMap;
 
   Future<void> _onStyleLoadedCallback(StyleLoadedEventData data) async {
     final state = context.read<MapOverviewCubit>().state;
@@ -90,15 +88,6 @@ class _MapOverviewViewState extends State<MapOverviewView> {
     if (mapboxMap == null) return;
     final style = mapboxMap!.style;
 
-    // Add all countries
-    await style.addSource(
-      GeoJsonSource(
-        id: _allCountriesSourceId,
-        data: state.allCountriesGeoJson!,
-      ),
-    );
-
-    // Add highlighted countries
     await style.addSource(
       GeoJsonSource(
         id: _highlightedSourceId,
@@ -106,23 +95,24 @@ class _MapOverviewViewState extends State<MapOverviewView> {
       ),
     );
 
-    // Add fill layer for highlights
     await style.addLayer(
       FillLayer(
         id: _highlightedLayerId,
         sourceId: _highlightedSourceId,
-        fillColor: Colors.orange.withValues(alpha: 0.6).toARGB32(),
-        fillOutlineColor: Colors.white.withValues(alpha: 0.6).toARGB32(),
+        fillColorExpression: [
+          'get',
+          'fillColor',
+        ],
+        fillOpacity: 0.8,
       ),
     );
 
-    // Optional border layer
     await style.addLayer(
       LineLayer(
         id: _bordersLayerId,
         sourceId: _allCountriesSourceId,
-        lineColor: Colors.blue.withValues(alpha: 0.3).toARGB32(),
-        lineWidth: 0.6,
+        lineColor: Colors.black.withValues(alpha: 0.5).toARGB32(),
+        lineWidth: 0.1,
       ),
     );
   }

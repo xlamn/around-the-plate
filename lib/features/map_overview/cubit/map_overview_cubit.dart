@@ -6,9 +6,12 @@ import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../extensions/double_extension.dart';
+
 part 'map_overview_state.dart';
 
 class MapOverviewCubit extends Cubit<MapOverviewState> {
+  static const _geoJsonPath = 'assets/countries/countries.geojson';
   final DishesRepository _dishesRepository;
   StreamSubscription<List<Dish>>? _dishesSubscription;
 
@@ -17,9 +20,7 @@ class MapOverviewCubit extends Cubit<MapOverviewState> {
   }) : _dishesRepository = dishesRepository,
        super(MapOverviewState());
 
-  static const _geoJsonPath = 'assets/countries/countries.geojson';
-
-  Future<void> loadCountries() async {
+  Future<void> loadGeoJson() async {
     emit(state.copyWith(status: () => MapOverviewStatus.loading));
 
     _dishesSubscription?.cancel(); // avoid multiple subscriptions
@@ -31,41 +32,54 @@ class MapOverviewCubit extends Cubit<MapOverviewState> {
           final geoJsonString = await rootBundle.loadString(_geoJsonPath);
           final geoJson = jsonDecode(geoJsonString);
 
-          // Extract cuisines from dishes
-          final representedCuisines = dishes
-              .where((d) => d.cuisine != null)
-              .map((d) => d.cuisine!)
-              .toSet();
-
-          // Map cuisines to country names
-          final highlightedCountries = representedCuisines
-              .map(
-                (cuisine) =>
-                    cuisineCountryMap[cuisine]?.countryName.toLowerCase(),
-              )
-              .whereType<String>()
-              .toSet();
-
-          // Filter GeoJSON features by highlightedNames
-          final List<dynamic> highlightedFeatures = [];
-          if (geoJson['features'] is List) {
-            for (final f in geoJson['features']) {
-              try {
-                final props = f['properties'] as Map<String, dynamic>;
-                final countryName = (props['ADMIN'] ?? props['name'] ?? '')
-                    .toString()
-                    .toLowerCase();
-                if (highlightedCountries.contains(countryName)) {
-                  props['highlighted_for_cuisine'] = true;
-                  highlightedFeatures.add(f);
-                }
-              } catch (_) {
-                // skip invalid features
-              }
+          // Count dishes per cuisine
+          final Map<DishCuisine, int> cuisineCounts = {};
+          for (final dish in dishes) {
+            final cuisine = dish.cuisine;
+            if (cuisine != null) {
+              cuisineCounts[cuisine] = (cuisineCounts[cuisine] ?? 0) + 1;
             }
           }
 
-          // Build new highlighted GeoJSON
+          // Map cuisine to countryName and generate intensity
+          final Map<String, double> countryIntensity = {};
+          for (final entry in cuisineCounts.entries) {
+            final countryName = cuisineCountryMap[entry.key]?.countryName
+                .toLowerCase();
+            if (countryName != null) {
+              final count = entry.value;
+              final normalized = (count / 20).clamp(0.0, 1.0);
+              countryIntensity[countryName] = normalized;
+            }
+          }
+
+          // create list with hightlighted features
+          final List<dynamic> highlightedFeatures = [];
+
+          for (final f in geoJson['features']) {
+            try {
+              final props = f['properties'] as Map<String, dynamic>;
+              final countryName = (props['ADMIN'] ?? props['name'] ?? '')
+                  .toString()
+                  .toLowerCase();
+
+              if (countryIntensity.containsKey(countryName)) {
+                final intensity = countryIntensity[countryName] ?? 0;
+                props['highlighted_for_cuisine'] = true;
+                props['intensity'] = intensity;
+
+                final color = intensity.generateColorFromNumber(
+                  startColor: Color(0xFFFFF7EA),
+                  endColor: Color(0xFF4CAF50),
+                );
+                props['fillColor'] = color;
+                highlightedFeatures.add(f);
+              }
+            } catch (_) {
+              // skip invalid features
+            }
+          }
+
           final highlightedGeoJson = {
             "type": "FeatureCollection",
             "features": highlightedFeatures,
@@ -77,7 +91,6 @@ class MapOverviewCubit extends Cubit<MapOverviewState> {
           emit(
             state.copyWith(
               status: () => MapOverviewStatus.success,
-              allCountriesGeoJson: () => geoJsonString,
               highlightedCountriesGeoJson: () =>
                   highlightedCountriesGeoJsonString,
             ),
