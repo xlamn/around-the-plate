@@ -21,7 +21,7 @@ class DishCardRating extends StatelessWidget {
     final glow = value * 2;
 
     return Text(
-      '${value.roundDecimals(2)}',
+      '${value.roundDecimals(1)}',
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.bold,
