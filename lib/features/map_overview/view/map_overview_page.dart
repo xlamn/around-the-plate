@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
-import '../../../env/env.dart';
 import '../cubits/map_controller/map_controller_cubit.dart';
 import '../cubits/map_data/map_data_cubit.dart';
 
@@ -29,19 +28,8 @@ class MapOverviewPage extends StatelessWidget {
   }
 }
 
-class MapOverviewView extends StatefulWidget {
+class MapOverviewView extends StatelessWidget {
   const MapOverviewView({super.key});
-
-  @override
-  State<MapOverviewView> createState() => _MapOverviewViewState();
-}
-
-class _MapOverviewViewState extends State<MapOverviewView> {
-  @override
-  void initState() {
-    MapboxOptions.setAccessToken(Env.mapboxApiKey);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

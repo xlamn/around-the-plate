@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
+import '../../../../env/env.dart';
 import '../../helpers/map_overview_controller.dart';
 import '../../helpers/map_overview_ids.dart';
 import 'map_controller_state.dart';
@@ -9,7 +10,9 @@ import 'map_controller_state.dart';
 class MapControllerCubit extends Cubit<MapControllerState> {
   late final MapOverviewMapController _controller;
 
-  MapControllerCubit() : super(const MapControllerState());
+  MapControllerCubit() : super(const MapControllerState()) {
+    MapboxOptions.setAccessToken(Env.mapboxApiKey);
+  }
 
   /// Call this method first before interacting with the map.
   void initialize(MapboxMap controller) {
@@ -17,6 +20,8 @@ class MapControllerCubit extends Cubit<MapControllerState> {
     emit(state.copyWith(isMapLoaded: true));
   }
 
+  /// Updates the map with new GeoJSON data.
+  /// Does nothing if the map is not yet loaded.
   Future<void> updateMap(
     String countriesJson,
     String highlightedCountriesJson,
