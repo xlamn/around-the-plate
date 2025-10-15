@@ -28,8 +28,6 @@ class DishesOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const DishesOverviewAddButton(),
       body: BlocBuilder<DishesOverviewCubit, DishesOverviewState>(
         builder: (context, state) {
           if (state.status == DishesOverviewStatus.loading) {
@@ -47,7 +45,13 @@ class DishesOverviewView extends StatelessWidget {
             itemCount: state.dishes.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const FHeader(title: Text('Home'));
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: const FHeader(
+                    title: Text('Home'),
+                    suffixes: [DishesOverviewAddButton()],
+                  ),
+                );
               }
               final dish = state.dishes[index - 1];
               return DishCard(dish: dish);
