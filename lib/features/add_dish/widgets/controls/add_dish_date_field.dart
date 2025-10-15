@@ -11,5 +11,6 @@ class AddDishDateField extends StatelessWidget {
     controller: controller,
     label: const Text('Date'),
     clearable: true,
+    canRequestFocus: false,
   );
 }
