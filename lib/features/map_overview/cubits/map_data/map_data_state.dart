@@ -1,24 +1,24 @@
-part of 'map_overview_cubit.dart';
+part of 'map_data_cubit.dart';
 
-enum MapOverviewStatus { initial, loading, success, failure }
+enum MapDataStatus { initial, loading, success, failure }
 
-class MapOverviewState {
-  final MapOverviewStatus status;
+class MapDataState extends Equatable {
+  final MapDataStatus status;
   final String? countriesGeoJson;
   final String? highlightedCountriesGeoJson;
 
-  const MapOverviewState({
-    this.status = MapOverviewStatus.initial,
+  const MapDataState({
+    this.status = MapDataStatus.initial,
     this.countriesGeoJson,
     this.highlightedCountriesGeoJson,
   });
 
-  MapOverviewState copyWith({
-    MapOverviewStatus Function()? status,
+  MapDataState copyWith({
+    MapDataStatus Function()? status,
     String? Function()? countriesGeoJson,
     String? Function()? highlightedCountriesGeoJson,
   }) {
-    return MapOverviewState(
+    return MapDataState(
       status: status != null ? status() : this.status,
       countriesGeoJson: countriesGeoJson != null
           ? countriesGeoJson()
@@ -28,4 +28,7 @@ class MapOverviewState {
           : this.highlightedCountriesGeoJson,
     );
   }
+
+  @override
+  List<Object?> get props => [status, highlightedCountriesGeoJson?.length];
 }

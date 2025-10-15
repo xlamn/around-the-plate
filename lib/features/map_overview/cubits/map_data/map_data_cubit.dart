@@ -3,25 +3,26 @@ import 'dart:convert';
 
 import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../extensions/double_extension.dart';
+import '../../../../extensions/extensions.dart';
 
-part 'map_overview_state.dart';
+part 'map_data_state.dart';
 
-class MapOverviewCubit extends Cubit<MapOverviewState> {
+class MapDataCubit extends Cubit<MapDataState> {
   static const _geoJsonPath = 'assets/countries/countries.geojson';
   final DishesRepository _dishesRepository;
   StreamSubscription<List<Dish>>? _dishesSubscription;
 
-  MapOverviewCubit({
+  MapDataCubit({
     required DishesRepository dishesRepository,
   }) : _dishesRepository = dishesRepository,
-       super(MapOverviewState());
+       super(MapDataState());
 
   Future<void> loadGeoJson() async {
-    emit(state.copyWith(status: () => MapOverviewStatus.loading));
+    emit(state.copyWith(status: () => MapDataStatus.loading));
 
     _dishesSubscription?.cancel(); // avoid multiple subscriptions
 
@@ -90,18 +91,18 @@ class MapOverviewCubit extends Cubit<MapOverviewState> {
 
           emit(
             state.copyWith(
-              status: () => MapOverviewStatus.success,
+              status: () => MapDataStatus.success,
               countriesGeoJson: () => geoJsonString,
               highlightedCountriesGeoJson: () =>
                   highlightedCountriesGeoJsonString,
             ),
           );
         } catch (_) {
-          emit(state.copyWith(status: () => MapOverviewStatus.failure));
+          emit(state.copyWith(status: () => MapDataStatus.failure));
         }
       },
       onError: (_) {
-        emit(state.copyWith(status: () => MapOverviewStatus.failure));
+        emit(state.copyWith(status: () => MapDataStatus.failure));
       },
     );
   }
