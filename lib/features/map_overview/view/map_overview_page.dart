@@ -34,7 +34,9 @@ class _MapOverviewViewState extends State<MapOverviewView> {
   static const _highlightedLayerId = "countries-highlighted-fill";
   static const _bordersLayerId = "countries-borders";
 
-  MapboxMap? mapboxMap;
+  MapboxMap? controller;
+
+  StyleManager? get _style => controller?.style;
 
   @override
   void initState() {
@@ -45,7 +47,13 @@ class _MapOverviewViewState extends State<MapOverviewView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MapOverviewCubit, MapOverviewState>(
+      body: BlocConsumer<MapOverviewCubit, MapOverviewState>(
+        listenWhen: (_, _) => controller != null,
+        listener: (context, state) async {
+          await _updateSources(state);
+          await _updateLayers(state);
+        },
+        buildWhen: (prev, curr) => prev.status != curr.status,
         builder: (context, state) {
           if (state.status == MapOverviewStatus.loading) {
             return const Center(child: CircularProgressIndicator());
@@ -64,7 +72,7 @@ class _MapOverviewViewState extends State<MapOverviewView> {
                   ),
                   styleUri: MapboxStyles.LIGHT,
                   textureView: true,
-                  onMapCreated: _onMapCreated,
+                  onMapCreated: (c) => controller = c,
                   onStyleLoadedListener: _onStyleLoadedCallback,
                 ),
               ),
@@ -75,27 +83,48 @@ class _MapOverviewViewState extends State<MapOverviewView> {
     );
   }
 
-  void _onMapCreated(MapboxMap mapboxMap) => this.mapboxMap = mapboxMap;
-
   Future<void> _onStyleLoadedCallback(StyleLoadedEventData data) async {
     final state = context.read<MapOverviewCubit>().state;
     if (state.status == MapOverviewStatus.success) {
-      await _addLayers(state);
+      await _updateSources(state);
+      await _updateLayers(state);
     }
   }
 
-  Future<void> _addLayers(MapOverviewState state) async {
-    if (mapboxMap == null) return;
-    final style = mapboxMap!.style;
+  Future<void> _updateSources(MapOverviewState state) async {
+    await _setOrUpdateSource(
+      _allCountriesSourceId,
+      state.countriesGeoJson!,
+    );
+    await _setOrUpdateSource(
+      _highlightedSourceId,
+      state.highlightedCountriesGeoJson!,
+    );
+  }
 
-    await style.addSource(
-      GeoJsonSource(
-        id: _highlightedSourceId,
-        data: state.highlightedCountriesGeoJson!,
+  Future<void> _setOrUpdateSource(String id, String data) async {
+    final style = _style;
+    if (style == null) return;
+    try {
+      final existing = await style.getSource(id) as GeoJsonSource?;
+      if (existing != null) {
+        await existing.updateGeoJSON(data);
+      }
+    } catch (_) {
+      await style.addSource(GeoJsonSource(id: id, data: data));
+    }
+  }
+
+  Future<void> _updateLayers(MapOverviewState state) async {
+    await _setOrUpdateLayer(
+      LineLayer(
+        id: _bordersLayerId,
+        sourceId: _allCountriesSourceId,
+        lineColor: Colors.black.withValues(alpha: 0.5).toARGB32(),
+        lineWidth: 0.1,
       ),
     );
-
-    await style.addLayer(
+    await _setOrUpdateLayer(
       FillLayer(
         id: _highlightedLayerId,
         sourceId: _highlightedSourceId,
@@ -106,14 +135,23 @@ class _MapOverviewViewState extends State<MapOverviewView> {
         fillOpacity: 0.8,
       ),
     );
+  }
 
-    await style.addLayer(
-      LineLayer(
-        id: _bordersLayerId,
-        sourceId: _allCountriesSourceId,
-        lineColor: Colors.black.withValues(alpha: 0.5).toARGB32(),
-        lineWidth: 0.1,
-      ),
-    );
+  Future<void> _setOrUpdateLayer(Layer layer) async {
+    final style = _style;
+    if (style == null) return;
+
+    try {
+      final existing = await style.getLayer(layer.id);
+      if (existing != null) {
+        await style.updateLayer(
+          layer,
+        );
+      }
+    } catch (_) {
+      await style.addLayer(
+        layer,
+      );
+    }
   }
 }

@@ -91,6 +91,7 @@ class MapOverviewCubit extends Cubit<MapOverviewState> {
           emit(
             state.copyWith(
               status: () => MapOverviewStatus.success,
+              countriesGeoJson: () => geoJsonString,
               highlightedCountriesGeoJson: () =>
                   highlightedCountriesGeoJsonString,
             ),
