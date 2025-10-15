@@ -11,6 +11,18 @@ PODS:
     - Flutter
   - isar_flutter_libs (1.0.0):
     - Flutter
+  - mapbox_maps_flutter (2.11.0):
+    - Flutter
+    - MapboxMaps (= 11.15.0)
+    - Turf (= 4.0.0)
+  - MapboxCommon (24.15.0):
+    - Turf (= 4.0.0)
+  - MapboxCoreMaps (11.15.0):
+    - MapboxCommon (= 24.15.0)
+  - MapboxMaps (11.15.0):
+    - MapboxCommon (= 24.15.0)
+    - MapboxCoreMaps (= 11.15.0)
+    - Turf (= 4.0.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -21,6 +33,7 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - Turf (4.0.0)
 
 DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
@@ -29,10 +42,18 @@ DEPENDENCIES:
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
+  - mapbox_maps_flutter (from `.symlinks/plugins/mapbox_maps_flutter/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxMaps
+    - Turf
 
 EXTERNAL SOURCES:
   camera_avfoundation:
@@ -47,6 +68,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   isar_flutter_libs:
     :path: ".symlinks/plugins/isar_flutter_libs/ios"
+  mapbox_maps_flutter:
+    :path: ".symlinks/plugins/mapbox_maps_flutter/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -63,11 +86,16 @@ SPEC CHECKSUMS:
   geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   isar_flutter_libs: 9fc2cfb928c539e1b76c481ba5d143d556d94920
+  mapbox_maps_flutter: 6220e913bbf2852055cdd00085a5d183edbaf3af
+  MapboxCommon: ef26c7dbfabd869e6f11d70bf99ea44437afabfe
+  MapboxCoreMaps: 4a3655bedc9a9a920221b3e8ebc34a45fa2d9fd3
+  MapboxMaps: 02180eafd7d246c581fcb52cdf161350a63f5611
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  Turf: c9eb11a65d96af58cac523460fd40fec5061b081
 
-PODFILE CHECKSUM: 0b46d6e8292fc1bcccec0b81ec374d8599f018f7
+PODFILE CHECKSUM: 7d8bde4d1040df5720c8de230c8a6308fdc7e91b
 
 COCOAPODS: 1.16.2
