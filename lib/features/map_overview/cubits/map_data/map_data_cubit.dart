@@ -45,13 +45,11 @@ class MapDataCubit extends Cubit<MapDataState> {
           // Map cuisine to countryName and generate intensity
           final Map<String, double> countryIntensity = {};
           for (final entry in cuisineCounts.entries) {
-            final countryName = cuisineCountryMap[entry.key]?.countryName
-                .toLowerCase();
-            if (countryName != null) {
-              final count = entry.value;
-              final normalized = (count / 20).clamp(0.0, 1.0);
-              countryIntensity[countryName] = normalized;
-            }
+            final countryName = entry.key.countryName.toLowerCase();
+
+            final count = entry.value;
+            final normalized = (count / 20).clamp(0.0, 1.0);
+            countryIntensity[countryName] = normalized;
           }
 
           // create list with hightlighted features

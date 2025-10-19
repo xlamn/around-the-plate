@@ -4,22 +4,24 @@ import 'package:forui/forui.dart';
 
 class MapOverviewCountryDetailsDialog extends StatelessWidget {
   final String country;
+  final String flagEmoji;
   final List<Dish> dishes;
 
   const MapOverviewCountryDetailsDialog({
     super.key,
     required this.country,
+    required this.flagEmoji,
     required this.dishes,
   });
 
   @override
   Widget build(BuildContext context) {
     return FDialog(
-      title: Text(country),
+      title: Text('$country $flagEmoji'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Text(
-          'You have enjoyed ${dishes.length} dishes from $country so far!',
+          'You have enjoyed ${dishes.length} dish(es) from $country so far!',
         ),
       ),
       actions: [

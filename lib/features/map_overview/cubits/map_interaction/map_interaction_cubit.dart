@@ -9,10 +9,6 @@ class MapInteractionCubit extends Cubit<MapInteractionState> {
 
   void onCountrySelected(String country, List<Dish> allDishes) {
     final cuisine = getCuisineFromCountry(country);
-    if (cuisine == null) {
-      emit(state.copyWith(selectedCountry: country, selectedDishes: []));
-      return;
-    }
 
     final filteredDishes = allDishes
         .where((dish) => dish.cuisine == cuisine)
@@ -20,7 +16,7 @@ class MapInteractionCubit extends Cubit<MapInteractionState> {
 
     emit(
       state.copyWith(
-        selectedCountry: country,
+        selectedCuisine: cuisine,
         selectedDishes: filteredDishes,
       ),
     );

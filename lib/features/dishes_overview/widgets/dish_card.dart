@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:dishes_repository/dishes_repository.dart';
+import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
-import '../../dishes_overview/widgets/dish_card_rating.dart';
 import '../../dish_details/view/dish_details_page.dart';
+import '../../dishes_overview/widgets/dish_card_rating.dart';
 
 class DishCard extends StatelessWidget {
   final Dish dish;
@@ -55,7 +55,7 @@ class DishCard extends StatelessWidget {
                   ),
                   if (dish.cuisine != null)
                     Text(
-                      dish.cuisine!.name,
+                      dish.cuisine!.displayName,
                       style:
                           Theme.of(
                             context,

@@ -1,3 +1,4 @@
+import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,14 +53,15 @@ class MapOverviewView extends StatelessWidget {
           ),
           BlocListener<MapInteractionCubit, MapInteractionState>(
             listenWhen: (prev, curr) =>
-                prev.selectedCountry != curr.selectedCountry,
+                prev.selectedCuisine != curr.selectedCuisine,
             listener: (context, state) async {
-              if (state.selectedCountry == null) return;
+              if (state.selectedCuisine == null) return;
               await showFDialog(
                 context: context,
                 builder: (_, style, animation) {
                   return MapOverviewCountryDetailsDialog(
-                    country: state.selectedCountry!,
+                    country: state.selectedCuisine!.countryName,
+                    flagEmoji: state.selectedCuisine!.flagEmoji,
                     dishes: state.selectedDishes,
                   );
                 },
