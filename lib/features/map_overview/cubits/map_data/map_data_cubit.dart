@@ -92,6 +92,7 @@ class MapDataCubit extends Cubit<MapDataState> {
           emit(
             state.copyWith(
               status: () => MapDataStatus.success,
+              dishes: () => dishes,
               countriesGeoJson: () => geoJsonString,
               highlightedCountriesGeoJson: () =>
                   highlightedCountriesGeoJsonString,
