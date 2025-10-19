@@ -27,7 +27,7 @@ enum DishCuisine {
   singaporean("Singapore", "SG"),
 
   // 🇺🇸 Americas
-  american("United States of America", "US"),
+  american("United States", "US"),
   mexican("Mexico", "MX"),
   brazilian("Brazil", "BR"),
   argentinian("Argentina", "AR"),
