@@ -6,6 +6,9 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 import '../cubits/map_controller/map_controller_cubit.dart';
 import '../cubits/map_data/map_data_cubit.dart';
+import '../cubits/map_interaction/map_interaction_cubit.dart';
+import '../helpers/map_overview_controller.dart';
+import '../widgets/map_overview_country_details_dialog.dart';
 
 class MapOverviewPage extends StatelessWidget {
   const MapOverviewPage({super.key});
@@ -22,6 +25,9 @@ class MapOverviewPage extends StatelessWidget {
         BlocProvider(
           create: (_) => MapControllerCubit(),
         ),
+        BlocProvider(
+          create: (_) => MapInteractionCubit(),
+        ),
       ],
       child: const MapOverviewView(),
     );
@@ -34,13 +40,35 @@ class MapOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<MapDataCubit, MapDataState>(
-        listener: (context, state) {
-          context.read<MapControllerCubit>().updateMap(
-            state.countriesGeoJson ?? '',
-            state.highlightedCountriesGeoJson ?? '',
-          );
-        },
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<MapDataCubit, MapDataState>(
+            listener: (context, state) {
+              context.read<MapControllerCubit>().updateMap(
+                state.countriesGeoJson ?? '',
+                state.highlightedCountriesGeoJson ?? '',
+              );
+            },
+          ),
+          BlocListener<MapInteractionCubit, MapInteractionState>(
+            listenWhen: (prev, curr) =>
+                prev.selectedCountry != curr.selectedCountry,
+            listener: (context, state) async {
+              if (state.selectedCountry == null) return;
+              await showFDialog(
+                context: context,
+                builder: (_, style, animation) {
+                  return MapOverviewCountryDetailsDialog(
+                    country: state.selectedCountry!,
+                    dishes: state.selectedDishes,
+                  );
+                },
+              );
+              if (!context.mounted) return;
+              context.read<MapInteractionCubit>().clearSelection();
+            },
+          ),
+        ],
         child: BlocBuilder<MapDataCubit, MapDataState>(
           buildWhen: (prev, curr) => prev.status != curr.status,
           builder: (context, state) {
@@ -61,9 +89,31 @@ class MapOverviewView extends StatelessWidget {
                     ),
                     styleUri: MapboxStyles.LIGHT,
                     textureView: true,
-                    onMapCreated: (controller) => context
-                        .read<MapControllerCubit>()
-                        .initialize(controller),
+                    onMapCreated: (controller) {
+                      final mapController = MapOverviewMapController(
+                        controller,
+                      );
+                      context.read<MapControllerCubit>().initialize(
+                        mapController,
+                      );
+
+                      controller.setOnMapTapListener((listener) async {
+                        final country = await mapController.getCountryAtPoint(
+                          listener.touchPosition,
+                        );
+                        if (country == null || !context.mounted) return;
+
+                        final dishes = context
+                            .read<MapDataCubit>()
+                            .state
+                            .dishes;
+
+                        context.read<MapInteractionCubit>().onCountrySelected(
+                          country,
+                          dishes,
+                        );
+                      });
+                    },
                     onStyleLoadedListener: (data) {
                       context.read<MapControllerCubit>().updateMap(
                         state.countriesGeoJson ?? '',

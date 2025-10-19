@@ -102,3 +102,11 @@ const Map<DishCuisine, CountryMapping> cuisineCountryMap = {
   // 🌏 Oceania
   DishCuisine.australian: CountryMapping("Australia"),
 };
+
+final Map<String, DishCuisine> _countryToCuisineMap = {
+  for (final entry in cuisineCountryMap.entries)
+    entry.value.countryName.toLowerCase(): entry.key,
+};
+
+DishCuisine? getCuisineFromCountry(String countryName) =>
+    _countryToCuisineMap[countryName.toLowerCase()];

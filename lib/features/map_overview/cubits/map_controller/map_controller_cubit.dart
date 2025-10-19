@@ -15,8 +15,8 @@ class MapControllerCubit extends Cubit<MapControllerState> {
   }
 
   /// Call this method first before interacting with the map.
-  void initialize(MapboxMap controller) {
-    _controller = MapOverviewMapController(controller);
+  void initialize(MapOverviewMapController controller) {
+    _controller = controller;
     emit(state.copyWith(isMapLoaded: true));
   }
 

@@ -1,5 +1,7 @@
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
+import 'map_overview_ids.dart';
+
 class MapOverviewMapController {
   final MapboxMap map;
   StyleManager get style => map.style;
@@ -29,6 +31,33 @@ class MapOverviewMapController {
       }
     } catch (_) {
       await style.addLayer(layer);
+    }
+  }
+
+  /// Queries the map at the tapped point and returns the `countryName` property
+  /// from your GeoJSON feature — or `null` if nothing was hit.
+  Future<String?> getCountryAtPoint(ScreenCoordinate tapPoint) async {
+    try {
+      final features = await map.queryRenderedFeatures(
+        RenderedQueryGeometry.fromScreenCoordinate(tapPoint),
+        RenderedQueryOptions(
+          layerIds: [MapOverviewIds.highlightedLayer],
+          filter: null,
+        ),
+      );
+
+      if (features.isEmpty) return null;
+
+      final featureMap = features.first?.queriedFeature.feature;
+      final props = featureMap?['properties'] as Map<dynamic, dynamic>?;
+      if (props == null) return null;
+
+      final name = props['name'];
+      if (name is String) return name;
+
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 }
