@@ -37,7 +37,19 @@ class DishesOverviewView extends StatelessWidget {
             return const Center(child: Text('Failed to load dishes'));
           }
           if (state.dishes.isEmpty) {
-            return const Center(child: Text('No dishes available'));
+            return Column(
+              children: [
+                const FHeader(
+                  title: Text('Home'),
+                  suffixes: [DishesOverviewAddButton()],
+                ),
+                Expanded(
+                  child: const Center(
+                    child: Text('You haven\'t added any dishes yet.'),
+                  ),
+                ),
+              ],
+            );
           }
           return ListView.separated(
             padding: const EdgeInsets.only(bottom: 100),
