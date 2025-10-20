@@ -5,5 +5,5 @@ abstract class ImageStorageApi {
 
   Future<String> saveImage(File sourceFile);
 
-  Future<void> delete(String? imagePath);
+  Future<void> deleteImage(String? imagePath);
 }
