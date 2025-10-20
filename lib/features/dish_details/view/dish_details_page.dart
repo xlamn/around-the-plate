@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_paths.dart';
+
 class DishDetailsPage extends StatelessWidget {
   final Dish dish;
 
@@ -23,7 +25,7 @@ class DishDetailsPage extends StatelessWidget {
                 child: SizedBox(
                   height: 100,
                   width: 100,
-                  child: Image.file(File(dish.imagePath)),
+                  child: Image.file(File(AppPaths.imagePath(dish.imagePath))),
                 ),
               ),
             ],

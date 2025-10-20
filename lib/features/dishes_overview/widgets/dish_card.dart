@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_paths.dart';
 import '../../dish_details/view/dish_details_page.dart';
 import '../../dishes_overview/widgets/dish_card_rating.dart';
 
@@ -38,7 +39,7 @@ class DishCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.file(
-                  File(dish.imagePath),
+                  File(AppPaths.imagePath(dish.imagePath)),
                   fit: BoxFit.cover,
                 ),
               ),

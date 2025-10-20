@@ -281,8 +281,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
-  dishes_api:
+  directory_image_storage_api:
     dependency: "direct main"
+    description:
+      path: "packages/directory_image_storage_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  dishes_api:
+    dependency: transitive
     description:
       path: "packages/dishes_api"
       relative: true
@@ -675,6 +682,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
+  image_storage_api:
+    dependency: transitive
+    description:
+      path: "packages/image_storage_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   intl:
     dependency: transitive
     description:

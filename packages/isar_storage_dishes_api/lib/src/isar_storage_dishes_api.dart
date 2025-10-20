@@ -1,17 +1,23 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dishes_api/dishes_api.dart';
+import 'package:image_storage_api/image_storage_api.dart';
 import 'package:isar/isar.dart';
 import 'package:rxdart/subjects.dart';
 
 class IsarStorageDishesApi extends DishesApi {
   IsarStorageDishesApi({
     required Isar isar,
-  }) : _isar = isar {
+    required ImageStorageApi imageStorageApi,
+  }) : _isar = isar,
+       _imageStorageApi = imageStorageApi {
     _init();
   }
 
   final Isar _isar;
+
+  final ImageStorageApi _imageStorageApi;
 
   late final _dishStreamController = BehaviorSubject<List<Dish>>.seeded([]);
 
@@ -25,9 +31,15 @@ class IsarStorageDishesApi extends DishesApi {
 
   @override
   Future<void> saveDish(Dish dish) async {
+    final savedImagePath = await _imageStorageApi.saveImage(
+      File(dish.imagePath),
+    );
+    final updatedDish = dish.copyWith(imagePath: savedImagePath);
+
     await _isar.writeTxn(() async {
-      await _isar.dishs.put(dish);
+      await _isar.dishs.put(updatedDish);
     });
+
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);
   }
@@ -42,6 +54,8 @@ class IsarStorageDishesApi extends DishesApi {
     await _isar.writeTxn(() async {
       await _isar.dishs.delete(dish!.id);
     });
+
+    await _imageStorageApi.deleteImage(dish?.imagePath);
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);
