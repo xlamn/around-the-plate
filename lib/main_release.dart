@@ -1,4 +1,3 @@
-import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
@@ -16,13 +15,8 @@ Future<void> main() async {
     directory: AppPaths.documentsDir,
   );
 
-  final imageStorageApi = DirectoryImageStorageApi(
-    directory: AppPaths.documentsDir,
-  );
-
   final dishesApi = IsarStorageDishesApi(
     isar: isar,
-    imageStorageApi: imageStorageApi,
   );
 
   bootstrap(dishesApi: dishesApi);

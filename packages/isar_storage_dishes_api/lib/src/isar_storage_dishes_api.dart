@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:image_storage_api/image_storage_api.dart';
 import 'package:isar/isar.dart';
@@ -9,9 +10,11 @@ import 'package:rxdart/subjects.dart';
 class IsarStorageDishesApi extends DishesApi {
   IsarStorageDishesApi({
     required Isar isar,
-    required ImageStorageApi imageStorageApi,
+    ImageStorageApi? imageStorageApi,
   }) : _isar = isar,
-       _imageStorageApi = imageStorageApi {
+       _imageStorageApi =
+           imageStorageApi ??
+           DirectoryImageStorageApi(directory: isar.directory) {
     _init();
   }
 

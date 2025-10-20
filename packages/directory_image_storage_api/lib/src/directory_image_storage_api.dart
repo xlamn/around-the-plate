@@ -4,7 +4,7 @@ import 'package:image_storage_api/image_storage_api.dart';
 import 'package:path/path.dart' as path;
 
 class DirectoryImageStorageApi extends ImageStorageApi {
-  final String directory;
+  final String? directory;
 
   DirectoryImageStorageApi({required this.directory});
 

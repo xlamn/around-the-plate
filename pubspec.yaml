@@ -52,8 +52,6 @@ dependencies:
     path: packages/dishes_api
   dishes_repository:
     path: packages/dishes_repository
-  directory_image_storage_api:
-    path: packages/directory_image_storage_api
 
 
 dev_dependencies:
