@@ -282,14 +282,14 @@ packages:
     source: hosted
     version: "0.4.1"
   directory_image_storage_api:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/directory_image_storage_api"
       relative: true
     source: path
     version: "1.0.0+1"
   dishes_api:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/dishes_api"
       relative: true
