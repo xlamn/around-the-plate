@@ -30,21 +30,19 @@ class DirectoryImageStorageApi extends ImageStorageApi {
   }
 
   @override
-  Future<void> deleteImage(String? imagePath) async {
-    if (imagePath == null) return;
+  Future<void> deleteImage(String imagePath) async {
     final file = File('$directory/$imagePath');
     if (await file.exists()) await file.delete();
   }
 
   @override
-  File? getImageFile(String? imagePath) {
-    if (imagePath == null) return null;
+  File? getImageFile(String imagePath) {
     final file = File('$directory/$imagePath');
     return file.existsSync() ? file : null;
   }
 
   @override
-  Future<List<int>?> readImageBytes(String? imagePath) async {
+  Future<List<int>?> readImageBytes(String imagePath) async {
     final file = getImageFile(imagePath);
     if (file == null) return null;
     return await file.readAsBytes();

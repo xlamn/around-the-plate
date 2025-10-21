@@ -7,11 +7,11 @@ abstract class ImageStorageApi {
   Future<String> saveImage(File sourceFile);
 
   /// Deletes File for the given stored image path.
-  Future<void> deleteImage(String? imagePath);
+  Future<void> deleteImage(String imagePath);
 
   /// Returns a File for the given stored image path, or null if it doesn't exist.
-  File? getImageFile(String? imagePath);
+  File? getImageFile(String imagePath);
 
   /// Reads and returns the raw bytes for the stored image, or null if not found.
-  Future<List<int>?> readImageBytes(String? imagePath);
+  Future<List<int>?> readImageBytes(String imagePath);
 }
