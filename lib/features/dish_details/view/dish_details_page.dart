@@ -1,11 +1,10 @@
-import 'dart:io';
-
+import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_paths.dart';
-
 class DishDetailsPage extends StatelessWidget {
+  final imageStorage = DirectoryImageStorageApi.instance;
+
   final Dish dish;
 
   const DishDetailsPage({super.key, required this.dish});
@@ -25,7 +24,7 @@ class DishDetailsPage extends StatelessWidget {
                 child: SizedBox(
                   height: 100,
                   width: 100,
-                  child: Image.file(File(AppPaths.imagePath(dish.imagePath))),
+                  child: Image.file(imageStorage.getImageFile(dish.imagePath)!),
                 ),
               ),
             ],

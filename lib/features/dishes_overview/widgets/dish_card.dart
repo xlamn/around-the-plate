@@ -1,13 +1,15 @@
 import 'dart:io';
 
+import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_paths.dart';
 import '../../dish_details/view/dish_details_page.dart';
 import '../../dishes_overview/widgets/dish_card_rating.dart';
 
 class DishCard extends StatelessWidget {
+  final imageStorage = DirectoryImageStorageApi.instance;
+
   final Dish dish;
 
   const DishCard({super.key, required this.dish});
@@ -39,7 +41,9 @@ class DishCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.file(
-                  File(AppPaths.imagePath(dish.imagePath)),
+                  File(
+                    imageStorage.getImageFile(dish.imagePath)!.path,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

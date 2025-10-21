@@ -15,8 +15,6 @@ dependencies:
   rxdart: ^0.28.0
   dishes_api:
     path: ../dishes_api
-  directory_image_storage_api:
-    path: ../directory_image_storage_api
   image_storage_api:
     path: ../image_storage_api
 

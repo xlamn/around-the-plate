@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:image_storage_api/image_storage_api.dart';
 import 'package:isar/isar.dart';
@@ -10,11 +9,9 @@ import 'package:rxdart/subjects.dart';
 class IsarStorageDishesApi extends DishesApi {
   IsarStorageDishesApi({
     required Isar isar,
-    ImageStorageApi? imageStorageApi,
+    required ImageStorageApi imageStorageApi,
   }) : _isar = isar,
-       _imageStorageApi =
-           imageStorageApi ??
-           DirectoryImageStorageApi(directory: isar.directory) {
+       _imageStorageApi = imageStorageApi {
     _init();
   }
 
@@ -52,13 +49,14 @@ class IsarStorageDishesApi extends DishesApi {
     final dish = await _isar.dishs.filter().idEqualTo(id).findFirst();
     if (dish == null) {
       print('Dish with id $id not found');
+      return;
     }
 
     await _isar.writeTxn(() async {
-      await _isar.dishs.delete(dish!.id);
+      await _isar.dishs.delete(dish.id);
     });
 
-    await _imageStorageApi.deleteImage(dish?.imagePath);
+    await _imageStorageApi.deleteImage(dish.imagePath);
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);
