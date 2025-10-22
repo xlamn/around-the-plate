@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-import 'add_dish_save_button.dart';
+import 'dish_form_save_button.dart';
 
-class AddDishAppBar extends StatelessWidget {
+class DishFormAppBar extends StatelessWidget {
+  final bool isEditing;
   final Future<void> Function() onPressed;
 
-  const AddDishAppBar({super.key, required this.onPressed});
+  const DishFormAppBar({
+    super.key,
+    required this.isEditing,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,10 @@ class AddDishAppBar extends StatelessWidget {
           icon: const Icon(FIcons.x),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        AddDishSaveButton(onPressed: onPressed),
+        DishFormSaveButton(
+          isEditing: isEditing,
+          onPressed: onPressed,
+        ),
       ],
     );
   }

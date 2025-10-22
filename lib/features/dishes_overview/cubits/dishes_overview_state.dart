@@ -23,5 +23,5 @@ class DishesOverviewState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, dishes.length];
+  List<Object> get props => [status, dishes];
 }

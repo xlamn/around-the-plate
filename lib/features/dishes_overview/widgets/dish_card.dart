@@ -89,7 +89,7 @@ class DishCard extends StatelessWidget {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => DishDetailsPage(
-          dish: dish,
+          dishId: dish.id,
         ),
       ),
     );

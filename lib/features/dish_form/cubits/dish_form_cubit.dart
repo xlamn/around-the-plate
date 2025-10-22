@@ -1,27 +1,27 @@
 import 'package:dishes_repository/dishes_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'add_dish_state.dart';
+part 'dish_form_state.dart';
 
-class AddDishCubit extends Cubit<AddDishState> {
+class DishFormCubit extends Cubit<DishFormState> {
   final DishesRepository _dishesRepository;
 
-  AddDishCubit({
+  DishFormCubit({
     required DishesRepository dishesRepository,
   }) : _dishesRepository = dishesRepository,
-       super(AddDishState());
+       super(DishFormState());
 
   Future<void> addDish(Dish dish) async {
     try {
-      emit(state.copyWith(status: AddDishStatus.loading));
+      emit(state.copyWith(status: DishFormStatus.loading));
       await _dishesRepository.saveDish(dish);
       emit(
-        state.copyWith(status: AddDishStatus.success, dish: dish),
+        state.copyWith(status: DishFormStatus.success, dish: dish),
       );
     } catch (e) {
       emit(
-        state.copyWith(status: AddDishStatus.failure),
+        state.copyWith(status: DishFormStatus.failure),
       );
     }
   }
