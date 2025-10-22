@@ -11,6 +11,8 @@ class DishesRepository {
 
   Future<void> saveDish(Dish dish) => _dishesApi.saveDish(dish);
 
+  Future<Dish?> getDish(int id) => _dishesApi.getDish(id);
+
   Future<void> deleteDish(int id) => _dishesApi.deleteDish(id);
 
   void dispose() => _dishesApi.close();

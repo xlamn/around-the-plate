@@ -31,10 +31,14 @@ class IsarStorageDishesApi extends DishesApi {
 
   @override
   Future<void> saveDish(Dish dish) async {
-    final savedImagePath = await _imageStorageApi.saveImage(
-      File(dish.imagePath),
-    );
-    final updatedDish = dish.copyWith(imagePath: savedImagePath);
+    String imagePath = dish.imagePath;
+    if (!await File(imagePath).exists()) {
+      imagePath = dish.imagePath;
+    } else {
+      imagePath = await _imageStorageApi.saveImage(File(dish.imagePath));
+    }
+
+    final updatedDish = dish.copyWith(imagePath: imagePath);
 
     await _isar.writeTxn(() async {
       await _isar.dishs.put(updatedDish);
@@ -42,6 +46,11 @@ class IsarStorageDishesApi extends DishesApi {
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);
+  }
+
+  @override
+  Future<Dish?> getDish(int id) async {
+    return await _isar.dishs.get(id);
   }
 
   @override

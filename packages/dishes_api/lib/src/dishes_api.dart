@@ -7,6 +7,8 @@ abstract class DishesApi {
 
   Future<void> saveDish(Dish dish);
 
+  Future<Dish?> getDish(int id);
+
   Future<void> deleteDish(int id);
 
   Future<void> close();

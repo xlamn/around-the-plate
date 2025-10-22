@@ -9,7 +9,7 @@ part 'dish.g.dart';
 
 @Collection(inheritance: false)
 class Dish extends Equatable {
-  final Id id = Isar.autoIncrement;
+  final Id id;
 
   final String name;
 
@@ -36,6 +36,7 @@ class Dish extends Equatable {
   final DateTime lastModifiedDate;
 
   Dish({
+    this.id = Isar.autoIncrement,
     required this.name,
     required this.imagePath,
     required this.rating,
@@ -46,6 +47,7 @@ class Dish extends Equatable {
   }) : lastModifiedDate = DateTime.now();
 
   Dish copyWith({
+    Id? id,
     String? name,
     String? imagePath,
     DishCategory? category,
@@ -55,6 +57,7 @@ class Dish extends Equatable {
     DishLocation? location,
   }) {
     return Dish(
+      id: id ?? this.id,
       name: name ?? this.name,
       imagePath: imagePath ?? this.imagePath,
       categoryValue: category?.index ?? categoryValue,
@@ -68,6 +71,7 @@ class Dish extends Equatable {
   @ignore
   @override
   List<Object?> get props => [
+    id,
     name,
     lastModifiedDate,
   ];

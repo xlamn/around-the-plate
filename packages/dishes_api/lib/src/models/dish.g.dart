@@ -123,6 +123,7 @@ Dish _dishDeserialize(
     categoryValue: reader.readLongOrNull(offsets[0]),
     cuisineValue: reader.readLongOrNull(offsets[1]),
     date: reader.readDateTimeOrNull(offsets[2]),
+    id: id,
     imagePath: reader.readString(offsets[3]),
     location: reader.readObjectOrNull<DishLocation>(
       offsets[5],
