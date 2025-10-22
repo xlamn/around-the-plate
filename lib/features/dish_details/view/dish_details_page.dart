@@ -80,7 +80,7 @@ class DishDetailsView extends StatelessWidget {
                           enableDrag: false,
                           isScrollControlled: true,
                           builder: (_) => DishFormBottomSheet(
-                            initialDish: dish,
+                            dish: dish,
                           ),
                         );
 

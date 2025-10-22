@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../add_dish/view/add_dish_bottom_sheet.dart';
+import '../../dish_form/view/dish_form_bottom_sheet.dart';
 import '../../take_picture/view/take_picture_screen.dart';
 
 class DishesOverviewAddButton extends StatelessWidget {
@@ -22,7 +22,7 @@ class DishesOverviewAddButton extends StatelessWidget {
           isDismissible: false,
           enableDrag: false,
           isScrollControlled: true,
-          builder: (_) => AddDishBottomSheet(imagePath: imagePath),
+          builder: (_) => DishFormBottomSheet(imagePath: imagePath),
         );
       },
       child: const Icon(FIcons.plus),
