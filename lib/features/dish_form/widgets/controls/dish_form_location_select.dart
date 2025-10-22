@@ -2,20 +2,20 @@ import 'package:around_the_plate/extensions/extensions.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AddDishLocationSelect extends StatefulWidget {
+class DishFormLocationSelect extends StatefulWidget {
   final FSelectController<DishLocation> controller;
 
-  const AddDishLocationSelect({super.key, required this.controller});
+  const DishFormLocationSelect({super.key, required this.controller});
 
   @override
-  State<AddDishLocationSelect> createState() => _AddDishLocationSelectState();
+  State<DishFormLocationSelect> createState() => _DishFormLocationSelectState();
 }
 
-class _AddDishLocationSelectState extends State<AddDishLocationSelect> {
+class _DishFormLocationSelectState extends State<DishFormLocationSelect> {
   final List<DishLocation> _locations = [];
   bool _isLoading = true;
   bool _permissionGranted = false;

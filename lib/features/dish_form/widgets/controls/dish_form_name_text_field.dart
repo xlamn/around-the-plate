@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-class AddDishNameTextField extends StatelessWidget {
+class DishFormNameTextField extends StatelessWidget {
   final TextEditingController controller;
 
-  const AddDishNameTextField({super.key, required this.controller});
+  const DishFormNameTextField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-class AddDishRatingSlider extends StatelessWidget {
+class DishFormRatingSlider extends StatelessWidget {
   final FSliderController controller;
 
-  const AddDishRatingSlider({super.key, required this.controller});
+  const DishFormRatingSlider({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

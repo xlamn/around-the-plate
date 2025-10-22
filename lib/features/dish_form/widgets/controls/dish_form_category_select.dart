@@ -3,10 +3,10 @@ import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 
-class AddDishCategorySelect extends StatelessWidget {
+class DishFormCategorySelect extends StatelessWidget {
   final FSelectController<DishCategory> controller;
 
-  const AddDishCategorySelect({super.key, required this.controller});
+  const DishFormCategorySelect({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

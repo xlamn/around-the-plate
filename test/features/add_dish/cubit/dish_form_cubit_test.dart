@@ -1,4 +1,4 @@
-import 'package:around_the_plate/features/add_dish/cubits/add_dish/add_dish_cubit.dart';
+import 'package:around_the_plate/features/dish_form/cubits/dish_form_cubit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,16 +26,16 @@ void main() {
     registerFallbackValue(FakeDish());
   });
 
-  AddDishCubit buildCubit() {
-    return AddDishCubit(dishesRepository: dishesRepository);
+  DishFormCubit buildCubit() {
+    return DishFormCubit(dishesRepository: dishesRepository);
   }
 
-  group('`$AddDishCubit`', () {
+  group('`$DishFormCubit`', () {
     test('initial state is AddDishState', () {
-      expect(buildCubit().state, equals(AddDishState()));
+      expect(buildCubit().state, equals(DishFormState()));
     });
 
-    blocTest<AddDishCubit, AddDishState>(
+    blocTest<DishFormCubit, DishFormState>(
       'emits [loading, success] when addDish succeeds',
       setUp: () {
         when(
@@ -45,15 +45,15 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.addDish(dish),
       expect: () => [
-        AddDishState(status: AddDishStatus.loading),
-        AddDishState(status: AddDishStatus.success, dish: dish),
+        DishFormState(status: DishFormStatus.loading),
+        DishFormState(status: DishFormStatus.success, dish: dish),
       ],
       verify: (_) {
         verify(() => dishesRepository.saveDish(dish)).called(1);
       },
     );
 
-    blocTest<AddDishCubit, AddDishState>(
+    blocTest<DishFormCubit, DishFormState>(
       'emits [loading, failure] when addDish throws an exception',
       setUp: () {
         when(
@@ -63,8 +63,8 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.addDish(dish),
       expect: () => [
-        AddDishState(status: AddDishStatus.loading),
-        AddDishState(status: AddDishStatus.failure),
+        DishFormState(status: DishFormStatus.loading),
+        DishFormState(status: DishFormStatus.failure),
       ],
     );
   });

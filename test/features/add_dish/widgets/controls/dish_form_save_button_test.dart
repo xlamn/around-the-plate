@@ -1,4 +1,4 @@
-import 'package:around_the_plate/features/add_dish/widgets/add_dish_save_button.dart';
+import 'package:around_the_plate/features/dish_form/widgets/dish_form_save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:forui/forui.dart';
@@ -19,12 +19,12 @@ void main() {
   });
 
   Widget buildSubject() {
-    return AddDishSaveButton(
+    return DishFormSaveButton(
       onPressed: functions.onPressed,
     );
   }
 
-  group('`$AddDishSaveButton`', () {
+  group('`$DishFormSaveButton`', () {
     testWidgets('renders correctly', (tester) async {
       await tester.pumpApp(buildSubject());
 
@@ -37,7 +37,7 @@ void main() {
     ) async {
       await tester.pumpApp(buildSubject());
 
-      await tester.tap(find.byType(AddDishSaveButton));
+      await tester.tap(find.byType(DishFormSaveButton));
       await tester.pump(Duration(seconds: 1));
 
       verify(() => functions.onPressed()).called(1);
