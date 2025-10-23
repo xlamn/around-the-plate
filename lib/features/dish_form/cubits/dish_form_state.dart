@@ -1,6 +1,6 @@
 part of 'dish_form_cubit.dart';
 
-enum DishFormStatus { initial, loading, success, failure }
+enum DishFormStatus { initial, loading, success, deleted, failure }
 
 final class DishFormState extends Equatable {
   const DishFormState({this.status = DishFormStatus.initial, this.dish});

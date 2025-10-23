@@ -17,12 +17,25 @@ class DishFormCubit extends Cubit<DishFormState> {
       emit(state.copyWith(status: DishFormStatus.loading));
       await _dishesRepository.saveDish(dish);
       emit(
-        state.copyWith(status: DishFormStatus.success, dish: dish),
+        state.copyWith(
+          status: DishFormStatus.success,
+          dish: dish,
+        ),
       );
     } catch (e) {
       emit(
         state.copyWith(status: DishFormStatus.failure),
       );
+    }
+  }
+
+  Future<void> deleteDish(Dish dish) async {
+    emit(state.copyWith(status: DishFormStatus.loading));
+    try {
+      await _dishesRepository.deleteDish(dish.id);
+      emit(state.copyWith(status: DishFormStatus.deleted));
+    } catch (_) {
+      emit(state.copyWith(status: DishFormStatus.failure));
     }
   }
 }

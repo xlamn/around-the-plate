@@ -11,6 +11,12 @@ import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
 import '../cubits/dish_form_cubit.dart';
 import '../widgets/controls/controls.dart';
 import '../widgets/dish_form_app_bar.dart';
+import '../widgets/dish_form_delete_button.dart';
+
+enum DishFormResult {
+  updated,
+  deleted,
+}
 
 class DishFormBottomSheet extends StatelessWidget {
   final String? imagePath;
@@ -89,10 +95,13 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = widget.dish != null;
     return BlocListener<DishFormCubit, DishFormState>(
       listener: (context, state) {
         if (state.status == DishFormStatus.success) {
-          Navigator.pop(context);
+          Navigator.pop(context, DishFormResult.updated);
+        } else if (state.status == DishFormStatus.deleted) {
+          Navigator.pop(context, DishFormResult.deleted);
         }
       },
       child: SafeArea(
@@ -105,7 +114,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
               spacing: 16,
               children: [
                 DishFormAppBar(
-                  isEditing: widget.dish != null,
+                  isEditing: isEditing,
                   onPressed: () async {
                     if (!_formKey.currentState!.validate()) return;
                     final dish = Dish(
@@ -133,6 +142,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                           : DirectoryImageStorageApi.instance.getImageFile(
                               widget.dish?.imagePath ?? '',
                             )!,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -142,6 +152,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                 DishFormDateField(controller: _dateFieldController),
                 DishFormLocationSelect(controller: _locationSelectController),
                 DishFormRatingSlider(controller: _ratingSliderController),
+                if (isEditing) DishFormDeleteButton(dish: widget.dish!),
               ],
             ),
           ),

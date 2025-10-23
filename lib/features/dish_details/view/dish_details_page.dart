@@ -74,7 +74,7 @@ class DishDetailsView extends StatelessWidget {
                     const SizedBox(height: 32),
                     TextButton(
                       onPressed: () async {
-                        await showModalBottomSheet(
+                        final result = await showModalBottomSheet(
                           context: context,
                           isDismissible: false,
                           enableDrag: false,
@@ -85,7 +85,12 @@ class DishDetailsView extends StatelessWidget {
                         );
 
                         if (!context.mounted) return;
-                        await context.read<DishDetailsCubit>().refreshDish();
+                        if (result == DishFormResult.deleted) {
+                          Navigator.pop(context);
+                        }
+                        if (result == DishFormResult.updated) {
+                          await context.read<DishDetailsCubit>().refreshDish();
+                        }
                       },
                       child: const Text('Edit Dish'),
                     ),
