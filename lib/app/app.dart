@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
-import '../features/onboarding/views/onboarding_flow.dart';
+import '../../extensions/extensions.dart';
 import '../features/home/view/home.dart';
+import '../features/onboarding/views/onboarding_flow.dart';
 import 'cubits/app_startup_cubit.dart';
 
 class App extends StatelessWidget {
@@ -30,14 +31,14 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = FThemes.slate.light;
+    final theme = context.isDarkMode ? FThemes.slate.dark : FThemes.slate.light;
 
     return MaterialApp(
       // TODO: replace with your application's supported locales.
       supportedLocales: FLocalizations.supportedLocales,
       // TODO: add your application's localizations delegates.
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
-      builder: (_, child) => FTheme(data: theme, child: child!),
+      builder: (_, child) => FAnimatedTheme(data: theme, child: child!),
       theme: theme.toApproximateMaterialTheme(),
       home: BlocBuilder<AppStartupCubit, AppStartupState>(
         builder: (context, state) {

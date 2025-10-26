@@ -1,3 +1,4 @@
+import 'package:around_the_plate/extensions/theme_extension.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,10 @@ class MapOverviewView extends StatelessWidget {
                       center: Point(coordinates: Position(12.12247, 47.85637)),
                       zoom: 2.2,
                     ),
-                    styleUri: MapboxStyles.LIGHT,
+                    styleUri: context.isDarkMode
+                        ? MapboxStyles.DARK
+                        : MapboxStyles.LIGHT,
+                    key: ValueKey(context.isDarkMode),
                     textureView: true,
                     onMapCreated: (controller) {
                       final mapController = MapOverviewMapController(

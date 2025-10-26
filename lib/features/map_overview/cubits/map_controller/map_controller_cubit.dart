@@ -8,7 +8,7 @@ import '../../helpers/map_overview_ids.dart';
 import 'map_controller_state.dart';
 
 class MapControllerCubit extends Cubit<MapControllerState> {
-  late final MapOverviewMapController _controller;
+  late MapOverviewMapController _controller;
 
   MapControllerCubit() : super(const MapControllerState()) {
     MapboxOptions.setAccessToken(Env.mapboxApiKey);

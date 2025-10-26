@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 
-import '../../../extensions/strings_extension.dart';
+import '../../../extensions/extensions.dart';
 import '../cubit/dish_details_cubit.dart';
 import '../widgets/dish_details_edit_button.dart';
 import '../widgets/dish_details_rating.dart';
@@ -113,11 +113,13 @@ class _DishDetailsContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardStyle.decoration.color,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
+                    color: context.isDarkMode
+                        ? Colors.white.withValues(alpha: 0.2)
+                        : Colors.black.withValues(alpha: 0.2),
                     blurRadius: 10,
                     offset: const Offset(8, 8),
                   ),

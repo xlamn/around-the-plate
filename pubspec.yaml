@@ -36,8 +36,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
-  forui: ^0.15.1
-  forui_assets: ^0.15.0
+  forui: ^0.16.0
+  forui_assets: ^0.16.0
   geocoding: ^4.0.0
   geolocator: ^14.0.2
   mapbox_maps_flutter: ^2.11.0
