@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => ThemeModeCubit(),
+            create: (_) => ThemeModeCubit(),
           ),
           BlocProvider(
             create: (_) => AppStartupCubit(),

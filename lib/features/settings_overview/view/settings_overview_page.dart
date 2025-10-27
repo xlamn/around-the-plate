@@ -1,5 +1,7 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
+
+import '../../theme_selection/theme_selection.dart';
 
 class SettingsOverviewPage extends StatelessWidget {
   const SettingsOverviewPage({super.key});
@@ -20,7 +22,13 @@ class SettingsOverviewPage extends StatelessWidget {
                 prefix: Icon(FIcons.palette),
                 title: const Text('Theme'),
                 suffix: Icon(FIcons.chevronRight),
-                onPress: () {},
+                onPress: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ThemeSelectionPage(),
+                    ),
+                  );
+                },
               ),
               FTile(
                 prefix: Icon(FIcons.refreshCcwDot),
