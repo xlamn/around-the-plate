@@ -1,0 +1,21 @@
+name: app_theme
+description: A package for the theme of the main app.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter_bloc: ^9.1.1
+  flutter:
+    sdk: flutter
+  forui: ^0.16.0
+  forui_assets: ^0.16.0
+  hydrated_bloc: ^10.1.1
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0

@@ -1,9 +1,8 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:forui/forui.dart';
 
-import '../../extensions/extensions.dart';
 import '../features/home/view/home.dart';
 import '../features/onboarding/views/onboarding_flow.dart';
 import 'cubits/app_startup_cubit.dart';
@@ -18,8 +17,15 @@ class App extends StatelessWidget {
     return RepositoryProvider<DishesRepository>(
       create: (_) => createDishesRepository(),
       dispose: (repository) => repository.dispose(),
-      child: BlocProvider(
-        create: (_) => AppStartupCubit(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ThemeModeCubit(),
+          ),
+          BlocProvider(
+            create: (_) => AppStartupCubit(),
+          ),
+        ],
         child: const AppView(),
       ),
     );
@@ -31,8 +37,9 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.isDarkMode ? FThemes.slate.dark : FThemes.slate.light;
-
+    final theme = context.isDarkTheme
+        ? FThemes.slate.dark
+        : FThemes.slate.light;
     return MaterialApp(
       // TODO: replace with your application's supported locales.
       supportedLocales: FLocalizations.supportedLocales,

@@ -17,6 +17,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.7.1"
+  app_theme:
+    dependency: "direct main"
+    description:
+      path: "packages/app_theme"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   args:
     dependency: transitive
     description:
@@ -435,7 +442,7 @@ packages:
     source: sdk
     version: "0.0.0"
   forui:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: forui
       sha256: "6cc43d4a07fefc8a6ff875483546babf614ec68ab091016399ab5526ac8124b9"
@@ -443,7 +450,7 @@ packages:
     source: hosted
     version: "0.16.0"
   forui_assets:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: forui_assets
       sha256: "0f74f49250bca9076b5ee9ffb9c7f0476c436f9a8299aa68aa7f1cb3f1b429f4"
@@ -594,6 +601,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.8"
+  hive_ce:
+    dependency: transitive
+    description:
+      name: hive_ce
+      sha256: "81d39a03c4c0ba5938260a8c3547d2e71af59defecea21793d57fc3551f0d230"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.15.1"
   http:
     dependency: transitive
     description:
@@ -618,6 +633,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  hydrated_bloc:
+    dependency: "direct main"
+    description:
+      name: hydrated_bloc
+      sha256: f359a1135cc2eaddb53eeb21c8f915a149b9bdb80d01fda27c6f4e333db0cf2f
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.1"
   image_picker:
     dependency: "direct main"
     description:
@@ -728,6 +751,14 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  isolate_channel:
+    dependency: transitive
+    description:
+      name: isolate_channel
+      sha256: f3d36f783b301e6b312c3450eeb2656b0e7d1db81331af2a151d9083a3f6b18d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2+1"
   js:
     dependency: transitive
     description:
@@ -1245,6 +1276,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      sha256: c254ade258ec8282947a0acbbc90b9575b4f19673533ee46f2f6e9b3aeefd7c0
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.0"
   term_glyph:
     dependency: transitive
     description:
