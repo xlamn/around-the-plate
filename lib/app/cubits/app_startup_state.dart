@@ -1,12 +1,19 @@
 part of 'app_startup_cubit.dart';
 
+enum AppStartupStatus { loading, loaded }
+
 class AppStartupState {
-  final bool isOnboardingCompleted;
+  final AppStartupStatus status;
+  final bool completed;
 
-  const AppStartupState._(this.isOnboardingCompleted);
+  const AppStartupState({
+    required this.status,
+    required this.completed,
+  });
 
-  factory AppStartupState.loading() => const AppStartupState._(false);
+  factory AppStartupState.loading() =>
+      const AppStartupState(status: AppStartupStatus.loading, completed: false);
 
   factory AppStartupState.loaded(bool completed) =>
-      AppStartupState._(completed);
+      AppStartupState(status: AppStartupStatus.loaded, completed: completed);
 }

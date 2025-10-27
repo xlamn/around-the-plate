@@ -1,22 +1,28 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'app_startup_state.dart';
 
-class AppStartupCubit extends Cubit<AppStartupState> {
-  AppStartupCubit() : super(AppStartupState.loading()) {
-    _loadOnboardingStatus();
-  }
+class AppStartupCubit extends HydratedCubit<AppStartupState> {
+  AppStartupCubit() : super(AppStartupState.loading());
 
-  Future<void> _loadOnboardingStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final completed = prefs.getBool('onboardingCompleted') ?? false;
-    emit(AppStartupState.loaded(completed));
-  }
+  static const _onboardingCompletedKey = 'onboardingCompleted';
 
-  Future<void> completeOnboarding() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('onboardingCompleted', true);
+  void completeOnboarding() {
     emit(AppStartupState.loaded(true));
+  }
+
+  @override
+  AppStartupState? fromJson(Map<String, dynamic> json) {
+    try {
+      final completed = json[_onboardingCompletedKey] as bool? ?? false;
+      return AppStartupState.loaded(completed);
+    } catch (_) {
+      return AppStartupState.loading();
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(AppStartupState state) {
+    return {_onboardingCompletedKey: state.completed};
   }
 }

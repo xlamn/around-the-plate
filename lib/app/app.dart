@@ -40,6 +40,7 @@ class AppView extends StatelessWidget {
     final theme = context.isDarkTheme
         ? FThemes.slate.dark
         : FThemes.slate.light;
+
     return MaterialApp(
       // TODO: replace with your application's supported locales.
       supportedLocales: FLocalizations.supportedLocales,
@@ -49,7 +50,7 @@ class AppView extends StatelessWidget {
       theme: theme.toApproximateMaterialTheme(),
       home: BlocBuilder<AppStartupCubit, AppStartupState>(
         builder: (context, state) {
-          return !state.isOnboardingCompleted
+          return !state.completed
               ? OnboardingFlow(
                   onFinished: context
                       .read<AppStartupCubit>()
