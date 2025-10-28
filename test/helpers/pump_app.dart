@@ -16,13 +16,16 @@ extension PumpApp on WidgetTester {
     return pumpWidget(
       RepositoryProvider.value(
         value: dishesRepository ?? MockDishesRepository(),
-        child: MaterialApp(
-          localizationsDelegates: const [
-            ...FLocalizations.localizationsDelegates,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: FLocalizations.supportedLocales,
-          home: Scaffold(body: widget),
+        child: BlocProvider(
+          create: (_) => ThemeModeCubit(),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              ...FLocalizations.localizationsDelegates,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: FLocalizations.supportedLocales,
+            home: Scaffold(body: widget),
+          ),
         ),
       ),
     );
