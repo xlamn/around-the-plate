@@ -1,7 +1,7 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:forui/forui.dart';
 
 import '../../dish_form/view/dish_form_bottom_sheet.dart';
 import '../cubit/dish_details_cubit.dart';

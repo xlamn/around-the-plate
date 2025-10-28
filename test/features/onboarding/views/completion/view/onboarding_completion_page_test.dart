@@ -1,7 +1,7 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/features/onboarding/views/completion/view/onboarding_completion_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:forui/forui.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../../helpers/helpers.dart';

@@ -1,7 +1,7 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/extensions/extensions.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
 
 class DishFormCuisineSelect extends StatelessWidget {
   final FSelectController<DishCuisine> controller;

@@ -1,6 +1,6 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
 import 'package:image_picker/image_picker.dart';
 
 class TakePictureScreen extends StatefulWidget {

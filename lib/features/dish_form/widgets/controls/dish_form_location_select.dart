@@ -1,7 +1,7 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/extensions/extensions.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';

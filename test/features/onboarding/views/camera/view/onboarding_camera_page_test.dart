@@ -1,3 +1,4 @@
+import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/features/onboarding/cubit/onboarding_cubit.dart';
 import 'package:around_the_plate/features/onboarding/views/camera/cubit/onboarding_camera_cubit.dart';
 import 'package:around_the_plate/features/onboarding/views/camera/view/onboarding_camera_page.dart';
@@ -5,7 +6,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:forui/forui.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../../helpers/helpers.dart';
