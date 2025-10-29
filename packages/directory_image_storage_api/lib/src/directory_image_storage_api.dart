@@ -37,7 +37,9 @@ class DirectoryImageStorageApi extends ImageStorageApi {
 
   @override
   File? getImageFile(String imagePath) {
-    final file = File('$directory/$imagePath');
+    final file = imagePath.startsWith('/')
+        ? File(imagePath)
+        : File('$directory/$imagePath');
     return file.existsSync() ? file : null;
   }
 

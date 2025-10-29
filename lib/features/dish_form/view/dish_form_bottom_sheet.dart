@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:app_theme/app_theme.dart';
-import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +57,8 @@ class DishFormBottomSheetView extends StatefulWidget {
 class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
     with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late final ImagePathController<String> _imagePathController =
+      ImagePathController<String>();
   late final TextEditingController _nameTextFieldController =
       TextEditingController();
   late final FSelectController<DishCategory> _categorySelectController =
@@ -82,6 +81,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
 
     final dish = widget.dish;
     if (dish != null) {
+      _imagePathController.path = dish.imagePath;
       _nameTextFieldController.text = dish.name;
       _dateFieldController.value = dish.date;
       _ratingSliderController.selection = FSliderSelection(
@@ -90,6 +90,8 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
       _categorySelectController.value = dish.category;
       _cuisineSelectController.value = dish.cuisine;
       _locationSelectController.value = dish.location;
+    } else {
+      _imagePathController.path = widget.imagePath;
     }
   }
 
@@ -119,11 +121,10 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                     if (!_formKey.currentState!.validate()) return;
                     final dish = Dish(
                       id: widget.dish?.id ?? Isar.autoIncrement,
+                      imagePath: _imagePathController.path ?? '',
                       name: _nameTextFieldController.text,
                       date: _dateFieldController.value,
                       categoryValue: _categorySelectController.value?.index,
-                      imagePath:
-                          widget.imagePath ?? widget.dish?.imagePath ?? '',
                       cuisineValue: _cuisineSelectController.value?.index,
                       location: _locationSelectController.value,
                       rating: _ratingSliderController.selection.offset.max,
@@ -131,21 +132,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                     context.read<DishFormCubit>().addDish(dish);
                   },
                 ),
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.file(
-                      widget.imagePath != null
-                          ? File(widget.imagePath!)
-                          : DirectoryImageStorageApi.instance.getImageFile(
-                              widget.dish?.imagePath ?? '',
-                            )!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                DishFormImage(controller: _imagePathController),
                 DishFormNameTextField(controller: _nameTextFieldController),
                 DishFormCategorySelect(controller: _categorySelectController),
                 DishFormCuisineSelect(controller: _cuisineSelectController),
@@ -163,6 +150,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
 
   @override
   void dispose() {
+    _imagePathController.dispose();
     _nameTextFieldController.dispose();
     _categorySelectController.dispose();
     _cuisineSelectController.dispose();
