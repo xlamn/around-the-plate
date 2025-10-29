@@ -14,9 +14,9 @@ void main() {
 
   setUp(() {
     dishesRepository = MockDishesRepository();
-    dish = Dish(
+    dish = Dish.create(
       name: 'Pizza',
-      categoryValue: DishCategory.meal.index,
+      category: DishCategory.meal,
       imagePath: '',
       rating: 1.0,
     );

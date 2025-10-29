@@ -125,6 +125,7 @@ Dish _dishDeserialize(
     date: reader.readDateTimeOrNull(offsets[2]),
     id: id,
     imagePath: reader.readString(offsets[3]),
+    lastModifiedDate: reader.readDateTime(offsets[4]),
     location: reader.readObjectOrNull<DishLocation>(
       offsets[5],
       DishLocationSchema.deserialize,

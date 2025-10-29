@@ -35,7 +35,8 @@ class Dish extends Equatable {
 
   final DateTime lastModifiedDate;
 
-  Dish({
+  /// Constructor intended for Isar. Prefer to use `Dish.create()` to create a dish.
+  const Dish({
     this.id = Isar.autoIncrement,
     required this.name,
     required this.imagePath,
@@ -44,7 +45,31 @@ class Dish extends Equatable {
     this.cuisineValue,
     this.date,
     this.location,
-  }) : lastModifiedDate = DateTime.now();
+    required this.lastModifiedDate,
+  });
+
+  factory Dish.create({
+    Id id = Isar.autoIncrement,
+    required String name,
+    required String imagePath,
+    required double rating,
+    DishCategory? category,
+    DishCuisine? cuisine,
+    DateTime? date,
+    DishLocation? location,
+  }) {
+    return Dish(
+      id: id,
+      name: name,
+      imagePath: imagePath,
+      rating: rating,
+      categoryValue: category?.index,
+      cuisineValue: cuisine?.index,
+      date: date,
+      location: location,
+      lastModifiedDate: DateTime.now(),
+    );
+  }
 
   Dish copyWith({
     Id? id,
@@ -65,6 +90,7 @@ class Dish extends Equatable {
       rating: rating ?? this.rating,
       date: date ?? this.date,
       location: location ?? this.location,
+      lastModifiedDate: lastModifiedDate,
     );
   }
 

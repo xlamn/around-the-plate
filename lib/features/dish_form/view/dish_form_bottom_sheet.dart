@@ -119,13 +119,13 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                   isEditing: isEditing,
                   onPressed: () async {
                     if (!_formKey.currentState!.validate()) return;
-                    final dish = Dish(
+                    final dish = Dish.create(
                       id: widget.dish?.id ?? Isar.autoIncrement,
                       imagePath: _imagePathController.path ?? '',
                       name: _nameTextFieldController.text,
                       date: _dateFieldController.value,
-                      categoryValue: _categorySelectController.value?.index,
-                      cuisineValue: _cuisineSelectController.value?.index,
+                      category: _categorySelectController.value,
+                      cuisine: _cuisineSelectController.value,
                       location: _locationSelectController.value,
                       rating: _ratingSliderController.selection.offset.max,
                     );

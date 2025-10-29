@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:around_the_plate/features/dishes_overview/cubits/dishes_overview_cubit.dart';
-import 'package:around_the_plate/features/dishes_overview/cubits/dishes_overview_state.dart';
+import 'package:around_the_plate/features/dishes_overview/cubits/dishes_data/dishes_overview_cubit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -51,9 +50,9 @@ void main() {
       act: (cubit) {
         cubit.loadDishes();
         dishesController.add([
-          Dish(
+          Dish.create(
             name: 'Pizza',
-            categoryValue: DishCategory.meal.index,
+            category: DishCategory.meal,
             imagePath: '',
             rating: 1.0,
           ),
