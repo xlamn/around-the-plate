@@ -2,7 +2,7 @@ import 'package:app_theme/app_theme.dart';
 import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:flutter/material.dart';
 
-import '../../../take_picture/service/image_picker_service.dart';
+import '../../../image_picker/service/image_picker_service.dart';
 
 class DishFormImage extends StatelessWidget {
   final imagePickerService = ImagePickerService.instance;

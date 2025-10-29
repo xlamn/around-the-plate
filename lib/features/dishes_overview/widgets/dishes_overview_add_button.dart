@@ -2,7 +2,7 @@ import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../dish_form/view/dish_form_bottom_sheet.dart';
-import '../../take_picture/service/image_picker_service.dart';
+import '../../image_picker/service/image_picker_service.dart';
 
 class DishesOverviewAddButton extends StatelessWidget {
   final imagePickerService = ImagePickerService.instance;
