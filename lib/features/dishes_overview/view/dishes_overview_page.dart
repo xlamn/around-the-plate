@@ -70,7 +70,6 @@ class DishesOverviewView extends StatelessWidget {
             builder: (_, sortOption) {
               final dishes = state.dishes.sortedBy(sortOption);
               return ListView.separated(
-                padding: const EdgeInsets.only(bottom: 100),
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 16),
                 itemCount: dishes.length + 1,

@@ -98,13 +98,19 @@ class _DishDetailsContent extends StatelessWidget {
           child: Center(
             child: Text(
               dish.name,
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              style: context.theme.typography.xl4.copyWith(
                 fontWeight: FontWeight.bold,
+                height: 1.0,
               ),
               textAlign: TextAlign.center,
             ),
           ),
         ),
+        if (dish.cuisineValue != null ||
+            dish.categoryValue != null ||
+            dish.date != null ||
+            dish.location != null)
+          Spacer(),
         if (dish.cuisineValue != null ||
             dish.categoryValue != null ||
             dish.date != null ||
@@ -173,8 +179,8 @@ class _DishDetailsContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
               'Last modified: ${dish.lastModifiedDate.toLocal()}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey,
+              style: context.theme.typography.xs.copyWith(
+                color: context.theme.colors.mutedForeground,
               ),
             ),
           ),
@@ -202,20 +208,20 @@ class _DishInfoRow extends StatelessWidget {
       child: Row(
         spacing: 8,
         children: [
-          Icon(icon, color: Theme.of(context).colorScheme.primary),
+          Icon(icon, color: context.theme.colors.primary),
           Expanded(
             child: Text(
               label,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: context.theme.typography.sm.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           Expanded(
             flex: 2,
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: context.theme.typography.sm,
               textAlign: TextAlign.end,
             ),
           ),

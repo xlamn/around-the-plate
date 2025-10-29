@@ -55,29 +55,24 @@ class DishCard extends StatelessWidget {
                 children: [
                   Text(
                     dish.name,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    style: context.theme.typography.lg.copyWith(
+                      height: 1.0,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   if (dish.cuisine != null)
                     Text(
                       dish.cuisine!.displayName,
-                      style:
-                          Theme.of(
-                            context,
-                          ).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w400,
-                          ),
+                      style: context.theme.typography.xs.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   if (dish.date != null)
                     Text(
                       '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
-                      style:
-                          Theme.of(
-                            context,
-                          ).textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                      style: context.theme.typography.xs.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                 ],
               ),

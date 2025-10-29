@@ -22,7 +22,7 @@ class DishesOverviewSortButton extends StatelessWidget {
                 border: selectedOption != DishesSortOption.defaultOrder
                     ? BoxBorder.all(
                         width: 2,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: context.theme.colors.primary,
                       )
                     : null,
                 borderRadius: BorderRadius.circular(8.0),

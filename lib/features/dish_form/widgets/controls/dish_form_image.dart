@@ -54,16 +54,16 @@ class DishFormImage extends StatelessWidget {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: context.theme.colors.primary,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.surface,
+                      color: context.theme.colors.primaryForeground,
                       width: 3,
                     ),
                   ),
                   child: Icon(
                     FIcons.pencil,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: context.theme.colors.primaryForeground,
                     size: 16,
                   ),
                 ),
