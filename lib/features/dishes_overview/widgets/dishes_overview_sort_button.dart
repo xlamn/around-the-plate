@@ -11,42 +11,48 @@ class DishesOverviewSortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sortOption = context.read<DishesSortCubit>().state;
-    return FSelect<DishesSortOption>.rich(
-      initialValue: sortOption,
-      format: (s) => s.label,
-      builder: (_, _, _, field) {
-        return Container(
-          foregroundDecoration: BoxDecoration(
-            border: sortOption != DishesSortOption.defaultOrder
-                ? BoxBorder.all(width: 1.5)
-                : null,
-            borderRadius: BorderRadius.circular(8.0),
+    return BlocBuilder<DishesSortCubit, DishesSortOption>(
+      builder: (context, selectedOption) {
+        return FSelect<DishesSortOption>.rich(
+          initialValue: selectedOption,
+          format: (s) => s.label,
+          builder: (_, _, _, field) {
+            return Container(
+              foregroundDecoration: BoxDecoration(
+                border: selectedOption != DishesSortOption.defaultOrder
+                    ? BoxBorder.all(
+                        width: 2,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: FButton.icon(
+                style: FButtonStyle.secondary(),
+                onPress: () async {
+                  (field as TextField).onTap!();
+                },
+                child: const Icon(FIcons.arrowUpDown),
+              ),
+            );
+          },
+          onChange: (value) {
+            if (value != null) {
+              context.read<DishesSortCubit>().changeSort(value);
+            }
+          },
+          popoverConstraints: FPortalConstraints(
+            maxWidth: MediaQuery.widthOf(context) * 0.4,
           ),
-          child: FButton.icon(
-            style: FButtonStyle.secondary(),
-            onPress: () async {
-              (field as TextField).onTap!();
-            },
-            child: const Icon(FIcons.arrowUpDown),
-          ),
+          children: [
+            for (final option in DishesSortOption.values)
+              FSelectItem(
+                title: Text(option.label.toCapitalized()),
+                value: option,
+              ),
+          ],
         );
       },
-      onChange: (value) {
-        if (value != null) {
-          context.read<DishesSortCubit>().changeSort(value);
-        }
-      },
-      popoverConstraints: FPortalConstraints(
-        maxWidth: MediaQuery.widthOf(context) * 0.4,
-      ),
-      children: [
-        for (final option in DishesSortOption.values)
-          FSelectItem(
-            title: Text(option.label.toCapitalized()),
-            value: option,
-          ),
-      ],
     );
   }
 }
