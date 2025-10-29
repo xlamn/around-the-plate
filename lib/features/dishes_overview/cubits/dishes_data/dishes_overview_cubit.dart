@@ -1,7 +1,10 @@
 import 'dart:async';
+
 import 'package:dishes_repository/dishes_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dishes_overview_state.dart';
+
+part 'dishes_overview_state.dart';
 
 class DishesOverviewCubit extends Cubit<DishesOverviewState> {
   final DishesRepository _dishesRepository;

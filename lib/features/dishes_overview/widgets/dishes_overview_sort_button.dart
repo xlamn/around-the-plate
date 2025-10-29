@@ -1,0 +1,52 @@
+import 'package:app_theme/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../extensions/strings_extension.dart';
+import '../cubits/dishes_sort/dishes_sort_cubit.dart';
+import '../models/dishes_sort_option.dart';
+
+class DishesOverviewSortButton extends StatelessWidget {
+  const DishesOverviewSortButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final sortOption = context.read<DishesSortCubit>().state;
+    return FSelect<DishesSortOption>.rich(
+      initialValue: sortOption,
+      format: (s) => s.label,
+      builder: (_, _, _, field) {
+        return Container(
+          foregroundDecoration: BoxDecoration(
+            border: sortOption != DishesSortOption.defaultOrder
+                ? BoxBorder.all(width: 1.5)
+                : null,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: FButton.icon(
+            style: FButtonStyle.secondary(),
+            onPress: () async {
+              (field as TextField).onTap!();
+            },
+            child: const Icon(FIcons.arrowUpDown),
+          ),
+        );
+      },
+      onChange: (value) {
+        if (value != null) {
+          context.read<DishesSortCubit>().changeSort(value);
+        }
+      },
+      popoverConstraints: FPortalConstraints(
+        maxWidth: MediaQuery.widthOf(context) * 0.4,
+      ),
+      children: [
+        for (final option in DishesSortOption.values)
+          FSelectItem(
+            title: Text(option.label.toCapitalized()),
+            value: option,
+          ),
+      ],
+    );
+  }
+}
