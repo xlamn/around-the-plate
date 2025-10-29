@@ -14,87 +14,89 @@ class SettingsOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FHeader(
-          title: const Text('Settings'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FTileGroup(
-            label: const Text('General'),
-            children: [
-              FTile(
-                prefix: Icon(FIcons.palette),
-                title: const Text('Theme'),
-                suffix: Icon(FIcons.chevronRight),
-                onPress: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ThemeSelectionPage(),
-                    ),
-                  );
-                },
-              ),
-              FTile(
-                prefix: Icon(FIcons.refreshCcwDot),
-                title: const Text('Synchronization'),
-                suffix: Icon(FIcons.chevronRight),
-                onPress: () {},
-              ),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          FHeader(
+            title: const Text('Settings'),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FTileGroup(
-            label: const Text('Support'),
-            children: [
-              FTile(
-                prefix: Icon(FIcons.mail),
-                title: const Text('Contact Developer'),
-                suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: () async => await _urlLauncherService.openEmail(
-                  subject: 'Around the Plate - Request',
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FTileGroup(
+              label: const Text('General'),
+              children: [
+                FTile(
+                  prefix: Icon(FIcons.palette),
+                  title: const Text('Theme'),
+                  suffix: Icon(FIcons.chevronRight),
+                  onPress: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ThemeSelectionPage(),
+                      ),
+                    );
+                  },
                 ),
-              ),
-              FTile(
-                prefix: Icon(FIcons.cookie),
-                title: const Text('Buy a cookie'),
-                suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: () async =>
-                    await _urlLauncherService.openUrl('paypal.me/xlamn'),
-              ),
-              FTile(
-                prefix: Icon(FIcons.star),
-                title: const Text('Rate App'),
-                suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: null,
-              ),
-            ],
+                FTile(
+                  prefix: Icon(FIcons.refreshCcwDot),
+                  title: const Text('Synchronization'),
+                  suffix: Icon(FIcons.chevronRight),
+                  onPress: () {},
+                ),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FTileGroup(
-            label: const Text('Legal'),
-            children: [
-              FTile(
-                prefix: Icon(FIcons.fileSpreadsheet),
-                title: const Text('Imprint'),
-                suffix: Icon(FIcons.chevronRight),
-                onPress: () {},
-              ),
-              FTile(
-                prefix: Icon(FIcons.handshake),
-                title: const Text('Privacy Policy'),
-                suffix: Icon(FIcons.chevronRight),
-                onPress: () {},
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FTileGroup(
+              label: const Text('Support'),
+              children: [
+                FTile(
+                  prefix: Icon(FIcons.mail),
+                  title: const Text('Contact Developer'),
+                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  onPress: () async => await _urlLauncherService.openEmail(
+                    subject: 'Around the Plate - Request',
+                  ),
+                ),
+                FTile(
+                  prefix: Icon(FIcons.cookie),
+                  title: const Text('Buy a cookie'),
+                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  onPress: () async =>
+                      await _urlLauncherService.openUrl('paypal.me/xlamn'),
+                ),
+                FTile(
+                  prefix: Icon(FIcons.star),
+                  title: const Text('Rate App'),
+                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  onPress: null,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FTileGroup(
+              label: const Text('Legal'),
+              children: [
+                FTile(
+                  prefix: Icon(FIcons.fileSpreadsheet),
+                  title: const Text('Imprint'),
+                  suffix: Icon(FIcons.chevronRight),
+                  onPress: () {},
+                ),
+                FTile(
+                  prefix: Icon(FIcons.handshake),
+                  title: const Text('Privacy Policy'),
+                  suffix: Icon(FIcons.chevronRight),
+                  onPress: () {},
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
