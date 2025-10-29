@@ -1,10 +1,16 @@
 import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../../services/url_launcher_service.dart';
 import '../../theme_selection/theme_selection.dart';
 
 class SettingsOverviewPage extends StatelessWidget {
-  const SettingsOverviewPage({super.key});
+  final UrlLauncherService _urlLauncherService;
+
+  const SettingsOverviewPage({
+    super.key,
+    UrlLauncherService? urlLauncherService,
+  }) : _urlLauncherService = urlLauncherService ?? const UrlLauncherService();
 
   @override
   Widget build(BuildContext context) {
@@ -48,19 +54,22 @@ class SettingsOverviewPage extends StatelessWidget {
                 prefix: Icon(FIcons.mail),
                 title: const Text('Contact Developer'),
                 suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: () {},
+                onPress: () async => await _urlLauncherService.openEmail(
+                  subject: 'Around the Plate - Request',
+                ),
               ),
               FTile(
                 prefix: Icon(FIcons.cookie),
                 title: const Text('Buy a cookie'),
                 suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: () {},
+                onPress: () async =>
+                    await _urlLauncherService.openUrl('paypal.me/xlamn'),
               ),
               FTile(
                 prefix: Icon(FIcons.star),
                 title: const Text('Rate App'),
                 suffix: Icon(FIcons.squareArrowOutUpRight),
-                onPress: () {},
+                onPress: null,
               ),
             ],
           ),
