@@ -106,42 +106,40 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
           Navigator.pop(context, DishFormResult.deleted);
         }
       },
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 16,
-              children: [
-                DishFormAppBar(
-                  isEditing: isEditing,
-                  onPressed: () async {
-                    if (!_formKey.currentState!.validate()) return;
-                    final dish = Dish.create(
-                      id: widget.dish?.id ?? Isar.autoIncrement,
-                      imagePath: _imagePathController.path ?? '',
-                      name: _nameTextFieldController.text,
-                      date: _dateFieldController.value,
-                      category: _categorySelectController.value,
-                      cuisine: _cuisineSelectController.value,
-                      location: _locationSelectController.value,
-                      rating: _ratingSliderController.selection.offset.max,
-                    );
-                    context.read<DishFormCubit>().addDish(dish);
-                  },
-                ),
-                DishFormImage(controller: _imagePathController),
-                DishFormNameTextField(controller: _nameTextFieldController),
-                DishFormCategorySelect(controller: _categorySelectController),
-                DishFormCuisineSelect(controller: _cuisineSelectController),
-                DishFormDateField(controller: _dateFieldController),
-                DishFormLocationSelect(controller: _locationSelectController),
-                DishFormRatingSlider(controller: _ratingSliderController),
-                if (isEditing) DishFormDeleteButton(dish: widget.dish!),
-              ],
-            ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 16,
+            children: [
+              DishFormAppBar(
+                isEditing: isEditing,
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) return;
+                  final dish = Dish.create(
+                    id: widget.dish?.id ?? Isar.autoIncrement,
+                    imagePath: _imagePathController.path ?? '',
+                    name: _nameTextFieldController.text,
+                    date: _dateFieldController.value,
+                    category: _categorySelectController.value,
+                    cuisine: _cuisineSelectController.value,
+                    location: _locationSelectController.value,
+                    rating: _ratingSliderController.selection.offset.max,
+                  );
+                  context.read<DishFormCubit>().addDish(dish);
+                },
+              ),
+              DishFormImage(controller: _imagePathController),
+              DishFormNameTextField(controller: _nameTextFieldController),
+              DishFormCategorySelect(controller: _categorySelectController),
+              DishFormCuisineSelect(controller: _cuisineSelectController),
+              DishFormDateField(controller: _dateFieldController),
+              DishFormLocationSelect(controller: _locationSelectController),
+              DishFormRatingSlider(controller: _ratingSliderController),
+              if (isEditing) DishFormDeleteButton(dish: widget.dish!),
+            ],
           ),
         ),
       ),
