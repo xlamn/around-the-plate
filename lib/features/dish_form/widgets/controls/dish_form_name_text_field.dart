@@ -15,6 +15,7 @@ class DishFormNameTextField extends StatelessWidget {
         hint: 'Spaghetti Carbonara',
         maxLines: 1,
         autovalidateMode: AutovalidateMode.onUnfocus,
+        textCapitalization: TextCapitalization.words,
         validator: (value) =>
             (value?.isEmpty ?? true) ? 'Name is required' : null,
       ),
