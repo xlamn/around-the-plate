@@ -72,7 +72,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           Navigator.pop(context, imagePath);
                         },
                         child: Container(
-                          margin: EdgeInsets.all(32.0),
+                          margin: EdgeInsets.all(AppSizes.spacing32),
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(

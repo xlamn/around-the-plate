@@ -40,10 +40,10 @@ class OnboardingLocationView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.all(AppSizes.spacing24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 8.0,
+                    spacing: AppSizes.spacing8,
                     children: [
                       Text(
                         "All Around The World",
@@ -62,7 +62,7 @@ class OnboardingLocationView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(AppSizes.spacing16),
                   child: FButton(
                     onPress: () => context
                         .read<OnboardingLocationCubit>()
@@ -78,13 +78,3 @@ class OnboardingLocationView extends StatelessWidget {
     );
   }
 }
-
-             // const Text(
-                  //   "To tag the location where you ate or drank your plate, we need access to your location permission",
-                  // ),
-                  // ElevatedButton(
-                  //   onPressed: () => context
-                  //       .read<OnboardingLocationCubit>()
-                  //       .requestPermission(),
-                  //   child: const Text("Allow"),
-                  // ),

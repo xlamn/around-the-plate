@@ -41,10 +41,10 @@ class OnboardingCameraView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.all(AppSizes.spacing24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 8.0,
+                    spacing: AppSizes.spacing8,
                     children: [
                       Text(
                         "Capture The Moment",
@@ -63,7 +63,7 @@ class OnboardingCameraView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(AppSizes.spacing16),
                   child: FButton(
                     onPress: () => context
                         .read<OnboardingCameraCubit>()

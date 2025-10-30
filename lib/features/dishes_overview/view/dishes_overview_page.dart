@@ -48,7 +48,7 @@ class DishesOverviewView extends StatelessWidget {
           }
           if (state.dishes.isEmpty) {
             return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
               child: Column(
                 children: [
                   FHeader(
@@ -71,7 +71,7 @@ class DishesOverviewView extends StatelessWidget {
               final dishes = state.dishes.sortedBy(sortOption);
               return ListView.separated(
                 separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSizes.spacing16),
                 itemCount: dishes.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {

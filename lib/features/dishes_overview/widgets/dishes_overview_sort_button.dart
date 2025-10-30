@@ -25,7 +25,7 @@ class DishesOverviewSortButton extends StatelessWidget {
                         color: context.theme.colors.primary,
                       )
                     : null,
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(AppSizes.spacing8),
               ),
               child: FButton.icon(
                 style: FButtonStyle.secondary(),

@@ -19,10 +19,10 @@ class OnboardingCompletionPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppSizes.spacing24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8.0,
+                spacing: AppSizes.spacing8,
                 children: [
                   Text(
                     "Yay, you are ready!",
@@ -40,7 +40,7 @@ class OnboardingCompletionPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppSizes.spacing16),
               child: FButton(
                 prefix: Icon(FIcons.partyPopper),
                 onPress: onFinished,

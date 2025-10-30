@@ -22,7 +22,7 @@ class DishCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: context.theme.cardStyle.decoration.color,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppSizes.radiusL),
           boxShadow: [
             BoxShadow(
               color: context.theme.colors.primary.withValues(alpha: 0.2),
@@ -31,8 +31,8 @@ class DishCard extends StatelessWidget {
             ),
           ],
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        padding: const EdgeInsets.all(16.0),
+        margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
+        padding: const EdgeInsets.all(AppSizes.spacing16),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -40,7 +40,7 @@ class DishCard extends StatelessWidget {
               width: 80,
               height: 80,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppSizes.radiusL),
                 child: Image.file(
                   File(
                     imageStorage.getImageFile(dish.imagePath)!.path,
@@ -51,7 +51,7 @@ class DishCard extends StatelessWidget {
             ),
             Expanded(
               child: Column(
-                spacing: 8.0,
+                spacing: AppSizes.spacing8,
                 children: [
                   Text(
                     dish.name,

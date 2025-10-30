@@ -81,20 +81,20 @@ class _DishDetailsContent extends StatelessWidget {
     );
 
     return Column(
-      spacing: 8,
+      spacing: AppSizes.spacing8,
       children: [
         if (imageFile != null)
           SizedBox(
             width: 180,
             height: 160,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(AppSizes.radiusL),
               child: Image.file(imageFile, fit: BoxFit.cover),
             ),
           ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing8),
           child: Center(
             child: Text(
               dish.name,
@@ -116,11 +116,11 @@ class _DishDetailsContent extends StatelessWidget {
             dish.date != null ||
             dish.location != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing8),
             child: Container(
               decoration: BoxDecoration(
                 color: context.theme.cardStyle.decoration.color,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppSizes.radiusL),
                 boxShadow: [
                   BoxShadow(
                     color: context.theme.colors.primary.withValues(alpha: 0.2),
@@ -129,11 +129,11 @@ class _DishDetailsContent extends StatelessWidget {
                   ),
                 ],
               ),
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing8),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppSizes.spacing16),
                 child: Column(
-                  spacing: 16,
+                  spacing: AppSizes.spacing16,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (dish.cuisineValue != null)
@@ -169,14 +169,14 @@ class _DishDetailsContent extends StatelessWidget {
         const Spacer(),
         Center(
           child: Padding(
-            padding: const EdgeInsets.all(48.0),
+            padding: const EdgeInsets.all(AppSizes.spacing32),
             child: DishDetailsRating(rating: dish.rating),
           ),
         ),
         const Spacer(),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing8),
             child: Text(
               'Last modified: ${dish.lastModifiedDate.toLocal()}',
               style: context.theme.typography.xs.copyWith(
@@ -204,9 +204,9 @@ class _DishInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing8),
       child: Row(
-        spacing: 8,
+        spacing: AppSizes.spacing8,
         children: [
           Icon(icon, color: context.theme.colors.primary),
           Expanded(

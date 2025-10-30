@@ -27,7 +27,7 @@ class DishFormImage extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(AppSizes.radiusL),
               child: file != null
                   ? Image.file(
                       file,
@@ -42,8 +42,8 @@ class DishFormImage extends StatelessWidget {
                     ),
             ),
             Positioned(
-              bottom: -8,
-              right: -8,
+              bottom: -AppSizes.spacing8,
+              right: -AppSizes.spacing8,
               child: GestureDetector(
                 onTap: () async {
                   final imagePath = await imagePickerService.pickImage(context);
@@ -64,7 +64,7 @@ class DishFormImage extends StatelessWidget {
                   child: Icon(
                     FIcons.pencil,
                     color: context.theme.colors.primaryForeground,
-                    size: 16,
+                    size: AppSizes.iconS,
                   ),
                 ),
               ),

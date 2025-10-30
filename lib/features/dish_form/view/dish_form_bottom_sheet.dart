@@ -107,12 +107,17 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
         }
       },
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
+        padding: const EdgeInsets.fromLTRB(
+          AppSizes.spacing16,
+          AppSizes.spacing16,
+          AppSizes.spacing16,
+          AppSizes.spacing32,
+        ),
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            spacing: 16,
+            spacing: AppSizes.spacing16,
             children: [
               DishFormAppBar(
                 isEditing: isEditing,

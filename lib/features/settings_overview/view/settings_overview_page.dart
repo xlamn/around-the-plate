@@ -21,7 +21,7 @@ class SettingsOverviewPage extends StatelessWidget {
             title: const Text('Settings'),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.spacing16),
             child: FTileGroup(
               label: const Text('General'),
               children: [
@@ -47,7 +47,7 @@ class SettingsOverviewPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.spacing16),
             child: FTileGroup(
               label: const Text('Support'),
               children: [
@@ -76,7 +76,7 @@ class SettingsOverviewPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.spacing16),
             child: FTileGroup(
               label: const Text('Legal'),
               children: [
