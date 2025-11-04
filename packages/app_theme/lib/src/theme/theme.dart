@@ -163,8 +163,8 @@ FStyle _style({required FColors colors, required FTypography typography}) =>
       shadow: const [
         BoxShadow(
           color: Color(0x0d000000),
-          offset: Offset(0, 1),
-          blurRadius: 2,
+          offset: Offset(0, 0),
+          blurRadius: 5,
         ),
       ],
     );

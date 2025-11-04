@@ -19,7 +19,7 @@ class MapOverviewCountryDetailsDialog extends StatelessWidget {
     return FDialog(
       title: Text('$country $flagEmoji'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
         child: Text(
           'You have enjoyed ${dishes.length} dish(es) from $country so far!',
         ),
