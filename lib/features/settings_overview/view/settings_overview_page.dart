@@ -63,8 +63,9 @@ class SettingsOverviewPage extends StatelessWidget {
                   prefix: Icon(FIcons.cookie),
                   title: const Text('Buy a cookie'),
                   suffix: Icon(FIcons.squareArrowOutUpRight),
-                  onPress: () async =>
-                      await _urlLauncherService.openUrl('paypal.me/xlamn'),
+                  onPress: () async => await _urlLauncherService.openUrl(
+                    'https://paypal.me/xlamn',
+                  ),
                 ),
                 FTile(
                   prefix: Icon(FIcons.star),
@@ -84,13 +85,17 @@ class SettingsOverviewPage extends StatelessWidget {
                   prefix: Icon(FIcons.fileSpreadsheet),
                   title: const Text('Imprint'),
                   suffix: Icon(FIcons.chevronRight),
-                  onPress: () {},
+                  onPress: () async => await _urlLauncherService.openUrl(
+                    'https://www.tlnguyen.fyi/works/aroundtheplate/imprint',
+                  ),
                 ),
                 FTile(
                   prefix: Icon(FIcons.handshake),
                   title: const Text('Privacy Policy'),
                   suffix: Icon(FIcons.chevronRight),
-                  onPress: () {},
+                  onPress: () async => await _urlLauncherService.openUrl(
+                    'https://www.tlnguyen.fyi/works/aroundtheplate/privacy_policy',
+                  ),
                 ),
               ],
             ),
