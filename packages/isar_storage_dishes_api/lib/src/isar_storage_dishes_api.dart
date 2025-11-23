@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dishes_api/dishes_api.dart';
@@ -57,7 +58,7 @@ class IsarStorageDishesApi extends DishesApi {
   Future<void> deleteDish(int id) async {
     final dish = await _isar.dishs.filter().idEqualTo(id).findFirst();
     if (dish == null) {
-      print('Dish with id $id not found');
+      log('Dish with id $id not found');
       return;
     }
 

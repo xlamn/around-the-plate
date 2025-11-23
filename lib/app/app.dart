@@ -40,9 +40,7 @@ class AppView extends StatelessWidget {
     final theme = context.isDarkTheme ? zincDark : zincLight;
 
     return MaterialApp(
-      // TODO: replace with your application's supported locales.
       supportedLocales: FLocalizations.supportedLocales,
-      // TODO: add your application's localizations delegates.
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
       builder: (_, child) => FAnimatedTheme(data: theme, child: child!),
       theme: theme.toApproximateMaterialTheme(),
