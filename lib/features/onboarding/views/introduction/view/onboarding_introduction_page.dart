@@ -13,11 +13,32 @@ class OnboardingIntroductionPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                color: Colors.transparent,
+            Spacer(),
+            ShaderMask(
+              shaderCallback: (rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black,
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                  stops: [
+                    0.0,
+                    0.2,
+                    0.8,
+                    1.0,
+                  ],
+                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                'assets/onboarding/onboarding_01.png',
               ),
             ),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing24),
               child: Column(

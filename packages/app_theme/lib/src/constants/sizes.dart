@@ -5,6 +5,7 @@ class AppSizes {
   static const double spacing16 = 16.0;
   static const double spacing24 = 24.0;
   static const double spacing32 = 32.0;
+  static const double spacing64 = 64.0;
 
   // Border radius
   static const double radiusS = 6.0;
