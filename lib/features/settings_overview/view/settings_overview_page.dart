@@ -2,6 +2,7 @@ import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/url_launcher_service.dart';
+import '../../cloud_sync/cloud_sync.dart';
 import '../../theme_selection/theme_selection.dart';
 
 class SettingsOverviewPage extends StatelessWidget {
@@ -41,7 +42,13 @@ class SettingsOverviewPage extends StatelessWidget {
                   prefix: Icon(FIcons.refreshCcwDot),
                   title: const Text('Synchronization'),
                   suffix: Icon(FIcons.chevronRight),
-                  onPress: () {},
+                  onPress: () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CloudSyncPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
