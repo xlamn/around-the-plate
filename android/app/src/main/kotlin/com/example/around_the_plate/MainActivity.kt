@@ -1,4 +1,4 @@
-package com.example.around_the_plate
+package com.lamnguyen.around_the_plate
 
 import io.flutter.embedding.android.FlutterActivity
 
