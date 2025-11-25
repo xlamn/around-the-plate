@@ -1,6 +1,12 @@
 abstract class CloudSyncApi {
-  /// Initialize required clients (OAuth, iCloud container, etc.).
-  Future<void> initialize();
+  /// Initialize required clients.
+  Future<void> login();
+
+  /// Check whether user is currently signed in.
+  Future<bool> isSignedIn();
+
+  /// Logout from the cloud.
+  Future<void> logout();
 
   /// Upload local Isar database file to remote storage.
   Future<void> uploadDatabase({required String localDbPath});

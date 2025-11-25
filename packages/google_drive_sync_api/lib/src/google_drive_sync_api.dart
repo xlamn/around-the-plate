@@ -24,7 +24,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   static const String _dbFileName = 'isar_db.isar';
 
   @override
-  Future<void> initialize() async {
+  Future<void> login() async {
     final account =
         await _googleSignIn.signInSilently() ?? await _googleSignIn.signIn();
 
@@ -33,6 +33,12 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     final authHeaders = await account.authHeaders;
     _httpClient = GoogleHttpClient(authHeaders);
     _driveApi = drive.DriveApi(_httpClient!);
+  }
+
+  @override
+  Future<bool> isSignedIn() async {
+    final account = await _googleSignIn.signInSilently();
+    return account != null;
   }
 
   Future<drive.File?> _findRemoteDb() async {
@@ -160,15 +166,15 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     }
   }
 
-  /// Be sure to call this when you're done to free the http client resources.
-  Future<void> dispose() async {
+  @override
+  Future<void> logout() async {
+    await _googleSignIn.disconnect();
     _httpClient?.close();
     _httpClient = null;
     _driveApi = null;
   }
 }
 
-/// HTTP client that attaches Google auth headers. Must extend `http.BaseClient`.
 class GoogleHttpClient extends http.BaseClient {
   final Map<String, String> _headers;
   final http.Client _inner = http.Client();
