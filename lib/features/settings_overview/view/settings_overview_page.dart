@@ -38,18 +38,19 @@ class SettingsOverviewPage extends StatelessWidget {
                     );
                   },
                 ),
-                FTile(
-                  prefix: Icon(FIcons.refreshCcwDot),
-                  title: const Text('Synchronization'),
-                  suffix: Icon(FIcons.chevronRight),
-                  onPress: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CloudSyncPage(),
-                      ),
-                    );
-                  },
-                ),
+                if (Theme.of(context).platform == TargetPlatform.android)
+                  FTile(
+                    prefix: Icon(FIcons.refreshCcwDot),
+                    title: const Text('Synchronization'),
+                    suffix: Icon(FIcons.chevronRight),
+                    onPress: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CloudSyncPage(),
+                        ),
+                      );
+                    },
+                  ),
               ],
             ),
           ),
