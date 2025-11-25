@@ -1,0 +1,24 @@
+name: google_drive_sync_api
+description: A flutter implementation of the CloudSyncApi that uses Google Drive.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_sync_api:
+    path: ../cloud_sync_api
+  google_sign_in: ^6.2.1
+  googleapis: ^12.0.0
+  http: ^1.1.0
+  path: ^1.8.3
+
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
