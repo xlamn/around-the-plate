@@ -3,13 +3,11 @@ import 'dart:developer';
 import 'package:app_theme/app_theme.dart';
 import 'package:cloud_sync_api/cloud_sync_api.dart';
 import 'package:flutter/material.dart';
-import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 
 class CloudSyncPage extends StatefulWidget {
-  final CloudSyncApi _cloudSyncApi;
+  final CloudSyncService cloudSyncService;
 
-  CloudSyncPage({super.key, CloudSyncApi? cloudSyncApi})
-    : _cloudSyncApi = cloudSyncApi ?? GoogleDriveSyncApi();
+  const CloudSyncPage({super.key, required this.cloudSyncService});
 
   @override
   State<CloudSyncPage> createState() => _CloudSyncPageState();
@@ -25,7 +23,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
   }
 
   Future<void> _checkSignInStatus() async {
-    final signedIn = await widget._cloudSyncApi.isSignedIn();
+    final signedIn = await widget.cloudSyncService.isSignedIn();
     setState(() {
       isEnabled = signedIn;
     });
@@ -65,13 +63,13 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
                   onChange: (value) async {
                     if (!isEnabled) {
                       try {
-                        await widget._cloudSyncApi.login();
+                        await widget.cloudSyncService.login();
                         setState(() => isEnabled = value);
                       } catch (e) {
                         log('Error initializing Google Drive: $e');
                       }
                     } else {
-                      await widget._cloudSyncApi.logout();
+                      await widget.cloudSyncService.logout();
                       setState(() => isEnabled = value);
                     }
                   },
@@ -82,7 +80,11 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
           Padding(
             padding: const EdgeInsets.all(AppSizes.spacing16),
             child: FButton(
-              onPress: isEnabled ? () {} : null,
+              onPress: isEnabled
+                  ? () async {
+                      await widget.cloudSyncService.sync();
+                    }
+                  : null,
               child: Text('Sync Now'),
             ),
           ),

@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dishes_repository:
+    path: ../dishes_repository
 
 dev_dependencies:
   flutter_lints: ^5.0.0

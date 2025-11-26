@@ -1,5 +1,9 @@
 import 'package:app_theme/app_theme.dart';
+import 'package:cloud_sync_api/cloud_sync_api.dart';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 
 import '../../../services/url_launcher_service.dart';
 import '../../cloud_sync/cloud_sync.dart';
@@ -46,7 +50,12 @@ class SettingsOverviewPage extends StatelessWidget {
                     onPress: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CloudSyncPage(),
+                          builder: (context) => CloudSyncPage(
+                            cloudSyncService: CloudSyncService(
+                              repository: context.read<DishesRepository>(),
+                              cloudApi: GoogleDriveSyncApi(),
+                            ),
+                          ),
                         ),
                       );
                     },
