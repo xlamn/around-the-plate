@@ -7,7 +7,6 @@ import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:http/http.dart' as http;
 
 /// Google Drive implementation of CloudSyncApi
-/// Works only with raw Isar database files (paths/bytes), storage-agnostic
 class GoogleDriveSyncApi implements CloudSyncApi {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -16,12 +15,12 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     ],
   );
 
+  // TODO: requires to login every time to be set
   drive.DriveApi? _driveApi;
   http.Client? _httpClient;
 
   static const String _dbFileName = 'isar_db.isar';
 
-  // ───────────── Sign In / Out ─────────────
   @override
   Future<void> login() async {
     final account =
@@ -47,20 +46,6 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     return account != null;
   }
 
-  // ───────────── Helper: Find remote file ─────────────
-  Future<drive.File?> _findRemoteDb() async {
-    if (_driveApi == null) throw SyncException('Drive API not initialized');
-
-    final fileList = await _driveApi!.files.list(
-      spaces: 'drive',
-      q: "name = '$_dbFileName'",
-      $fields: 'files(id,name,modifiedTime)',
-    );
-
-    return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
-  }
-
-  // ───────────── Upload / Download ─────────────
   Future<void> uploadDatabase({required String localDbPath}) async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
 
@@ -74,7 +59,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     if (remote == null) {
       final fileMetadata = drive.File()
         ..name = _dbFileName
-        ..parents = ['root'];
+        ..parents = ['appDataFolder'];
       await _driveApi!.files.create(
         fileMetadata,
         uploadMedia: media,
@@ -112,7 +97,6 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     }
   }
 
-  // ───────────── Sync Logic ─────────────
   @override
   Future<SyncResult> sync({required String localDbPath}) async {
     final remoteTime = await getRemoteLastModified();
@@ -139,6 +123,18 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   Future<DateTime?> getRemoteLastModified() async {
     final remote = await _findRemoteDb();
     return remote?.modifiedTime;
+  }
+
+  Future<drive.File?> _findRemoteDb() async {
+    if (_driveApi == null) throw SyncException('Drive API not initialized');
+
+    final fileList = await _driveApi!.files.list(
+      spaces: 'appDataFolder',
+      q: "name = '$_dbFileName'",
+      $fields: 'files(id,name,modifiedTime)',
+    );
+
+    return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
   }
 }
 
