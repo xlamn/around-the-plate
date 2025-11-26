@@ -16,4 +16,8 @@ class DishesRepository {
   Future<void> deleteDish(int id) => _dishesApi.deleteDish(id);
 
   void dispose() => _dishesApi.close();
+
+  Future<String> exportDb() => _dishesApi.exportDb();
+
+  Future<void> importDb(String path) => _dishesApi.importDb(path);
 }

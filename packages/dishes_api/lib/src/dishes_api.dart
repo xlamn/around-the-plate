@@ -12,4 +12,8 @@ abstract class DishesApi {
   Future<void> deleteDish(int id);
 
   Future<void> close();
+
+  Future<String> exportDb();
+
+  Future<void> importDb(String path);
 }
