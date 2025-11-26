@@ -51,6 +51,7 @@ class SettingsOverviewPage extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => CloudSyncPage(
+                            //TODO: CloudSyncService instance or global availability
                             cloudSyncService: CloudSyncService(
                               repository: context.read<DishesRepository>(),
                               cloudApi: GoogleDriveSyncApi(),

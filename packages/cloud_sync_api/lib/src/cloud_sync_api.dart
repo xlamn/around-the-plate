@@ -1,7 +1,10 @@
 abstract class CloudSyncApi {
   Future<void> login();
+
   Future<void> logout();
+
   Future<SyncResult> sync({required String localDbPath});
+
   Future<bool> isSignedIn();
 }
 
@@ -18,7 +21,7 @@ enum SyncDirection { upload, download, none }
 class SyncException implements Exception {
   final String message;
 
-  SyncException([this.message = 'An unknown sync error occurred']);
+  SyncException([this.message = 'A sync error occurred']);
 
   @override
   String toString() => 'SyncException: $message';

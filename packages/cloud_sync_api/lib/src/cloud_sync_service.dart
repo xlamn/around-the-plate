@@ -2,7 +2,7 @@ import 'package:dishes_repository/dishes_repository.dart';
 
 import 'cloud_sync_api.dart';
 
-/// Service to orchestrate manual cloud synchronization of local data.
+/// Service which handles the flow between the repository and cloud API
 class CloudSyncService {
   CloudSyncService({
     required this.repository,
@@ -10,7 +10,6 @@ class CloudSyncService {
   });
 
   final DishesRepository repository;
-
   final CloudSyncApi cloudApi;
 
   Future<SyncResult> sync() async {
@@ -33,15 +32,9 @@ class CloudSyncService {
     }
   }
 
-  Future<void> login() async {
-    await cloudApi.login();
-  }
+  Future<void> login() async => await cloudApi.login();
 
-  Future<void> logout() async {
-    await cloudApi.logout();
-  }
+  Future<void> logout() async => await cloudApi.logout();
 
-  Future<bool> isSignedIn() async {
-    return cloudApi.isSignedIn();
-  }
+  Future<bool> isSignedIn() async => await cloudApi.isSignedIn();
 }
