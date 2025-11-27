@@ -28,7 +28,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
     isEnabled = cloudSyncService.isSignedIn();
   }
 
-  //TODO: Add loading behaviour, text indicating last sync time and information text about down/uploading
+  //TODO: Add loading behaviour, text indicating last sync time
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +80,25 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(AppSizes.spacing16),
-            child: FButton(
-              onPress: isEnabled
-                  ? () async {
-                      await cloudSyncService.sync();
-                    }
-                  : null,
-              child: Text('Sync Now'),
+            child: Column(
+              spacing: AppSizes.spacing8,
+              children: [
+                FButton(
+                  onPress: isEnabled
+                      ? () async {
+                          await cloudSyncService.sync();
+                        }
+                      : null,
+                  child: Text('Sync Now'),
+                ),
+                Text(
+                  'Your dishes will be uploaded to the cloud. If you do not have any dishes, the app will download your dishes from the cloud instead.',
+                  textAlign: TextAlign.center,
+                  style: context.theme.typography.sm.copyWith(
+                    color: context.theme.colors.mutedForeground,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
