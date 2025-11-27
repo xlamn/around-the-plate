@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_theme/app_theme.dart';
 import 'package:cloud_sync_api/cloud_sync_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
@@ -7,102 +5,112 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 
-class CloudSyncPage extends StatefulWidget {
+import '../cubit/cloud_sync_cubit.dart';
+
+class CloudSyncPage extends StatelessWidget {
   const CloudSyncPage({super.key});
 
   @override
-  State<CloudSyncPage> createState() => _CloudSyncPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => CloudSyncCubit(
+        cloudSyncService: CloudSyncService(
+          repository: context.read<DishesRepository>(),
+          cloudApi: GoogleDriveSyncApi.instance,
+        ),
+      ),
+      child: const CloudSyncView(),
+    );
+  }
 }
 
-class _CloudSyncPageState extends State<CloudSyncPage> {
-  late final CloudSyncService cloudSyncService;
-  bool isEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    cloudSyncService = CloudSyncService(
-      repository: context.read<DishesRepository>(),
-      cloudApi: GoogleDriveSyncApi.instance,
-    );
-    isEnabled = cloudSyncService.isSignedIn();
-  }
-
-  //TODO: Add loading behaviour, text indicating last sync time
+class CloudSyncView extends StatelessWidget {
+  const CloudSyncView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(FIcons.arrowLeft),
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const FHeader(title: Text('Cloud Sync')),
-          Padding(
-            padding: const EdgeInsets.all(AppSizes.spacing16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Google Drive Login',
-                        style: context.theme.typography.base,
-                      ),
-                    ],
-                  ),
-                ),
-                FSwitch(
-                  value: isEnabled,
-                  onChange: (value) async {
-                    if (!isEnabled) {
-                      try {
-                        await cloudSyncService.login();
-                        setState(() => isEnabled = value);
-                      } catch (e) {
-                        log('Error initializing Google Drive: $e');
-                      }
-                    } else {
-                      await cloudSyncService.logout();
-                      setState(() => isEnabled = value);
-                    }
-                  },
-                ),
-              ],
+    return BlocBuilder<CloudSyncCubit, CloudSyncState>(
+      builder: (context, state) {
+        final cubit = context.read<CloudSyncCubit>();
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(FIcons.arrowLeft),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(AppSizes.spacing16),
-            child: Column(
-              spacing: AppSizes.spacing8,
-              children: [
-                FButton(
-                  onPress: isEnabled
-                      ? () async {
-                          await cloudSyncService.sync();
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const FHeader(title: Text('Cloud Sync')),
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.spacing16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Google Drive Login',
+                      style: context.theme.typography.base,
+                    ),
+                    FSwitch(
+                      value: state.isSignedIn,
+                      onChange: (enabled) async {
+                        if (enabled) {
+                          await cubit.login();
+                        } else {
+                          await cubit.logout();
                         }
-                      : null,
-                  child: Text('Sync Now'),
+                      },
+                    ),
+                  ],
                 ),
-                Text(
-                  'Your dishes will be uploaded to the cloud. If you do not have any dishes, the app will download your dishes from the cloud instead.',
-                  textAlign: TextAlign.center,
-                  style: context.theme.typography.sm.copyWith(
-                    color: context.theme.colors.mutedForeground,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.spacing16),
+                child: Column(
+                  spacing: AppSizes.spacing8,
+                  children: [
+                    FButton(
+                      onPress: state.isSignedIn && !state.isSyncing
+                          ? () => cubit.sync()
+                          : null,
+                      child: state.isSyncing
+                          ? SizedBox(
+                              height: AppSizes.iconS,
+                              width: AppSizes.iconS,
+                              child: const CircularProgressIndicator.adaptive(),
+                            )
+                          : const Text('Sync Now'),
+                    ),
+                    Text(
+                      'Your dishes will be uploaded to your Cloud. If you do not have any dishes, the app will download your dishes instead.',
+                      textAlign: TextAlign.center,
+                      style: context.theme.typography.sm.copyWith(
+                        color: context.theme.colors.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              if (state.lastSync != null)
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSizes.spacing8,
+                    ),
+                    child: Text(
+                      'Last synced: ${state.lastSync?.toLocal()}',
+                      style: context.theme.typography.sm.copyWith(
+                        color: context.theme.colors.mutedForeground,
+                      ),
+                    ),
                   ),
                 ),
-              ],
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
