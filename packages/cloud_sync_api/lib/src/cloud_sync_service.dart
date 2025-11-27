@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dishes_repository/dishes_repository.dart';
 
 import 'cloud_sync_api.dart';
@@ -14,16 +16,16 @@ class CloudSyncService {
 
   Future<SyncResult> sync() async {
     try {
-      final localDbPath = await repository.exportDb();
-      final result = await cloudApi.sync(localDbPath: localDbPath);
+      final db = await repository.exportDb();
+      final result = await cloudApi.sync(localDb: db);
 
-      //If data was downloaded from cloud, import it back into repository
       if (result.direction == SyncDirection.download) {
-        await repository.importDb(localDbPath);
+        await repository.importDb(result.downloadedBytes!);
       }
 
       return result;
     } catch (e) {
+      log(e.toString());
       return SyncResult(
         success: false,
         message: e.toString(),

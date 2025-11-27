@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dishes_api/dishes_api.dart';
 import 'package:image_storage_api/image_storage_api.dart';
 import 'package:isar/isar.dart';
-import 'package:path/path.dart';
 import 'package:rxdart/subjects.dart';
 
 class IsarStorageDishesApi extends DishesApi {
@@ -77,40 +77,30 @@ class IsarStorageDishesApi extends DishesApi {
     await _dishStreamController.close();
   }
 
-  /// ───────────── Export DB ─────────────
-  /// Returns the path to the exported Isar database file
+  /// Returns the local isar database as bytes
   @override
-  Future<String> exportDb() async {
-    // Isar keeps the main DB file in its directory
-    final dbPath = _isar.directory;
-    final files = Directory(dbPath!).listSync().whereType<File>().toList();
+  Future<Uint8List> exportDb() async {
+    final dirPath = _isar.directory;
+    final directory = Directory(dirPath!);
 
-    // Find the main Isar DB file
-    final dbFile = files.firstWhere(
-      (f) => extension(f.path) == '.isar',
-      orElse: () => throw Exception('Isar DB file not found'),
+    final dbFile = directory.listSync().whereType<File>().firstWhere(
+      (f) => f.path.endsWith('.isar'),
     );
 
-    return dbFile.path;
+    return dbFile.readAsBytes();
   }
 
-  /// ───────────── Import DB ─────────────
-  /// Replaces current Isar DB with the given file path
+  /// Replaces current Isar DB with the given database
   @override
-  Future<void> importDb(String path) async {
-    final dbFile = File(path);
-    if (!await dbFile.exists()) {
-      throw Exception('DB file not found at $path');
-    }
+  Future<void> importDb(Uint8List db) async {
+    final dirPath = _isar.directory!;
+    final directory = Directory(dirPath);
 
-    // Copy file into Isar directory (overwrite existing)
-    final dbDir = Directory(_isar.directory!);
-    final destFile = File(join(dbDir.path, basename(path)));
-    await dbFile.copy(destFile.path);
+    final dbFile = directory.listSync().whereType<File>().firstWhere(
+      (f) => f.path.endsWith('.isar'),
+    );
 
-    await _isar.close();
-
-    _isar = await Isar.open([DishSchema], directory: dbDir.path);
+    await dbFile.writeAsBytes(db, flush: true);
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);

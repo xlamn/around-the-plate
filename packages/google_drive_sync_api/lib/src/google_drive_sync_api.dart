@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_sync_api/cloud_sync_api.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,36 +45,27 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     return account != null;
   }
 
-  Future<void> uploadDatabase({required String localDbPath}) async {
+  Future<void> uploadDatabase(Uint8List bytes) async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
 
-    final dbFile = File(localDbPath);
-    if (!await dbFile.exists()) throw SyncException('Local DB file not found');
-
-    final bytes = await dbFile.readAsBytes();
-    final remote = await _findRemoteDb();
     final media = drive.Media(Stream.value(bytes), bytes.length);
+    final remote = await _findRemoteDb();
 
     if (remote == null) {
-      final fileMetadata = drive.File()
+      final metadata = drive.File()
         ..name = _dbFileName
-        ..parents = ['appDataFolder'];
-      await _driveApi!.files.create(
-        fileMetadata,
-        uploadMedia: media,
-        $fields: 'id,modifiedTime',
-      );
+        ..parents = ['root'];
+      await _driveApi!.files.create(metadata, uploadMedia: media);
     } else {
       await _driveApi!.files.update(
         drive.File()..name = _dbFileName,
         remote.id!,
         uploadMedia: media,
-        $fields: 'id,modifiedTime',
       );
     }
   }
 
-  Future<void> downloadDatabase({required String localDbPath}) async {
+  Future<Uint8List> downloadDatabase() async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
 
     final remote = await _findRemoteDb();
@@ -85,50 +76,45 @@ class GoogleDriveSyncApi implements CloudSyncApi {
       downloadOptions: drive.DownloadOptions.fullMedia,
     );
 
-    if (media is drive.Media) {
-      final bytes = <int>[];
-      await for (final chunk in media.stream) {
-        bytes.addAll(chunk);
-      }
-      await File(localDbPath).writeAsBytes(bytes, flush: true);
-    } else {
-      throw SyncException('Unexpected media response when downloading DB');
+    if (media is! drive.Media) {
+      throw SyncException('Unexpected download response');
     }
+
+    final buffer = <int>[];
+    await for (final chunk in media.stream) {
+      buffer.addAll(chunk);
+    }
+
+    return Uint8List.fromList(buffer);
   }
 
   @override
-  Future<SyncResult> sync({required String localDbPath}) async {
-    final remoteTime = await getRemoteLastModified();
-    final localFile = File(localDbPath);
-    if (!await localFile.exists()) {
-      throw SyncException('Local DB file not found at $localDbPath');
-    }
-    final localTime = await localFile.lastModified();
-
-    if (remoteTime == null) {
-      await uploadDatabase(localDbPath: localDbPath);
-      return SyncResult(success: true, direction: SyncDirection.upload);
-    }
-
-    if (localTime.isAfter(remoteTime)) {
-      await uploadDatabase(localDbPath: localDbPath);
-      return SyncResult(success: true, direction: SyncDirection.upload);
-    } else {
-      await downloadDatabase(localDbPath: localDbPath);
-      return SyncResult(success: true, direction: SyncDirection.download);
-    }
-  }
-
-  Future<DateTime?> getRemoteLastModified() async {
+  Future<SyncResult> sync({required Uint8List localDb}) async {
     final remote = await _findRemoteDb();
-    return remote?.modifiedTime;
+
+    // Case 1: No remote backup → upload
+    if (remote == null) {
+      await uploadDatabase(localDb);
+      return SyncResult(success: true, direction: SyncDirection.upload);
+    }
+
+    // Case 2: Remote exists, no local db → download
+    final downloaded = await downloadDatabase();
+    return SyncResult(
+      success: true,
+      direction: SyncDirection.download,
+      downloadedBytes: downloaded,
+    );
+
+    // Case 3: Remote exists but local has dishes → upload
+    // TODO
   }
 
   Future<drive.File?> _findRemoteDb() async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
 
     final fileList = await _driveApi!.files.list(
-      spaces: 'appDataFolder',
+      spaces: 'drive',
       q: "name = '$_dbFileName'",
       $fields: 'files(id,name,modifiedTime)',
     );

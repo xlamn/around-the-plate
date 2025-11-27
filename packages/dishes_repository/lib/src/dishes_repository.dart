@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dishes_api/dishes_api.dart';
 
 class DishesRepository {
@@ -17,7 +19,7 @@ class DishesRepository {
 
   void dispose() => _dishesApi.close();
 
-  Future<String> exportDb() => _dishesApi.exportDb();
+  Future<Uint8List> exportDb() => _dishesApi.exportDb();
 
-  Future<void> importDb(String path) => _dishesApi.importDb(path);
+  Future<void> importDb(Uint8List db) => _dishesApi.importDb(db);
 }

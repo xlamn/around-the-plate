@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dishes_api/src/models/dish.dart';
 
 abstract class DishesApi {
@@ -13,7 +15,7 @@ abstract class DishesApi {
 
   Future<void> close();
 
-  Future<String> exportDb();
+  Future<Uint8List> exportDb();
 
-  Future<void> importDb(String path);
+  Future<void> importDb(Uint8List path);
 }
