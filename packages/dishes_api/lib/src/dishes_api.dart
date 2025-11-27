@@ -15,7 +15,7 @@ abstract class DishesApi {
 
   Future<void> close();
 
-  Future<Uint8List> exportDb();
+  Future<Uint8List?> exportDb();
 
-  Future<void> importDb(Uint8List path);
+  Future<void> importDb(Uint8List db);
 }

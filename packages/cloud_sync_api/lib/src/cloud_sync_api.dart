@@ -5,7 +5,7 @@ abstract class CloudSyncApi {
 
   Future<void> logout();
 
-  Future<SyncResult> sync({required Uint8List localDb});
+  Future<SyncResult> sync({required Uint8List? localDb});
 
   Future<bool> isSignedIn();
 }

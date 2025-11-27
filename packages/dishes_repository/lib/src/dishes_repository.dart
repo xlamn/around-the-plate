@@ -19,7 +19,7 @@ class DishesRepository {
 
   void dispose() => _dishesApi.close();
 
-  Future<Uint8List> exportDb() => _dishesApi.exportDb();
+  Future<Uint8List?> exportDb() => _dishesApi.exportDb();
 
   Future<void> importDb(Uint8List db) => _dishesApi.importDb(db);
 }

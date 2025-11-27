@@ -79,7 +79,12 @@ class IsarStorageDishesApi extends DishesApi {
 
   /// Returns the local isar database as bytes
   @override
-  Future<Uint8List> exportDb() async {
+  Future<Uint8List?> exportDb() async {
+    final dishes = await _isar.dishs.where().findAll();
+    if (dishes.isEmpty) {
+      return null;
+    }
+
     final dirPath = _isar.directory;
     final directory = Directory(dirPath!);
 
@@ -92,7 +97,7 @@ class IsarStorageDishesApi extends DishesApi {
 
   /// Replaces current Isar DB with the given database
   @override
-  Future<void> importDb(Uint8List db) async {
+  Future<void> importDb(Uint8List dbBytes) async {
     final dirPath = _isar.directory!;
     final directory = Directory(dirPath);
 
@@ -100,7 +105,14 @@ class IsarStorageDishesApi extends DishesApi {
       (f) => f.path.endsWith('.isar'),
     );
 
-    await dbFile.writeAsBytes(db, flush: true);
+    await _isar.close();
+
+    await dbFile.writeAsBytes(dbBytes, flush: true);
+
+    _isar = await Isar.open(
+      [DishSchema],
+      directory: dirPath,
+    );
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);

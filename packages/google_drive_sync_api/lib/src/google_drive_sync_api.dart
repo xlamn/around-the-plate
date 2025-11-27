@@ -89,25 +89,21 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   }
 
   @override
-  Future<SyncResult> sync({required Uint8List localDb}) async {
+  Future<SyncResult> sync({required Uint8List? localDb}) async {
     final remote = await _findRemoteDb();
 
-    // Case 1: No remote backup → upload
-    if (remote == null) {
-      await uploadDatabase(localDb);
-      return SyncResult(success: true, direction: SyncDirection.upload);
+    // Case: no local db -> Download remote db
+    if (localDb == null && remote != null) {
+      final downloaded = await downloadDatabase();
+      return SyncResult(
+        success: true,
+        direction: SyncDirection.download,
+        downloadedBytes: downloaded,
+      );
     }
 
-    // Case 2: Remote exists, no local db → download
-    final downloaded = await downloadDatabase();
-    return SyncResult(
-      success: true,
-      direction: SyncDirection.download,
-      downloadedBytes: downloaded,
-    );
-
-    // Case 3: Remote exists but local has dishes → upload
-    // TODO
+    await uploadDatabase(localDb!);
+    return SyncResult(success: true, direction: SyncDirection.upload);
   }
 
   Future<drive.File?> _findRemoteDb() async {
