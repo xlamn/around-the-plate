@@ -13,8 +13,13 @@ class DirectoryImageStorageApi extends ImageStorageApi {
 
   static Future<void> init(String dir) async {
     _directory = dir;
+    final directory = Directory(_directory!);
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
   }
 
+  @override
   String get directory {
     if (_directory == null) {
       throw StateError('DirectoryImageStorageApi.init() must be called first.');
@@ -48,5 +53,16 @@ class DirectoryImageStorageApi extends ImageStorageApi {
     final file = getImageFile(imagePath);
     if (file == null) return null;
     return await file.readAsBytes();
+  }
+
+  @override
+  List<String> listLocalImages() {
+    final dir = Directory(directory);
+    if (!dir.existsSync()) return [];
+    return dir
+        .listSync()
+        .whereType<File>()
+        .map((f) => path.basename(f.path))
+        .toList();
   }
 }

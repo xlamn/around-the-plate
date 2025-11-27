@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 abstract class CloudSyncApi {
@@ -8,6 +9,10 @@ abstract class CloudSyncApi {
   Future<SyncResult> sync({required Uint8List? localDb});
 
   bool isSignedIn();
+
+  Future<void> uploadImage(File file);
+
+  Future<void> downloadAllImages(String localDirPath);
 }
 
 class SyncResult {

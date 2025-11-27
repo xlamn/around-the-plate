@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_sync_api/cloud_sync_api.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 
 class GoogleDriveSyncApi implements CloudSyncApi {
   GoogleDriveSyncApi._internal();
@@ -22,6 +24,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   static http.Client? _httpClient;
 
   static const String _dbFileName = 'isar_db.isar';
+  static const String _imagesFolderName = 'dish_images';
 
   static Future<void> init() async {
     final account = await _googleSignIn.signInSilently();
@@ -124,6 +127,84 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     );
 
     return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
+  }
+
+  @override
+  Future<void> uploadImage(File file) async {
+    final folder = await _getOrCreateImagesFolder();
+    final fileName = path.basename(file.path);
+
+    // check if file already exists
+    final existing = await _driveApi!.files.list(
+      q: "'${folder.id}' in parents and name='${fileName}'",
+      $fields: "files(id)",
+    );
+
+    final media = drive.Media(file.openRead(), await file.length());
+
+    if (existing.files?.isNotEmpty == true) {
+      await _driveApi!.files.update(
+        drive.File()..name = fileName,
+        existing.files!.first.id!,
+        uploadMedia: media,
+      );
+    } else {
+      final metadata = drive.File()
+        ..name = fileName
+        ..parents = [folder.id!];
+
+      await _driveApi!.files.create(metadata, uploadMedia: media);
+    }
+  }
+
+  @override
+  Future<void> downloadAllImages(String localDirPath) async {
+    final folder = await _getOrCreateImagesFolder();
+    final list = await _driveApi!.files.list(
+      q: "'${folder.id}' in parents",
+      $fields: "files(id,name)",
+    );
+
+    if (list.files == null) return;
+
+    final localDir = Directory(localDirPath);
+
+    for (final f in list.files!) {
+      final media = await _driveApi!.files.get(
+        f.id!,
+        downloadOptions: drive.DownloadOptions.fullMedia,
+      );
+
+      if (media is drive.Media) {
+        final file = File(path.join(localDir.path, f.name!));
+        final sink = file.openWrite();
+
+        await for (final chunk in media.stream) {
+          sink.add(chunk);
+        }
+
+        await sink.close();
+      }
+    }
+  }
+
+  Future<drive.File> _getOrCreateImagesFolder() async {
+    final list = await _driveApi!.files.list(
+      q: "name='$_imagesFolderName' and mimeType='application/vnd.google-apps.folder'",
+      spaces: 'drive',
+      $fields: 'files(id,name)',
+    );
+
+    if (list.files?.isNotEmpty == true) {
+      return list.files!.first;
+    }
+
+    final folder = drive.File()
+      ..name = _imagesFolderName
+      ..mimeType = 'application/vnd.google-apps.folder'
+      ..parents = ['root'];
+
+    return await _driveApi!.files.create(folder);
   }
 }
 

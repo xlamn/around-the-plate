@@ -1,5 +1,6 @@
 import 'package:app_theme/app_theme.dart';
 import 'package:cloud_sync_api/cloud_sync_api.dart';
+import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ class CloudSyncPage extends StatelessWidget {
         cloudSyncService: CloudSyncService(
           repository: context.read<DishesRepository>(),
           cloudApi: GoogleDriveSyncApi.instance,
+          imageStorage: DirectoryImageStorageApi.instance,
         ),
       ),
       child: const CloudSyncView(),
