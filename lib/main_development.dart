@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
+import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,6 +35,10 @@ Future<void> main() async {
     isar: isar,
     imageStorageApi: imageStorage,
   );
+
+  if (Platform.isAndroid) {
+    await GoogleDriveSyncApi.init();
+  }
 
   bootstrap(dishesApi: dishesApi);
 }

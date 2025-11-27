@@ -2,32 +2,33 @@ import 'dart:developer';
 
 import 'package:app_theme/app_theme.dart';
 import 'package:cloud_sync_api/cloud_sync_api.dart';
+import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 
 class CloudSyncPage extends StatefulWidget {
-  final CloudSyncService cloudSyncService;
-
-  const CloudSyncPage({super.key, required this.cloudSyncService});
+  const CloudSyncPage({super.key});
 
   @override
   State<CloudSyncPage> createState() => _CloudSyncPageState();
 }
 
 class _CloudSyncPageState extends State<CloudSyncPage> {
+  late final CloudSyncService cloudSyncService;
   bool isEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    _checkSignInStatus();
+    cloudSyncService = CloudSyncService(
+      repository: context.read<DishesRepository>(),
+      cloudApi: GoogleDriveSyncApi.instance,
+    );
+    isEnabled = cloudSyncService.isSignedIn();
   }
 
-  Future<void> _checkSignInStatus() async {
-    final signedIn = await widget.cloudSyncService.isSignedIn();
-    setState(() {
-      isEnabled = signedIn;
-    });
-  }
+  //TODO: Add loading behaviour, text indicating last sync time and information text about down/uploading
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +64,13 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
                   onChange: (value) async {
                     if (!isEnabled) {
                       try {
-                        await widget.cloudSyncService.login();
+                        await cloudSyncService.login();
                         setState(() => isEnabled = value);
                       } catch (e) {
                         log('Error initializing Google Drive: $e');
                       }
                     } else {
-                      await widget.cloudSyncService.logout();
+                      await cloudSyncService.logout();
                       setState(() => isEnabled = value);
                     }
                   },
@@ -82,7 +83,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
             child: FButton(
               onPress: isEnabled
                   ? () async {
-                      await widget.cloudSyncService.sync();
+                      await cloudSyncService.sync();
                     }
                   : null,
               child: Text('Sync Now'),

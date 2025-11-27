@@ -7,7 +7,7 @@ abstract class CloudSyncApi {
 
   Future<SyncResult> sync({required Uint8List? localDb});
 
-  Future<bool> isSignedIn();
+  bool isSignedIn();
 }
 
 class SyncResult {

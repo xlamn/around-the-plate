@@ -38,5 +38,5 @@ class CloudSyncService {
 
   Future<void> logout() async => await cloudApi.logout();
 
-  Future<bool> isSignedIn() async => await cloudApi.isSignedIn();
+  bool isSignedIn() => cloudApi.isSignedIn();
 }

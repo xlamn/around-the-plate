@@ -7,23 +7,34 @@ import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:http/http.dart' as http;
 
 class GoogleDriveSyncApi implements CloudSyncApi {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
+  GoogleDriveSyncApi._internal();
+
+  static GoogleDriveSyncApi instance = GoogleDriveSyncApi._internal();
+
+  static final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       drive.DriveApi.driveFileScope,
       drive.DriveApi.driveAppdataScope,
     ],
   );
 
-  // TODO: requires to login every time to be set
-  drive.DriveApi? _driveApi;
-  http.Client? _httpClient;
+  static drive.DriveApi? _driveApi;
+  static http.Client? _httpClient;
 
   static const String _dbFileName = 'isar_db.isar';
 
+  static Future<void> init() async {
+    final account = await _googleSignIn.signInSilently();
+    if (account != null) {
+      final headers = await account.authHeaders;
+      _httpClient = GoogleHttpClient(headers);
+      _driveApi = drive.DriveApi(_httpClient!);
+    }
+  }
+
   @override
   Future<void> login() async {
-    final account =
-        await _googleSignIn.signInSilently() ?? await _googleSignIn.signIn();
+    final account = await _googleSignIn.signIn();
     if (account == null) throw SyncException('Google Sign-In failed');
 
     final authHeaders = await account.authHeaders;
@@ -40,10 +51,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   }
 
   @override
-  Future<bool> isSignedIn() async {
-    final account = await _googleSignIn.signInSilently();
-    return account != null;
-  }
+  bool isSignedIn() => _httpClient != null && _driveApi != null;
 
   Future<void> uploadDatabase(Uint8List bytes) async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
