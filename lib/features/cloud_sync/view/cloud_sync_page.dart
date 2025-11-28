@@ -18,7 +18,7 @@ class CloudSyncPage extends StatelessWidget {
         cloudSyncService: CloudSyncService(
           repository: context.read<DishesRepository>(),
           cloudApi: GoogleDriveSyncApi.instance,
-          imageStorage: DirectoryImageStorageApi.instance,
+          imageStorageDirectory: DirectoryImageStorageApi.instance.directory,
         ),
       ),
       child: const CloudSyncView(),

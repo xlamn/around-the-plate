@@ -11,8 +11,6 @@ dependencies:
     sdk: flutter
   dishes_repository:
     path: ../dishes_repository
-  image_storage_api:
-    path: ../image_storage_api
 
 dev_dependencies:
   flutter_lints: ^5.0.0
