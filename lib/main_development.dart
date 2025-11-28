@@ -20,7 +20,7 @@ Future<void> main() async {
     directory: dir.path,
   );
 
-  await isar.writeTxn(() async => await isar.clear());
+  // await isar.writeTxn(() async => await isar.clear());
 
   await DirectoryImageStorageApi.init('${(dir.path)}/dish_images');
   final imageStorage = DirectoryImageStorageApi.instance;
