@@ -24,7 +24,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   static http.Client? _httpClient;
 
   static const String _dbFileName = 'isar_db.isar';
-  static const String _imagesFolderName = 'dish_images';
+  static const String _imagesFolderName = 'around_the_plate';
 
   static Future<void> init() async {
     final account = await _googleSignIn.signInSilently();
