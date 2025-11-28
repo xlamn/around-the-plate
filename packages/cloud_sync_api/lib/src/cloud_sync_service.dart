@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:image_storage_api/image_storage_api.dart';
 
@@ -20,23 +18,13 @@ class CloudSyncService {
   Future<SyncResult> sync() async {
     try {
       final localDb = await repository.exportDb();
-      final hasLocalDb = localDb != null;
-      final result = await cloudApi.sync(localDb: localDb);
-
-      if (!hasLocalDb && result.direction == SyncDirection.download) {
+      final result = await cloudApi.sync(
+        localDb: localDb,
+        imageStorageDirectory: imageStorage.directory,
+      );
+      if (result.direction == SyncDirection.download) {
         await repository.importDb(result.downloadedBytes!);
-        await cloudApi.downloadAllImages(imageStorage.directory);
       }
-
-      if (hasLocalDb && result.direction == SyncDirection.upload) {
-        final localImageFiles = Directory(imageStorage.directory).listSync();
-        for (final entity in localImageFiles) {
-          if (entity is File) {
-            await cloudApi.uploadImage(entity);
-          }
-        }
-      }
-
       return result;
     } catch (e) {
       return SyncResult(

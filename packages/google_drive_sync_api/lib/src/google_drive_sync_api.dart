@@ -100,20 +100,32 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   }
 
   @override
-  Future<SyncResult> sync({required Uint8List? localDb}) async {
+  Future<SyncResult> sync({
+    required Uint8List? localDb,
+    required String imageStorageDirectory,
+  }) async {
     final remote = await _findRemoteDb();
+    final hasLocalDb = localDb != null;
 
-    // Case: no local db -> Download remote db
-    if (localDb == null && remote != null) {
-      final downloaded = await downloadDatabase();
+    if (!hasLocalDb && remote != null) {
+      final downloadedDb = await downloadDatabase();
+      await _downloadAllImages(imageStorageDirectory);
       return SyncResult(
         success: true,
         direction: SyncDirection.download,
-        downloadedBytes: downloaded,
+        downloadedBytes: downloadedDb,
       );
     }
 
-    await uploadDatabase(localDb!);
+    if (hasLocalDb) {
+      await uploadDatabase(localDb);
+      final localImageFiles = Directory(imageStorageDirectory).listSync();
+      for (final entity in localImageFiles) {
+        if (entity is File) {
+          await _uploadImage(entity);
+        }
+      }
+    }
     return SyncResult(success: true, direction: SyncDirection.upload);
   }
 
@@ -129,14 +141,13 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
   }
 
-  @override
-  Future<void> uploadImage(File file) async {
+  Future<void> _uploadImage(File file) async {
     final folder = await _getOrCreateImagesFolder();
     final fileName = path.basename(file.path);
 
     // check if file already exists
     final existing = await _driveApi!.files.list(
-      q: "'${folder.id}' in parents and name='${fileName}'",
+      q: "'${folder.id}' in parents and name='$fileName'",
       $fields: "files(id)",
     );
 
@@ -157,8 +168,7 @@ class GoogleDriveSyncApi implements CloudSyncApi {
     }
   }
 
-  @override
-  Future<void> downloadAllImages(String localDirPath) async {
+  Future<void> _downloadAllImages(String localDirPath) async {
     final folder = await _getOrCreateImagesFolder();
     final list = await _driveApi!.files.list(
       q: "'${folder.id}' in parents",
