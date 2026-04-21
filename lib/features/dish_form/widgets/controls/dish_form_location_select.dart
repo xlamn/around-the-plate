@@ -1,109 +1,52 @@
 import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/extensions/extensions.dart';
+import 'package:around_the_plate/features/dish_form/cubits/location_search/dish_form_location_search_cubit.dart';
+import 'package:around_the_plate/services/location_service.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DishFormLocationSelect extends StatefulWidget {
+class DishFormLocationSelect extends StatelessWidget {
   final FSelectController<DishLocation> controller;
 
   const DishFormLocationSelect({super.key, required this.controller});
 
   @override
-  State<DishFormLocationSelect> createState() => _DishFormLocationSelectState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => DishFormLocationSearchCubit(service: LocationService.instance)..init(),
+      child: _DishFormLocationSelectView(controller: controller),
+    );
+  }
 }
 
-class _DishFormLocationSelectState extends State<DishFormLocationSelect> {
-  final List<DishLocation> _locations = [];
-  bool _isLoading = true;
-  bool _permissionGranted = false;
+class _DishFormLocationSelectView extends StatelessWidget {
+  final FSelectController<DishLocation> controller;
 
-  @override
-  void initState() {
-    _initLocation();
-    super.initState();
-  }
+  const _DishFormLocationSelectView({required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return FSelect<DishLocation>.rich(
-      controller: widget.controller,
-      label: const Text('Location'),
-      hint: _isLoading ? 'Loading locations...' : 'Select location',
-      enabled: _permissionGranted,
-      clearable: true,
-      format: (c) => c.placeName?.toCapitalized() ?? '',
-      children: [
-        for (final location in _locations)
-          FSelectItem(
-            title: Text(location.placeName?.toCapitalized() ?? ''),
-            value: location,
-          ),
-      ],
+    return BlocBuilder<DishFormLocationSearchCubit, DishFormLocationSearchState>(
+      builder: (context, state) {
+        return FSelect<DishLocation>.searchBuilder(
+          control: FSelectControl.managed(controller: controller),
+          label: const Text('Location'),
+          hint: 'Select location',
+          clearable: true,
+          format: (location) => location.placeName?.toCapitalized() ?? '',
+          contentAnchor: AlignmentDirectional.bottomStart,
+          fieldAnchor: AlignmentDirectional.topStart,
+          filter: (query) => context.read<DishFormLocationSearchCubit>().search(query),
+          contentBuilder: (context, query, locations) => [
+            for (final location in locations)
+              FSelectItem<DishLocation>(
+                title: Text(location.placeName?.toCapitalized() ?? ''),
+                value: location,
+              ),
+          ],
+        );
+      },
     );
-  }
-
-  Future<void> _initLocation() async {
-    try {
-      final position = await _getCurrentPosition();
-
-      if (position == null) {
-        setState(() => _isLoading = false);
-        return;
-      }
-
-      final locations = await _getLocationsFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      setState(() {
-        _locations.addAll(locations);
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
-      debugPrint('Error getting location: $e');
-    }
-  }
-
-  Future<Position?> _getCurrentPosition() async {
-    final status = await Permission.location.request();
-    setState(() => _permissionGranted = status.isGranted);
-
-    if (_permissionGranted) {
-      return Geolocator.getCurrentPosition();
-    } else {
-      return null;
-    }
-  }
-
-  Future<List<DishLocation>> _getLocationsFromCoordinates(
-    double latitude,
-    double longitude,
-  ) async {
-    final placemarks = await placemarkFromCoordinates(
-      latitude,
-      longitude,
-    );
-
-    if (placemarks.isEmpty) return [];
-
-    return placemarks.map((place) {
-      final placeName = [
-        place.name,
-        place.locality,
-        place.administrativeArea,
-        place.country,
-      ].where((e) => e != null && e.isNotEmpty).join(', ');
-
-      return DishLocation(
-        latitude: latitude,
-        longitude: longitude,
-        placeName: placeName,
-      );
-    }).toList();
   }
 }

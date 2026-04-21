@@ -1,4 +1,5 @@
 import 'package:app_theme/app_theme.dart';
+import 'package:around_the_plate/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,9 @@ class OnboardingLocationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OnboardingLocationCubit(),
+      create: (_) => OnboardingLocationCubit(
+        service: LocationService.instance,
+      ),
       child: OnboardingLocationView(),
     );
   }
@@ -47,10 +50,9 @@ class OnboardingLocationView extends StatelessWidget {
                     children: [
                       Text(
                         "All Around The World",
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         'Every dish has its history. In order to provide you with map related features, the app needs access to your location permission.  ',
@@ -64,9 +66,8 @@ class OnboardingLocationView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(AppSizes.spacing16),
                   child: FButton(
-                    onPress: () => context
-                        .read<OnboardingLocationCubit>()
-                        .requestLocationPermission(),
+                    onPress: () =>
+                        context.read<OnboardingLocationCubit>().requestLocationPermission(),
                     child: const Text('Continue'),
                   ),
                 ),

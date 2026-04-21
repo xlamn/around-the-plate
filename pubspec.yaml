@@ -1,6 +1,6 @@
 name: around_the_plate
 description: "Track your plates, trace their origins."
-publish_to: 'none'
+publish_to: "none"
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -16,7 +16,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.9.2 <4.0.0'
+  sdk: ">=3.9.2 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -27,7 +27,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
   bloc: ^9.0.0
   camera: ^0.11.2
   envied: ^1.3.0
@@ -38,6 +38,7 @@ dependencies:
     sdk: flutter
   geocoding: ^4.0.0
   geolocator: ^14.0.2
+  http: ^1.4.0
   hydrated_bloc: ^10.1.1
   mapbox_maps_flutter: ^2.11.0
   path_provider: ^2.1.5
@@ -49,7 +50,7 @@ dependencies:
     path: packages/app_theme
   cloud_sync_api:
     path: packages/cloud_sync_api
-  google_drive_sync_api: 
+  google_drive_sync_api:
     path: packages/google_drive_sync_api
   dishes_api:
     path: packages/dishes_api
@@ -59,7 +60,6 @@ dependencies:
     path: packages/directory_image_storage_api
   isar_storage_dishes_api:
     path: packages/isar_storage_dishes_api
-
 
 dev_dependencies:
   bloc_test: ^10.0.0
@@ -77,13 +77,11 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.4
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
