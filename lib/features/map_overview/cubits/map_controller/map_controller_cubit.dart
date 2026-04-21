@@ -9,24 +9,33 @@ import 'map_controller_state.dart';
 
 class MapControllerCubit extends Cubit<MapControllerState> {
   late MapOverviewMapController _controller;
+  bool _isStyleLoaded = false;
 
   MapControllerCubit() : super(const MapControllerState()) {
     MapboxOptions.setAccessToken(Env.mapboxApiKey);
   }
 
-  /// Call this method first before interacting with the map.
   void initialize(MapOverviewMapController controller) {
     _controller = controller;
+    _isStyleLoaded = false;
     emit(state.copyWith(isMapLoaded: true));
   }
 
+  Future<void> onStyleLoaded(
+    String countriesJson,
+    String highlightedCountriesJson,
+  ) async {
+    _isStyleLoaded = true;
+    await updateMap(countriesJson, highlightedCountriesJson);
+  }
+
   /// Updates the map with new GeoJSON data.
-  /// Does nothing if the map is not yet loaded.
+  /// Does nothing if the map or style is not yet loaded.
   Future<void> updateMap(
     String countriesJson,
     String highlightedCountriesJson,
   ) async {
-    if (!state.isMapLoaded) {
+    if (!state.isMapLoaded || !_isStyleLoaded) {
       return;
     }
 

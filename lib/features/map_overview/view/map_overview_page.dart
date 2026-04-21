@@ -52,8 +52,7 @@ class MapOverviewView extends StatelessWidget {
             },
           ),
           BlocListener<MapInteractionCubit, MapInteractionState>(
-            listenWhen: (prev, curr) =>
-                prev.selectedCuisine != curr.selectedCuisine,
+            listenWhen: (prev, curr) => prev.selectedCuisine != curr.selectedCuisine,
             listener: (context, state) async {
               if (state.selectedCuisine == null) return;
               await showFDialog(
@@ -89,9 +88,7 @@ class MapOverviewView extends StatelessWidget {
                       center: Point(coordinates: Position(12.12247, 47.85637)),
                       zoom: 2.2,
                     ),
-                    styleUri: context.isDarkTheme
-                        ? MapboxStyles.DARK
-                        : MapboxStyles.LIGHT,
+                    styleUri: context.isDarkTheme ? MapboxStyles.DARK : MapboxStyles.LIGHT,
                     key: ValueKey(context.isDarkTheme),
                     textureView: true,
                     onMapCreated: (controller) {
@@ -108,10 +105,7 @@ class MapOverviewView extends StatelessWidget {
                         );
                         if (country == null || !context.mounted) return;
 
-                        final dishes = context
-                            .read<MapDataCubit>()
-                            .state
-                            .dishes;
+                        final dishes = context.read<MapDataCubit>().state.dishes;
 
                         context.read<MapInteractionCubit>().onCountrySelected(
                           country,
@@ -120,9 +114,10 @@ class MapOverviewView extends StatelessWidget {
                       });
                     },
                     onStyleLoadedListener: (data) {
-                      context.read<MapControllerCubit>().updateMap(
-                        state.countriesGeoJson ?? '',
-                        state.highlightedCountriesGeoJson ?? '',
+                      final mapData = context.read<MapDataCubit>().state;
+                      context.read<MapControllerCubit>().onStyleLoaded(
+                        mapData.countriesGeoJson ?? '',
+                        mapData.highlightedCountriesGeoJson ?? '',
                       );
                     },
                   ),
