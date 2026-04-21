@@ -33,6 +33,10 @@ class MapControllerCubit extends Cubit<MapControllerState> {
     emit(state.copyWith(status: MapControllerStatus.loading));
 
     try {
+      await _controller.style.setProjection(
+        StyleProjection(name: StyleProjectionName.mercator),
+      );
+
       await _controller.setOrUpdateSource(
         MapOverviewIds.allCountriesSource,
         countriesJson,
