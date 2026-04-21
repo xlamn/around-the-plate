@@ -52,7 +52,7 @@ class CloudSyncView extends StatelessWidget {
                   children: [
                     Text(
                       'Google Drive Login',
-                      style: context.theme.typography.base,
+                      style: context.theme.typography.sm,
                     ),
                     FSwitch(
                       value: state.isSignedIn,

@@ -11,7 +11,7 @@ class DishFormCuisineSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FSelect<DishCuisine>.rich(
-      controller: controller,
+      control: FSelectControl.managed(controller: controller),
       label: const Text('Cuisine'),
       hint: 'Select a cuisine',
       format: (c) => c.name.toCapitalized(),

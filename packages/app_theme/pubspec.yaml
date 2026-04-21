@@ -4,14 +4,14 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=3.9.2 <4.0.0'
+  sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
   flutter_bloc: ^9.1.1
   flutter:
     sdk: flutter
-  forui: ^0.16.0
-  forui_assets: ^0.16.0
+  forui: ^0.21.1
+  forui_assets: ^0.21.0
   hydrated_bloc: ^10.1.1
 
 dev_dependencies:

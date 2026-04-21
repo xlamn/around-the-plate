@@ -10,7 +10,7 @@ class DishFormNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: FTextFormField(
-        controller: controller,
+        control: FTextFieldControl.managed(controller: controller),
         label: const Text('Name *'),
         hint: 'Spaghetti Carbonara',
         maxLines: 1,

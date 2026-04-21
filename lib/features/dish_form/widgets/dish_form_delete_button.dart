@@ -16,35 +16,35 @@ class DishFormDeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FButton(
-      style: FButtonStyle.ghost(),
+      variant: FButtonVariant.ghost,
       onPress: () async {
         await showFDialog(
           context: context,
           builder: (_, style, animation) {
             return FDialog(
               direction: Axis.horizontal,
-              body: Text('Are you sure you want to delete this dish?'),
+              body: const Text('Are you sure you want to delete this dish?'),
               actions: [
                 FButton(
-                  style: FButtonStyle.destructive(),
+                  variant: FButtonVariant.destructive,
                   onPress: () async {
                     await context.read<DishFormCubit>().deleteDish(dish);
                     if (!context.mounted) return;
                     Navigator.pop(context);
                   },
-                  child: Text('Delete Dish'),
+                  child: const Text('Delete Dish'),
                 ),
                 FButton(
-                  style: FButtonStyle.ghost(),
+                  variant: FButtonVariant.ghost,
                   onPress: () => Navigator.pop(context),
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
               ],
             );
           },
         );
       },
-      child: Text("Delete Dish"),
+      child: const Text('Delete Dish'),
     );
   }
 }

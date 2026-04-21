@@ -6,51 +6,61 @@ import '../../../extensions/strings_extension.dart';
 import '../cubits/dishes_sort/dishes_sort_cubit.dart';
 import '../models/dishes_sort_option.dart';
 
-class DishesOverviewSortButton extends StatelessWidget {
+class DishesOverviewSortButton extends StatefulWidget {
   const DishesOverviewSortButton({super.key});
+
+  @override
+  State<DishesOverviewSortButton> createState() => _DishesOverviewSortButtonState();
+}
+
+class _DishesOverviewSortButtonState extends State<DishesOverviewSortButton>
+    with TickerProviderStateMixin {
+  late final FPopoverController _popoverController = FPopoverController(vsync: this);
+
+  @override
+  void dispose() {
+    _popoverController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DishesSortCubit, DishesSortOption>(
       builder: (context, selectedOption) {
-        return FSelect<DishesSortOption>.rich(
-          initialValue: selectedOption,
-          format: (s) => s.label,
-          builder: (_, _, _, field) {
-            return Container(
-              foregroundDecoration: BoxDecoration(
-                border: selectedOption != DishesSortOption.defaultOrder
-                    ? BoxBorder.all(
-                        width: 2,
-                        color: context.theme.colors.primary,
-                      )
-                    : null,
-                borderRadius: BorderRadius.circular(AppSizes.spacing8),
-              ),
-              child: FButton.icon(
-                style: FButtonStyle.secondary(),
-                onPress: () async {
-                  (field as TextField).onTap!();
-                },
-                child: const Icon(FIcons.arrowUpDown),
-              ),
-            );
-          },
-          onChange: (value) {
-            if (value != null) {
-              context.read<DishesSortCubit>().changeSort(value);
-            }
-          },
-          popoverConstraints: FPortalConstraints(
-            maxWidth: MediaQuery.widthOf(context) * 0.4,
-          ),
-          children: [
-            for (final option in DishesSortOption.values)
-              FSelectItem(
-                title: Text(option.label.toCapitalized()),
-                value: option,
-              ),
+        return FPopoverMenu.tiles(
+          control: FPopoverControl.managed(controller: _popoverController),
+          menu: [
+            FTileGroup(
+              children: [
+                for (final option in DishesSortOption.values)
+                  FTile(
+                    title: Text(option.label.toCapitalized()),
+                    selected: option == selectedOption,
+                    suffix: option == selectedOption ? const Icon(FIcons.check) : null,
+                    onPress: () {
+                      context.read<DishesSortCubit>().changeSort(option);
+                      _popoverController.hide();
+                    },
+                  ),
+              ],
+            ),
           ],
+          child: Container(
+            foregroundDecoration: BoxDecoration(
+              border: selectedOption != DishesSortOption.defaultOrder
+                  ? BoxBorder.all(
+                      width: 2,
+                      color: context.theme.colors.primary,
+                    )
+                  : null,
+              borderRadius: BorderRadius.circular(AppSizes.spacing8),
+            ),
+            child: FButton.icon(
+              variant: FButtonVariant.secondary,
+              onPress: _popoverController.toggle,
+              child: const Icon(FIcons.arrowUpDown),
+            ),
+          ),
         );
       },
     );

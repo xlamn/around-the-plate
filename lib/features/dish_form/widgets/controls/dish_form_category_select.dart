@@ -11,7 +11,7 @@ class DishFormCategorySelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FSelect<DishCategory>.rich(
-      controller: controller,
+      control: FSelectControl.managed(controller: controller),
       label: const Text('Category'),
       hint: 'Select a category',
       clearable: true,

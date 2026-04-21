@@ -50,48 +50,40 @@ class DishFormBottomSheetView extends StatefulWidget {
   });
 
   @override
-  State<DishFormBottomSheetView> createState() =>
-      _DishFormBottomSheetViewState();
+  State<DishFormBottomSheetView> createState() => _DishFormBottomSheetViewState();
 }
 
-class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
-    with TickerProviderStateMixin {
+class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final ImagePathController<String> _imagePathController =
-      ImagePathController<String>();
-  late final TextEditingController _nameTextFieldController =
-      TextEditingController();
-  late final FSelectController<DishCategory> _categorySelectController =
-      FSelectController(vsync: this);
-  late final FSelectController<DishCuisine> _cuisineSelectController =
-      FSelectController(vsync: this);
-  late final FSelectController<DishLocation> _locationSelectController =
-      FSelectController(vsync: this);
-  late final FDateFieldController _dateFieldController = FDateFieldController(
-    vsync: this,
-  );
-  late final FContinuousSliderController _ratingSliderController =
-      FContinuousSliderController(
-        selection: FSliderSelection(max: 0.5),
-      );
+  late final ImagePathController<String> _imagePathController = ImagePathController<String>();
+  late final TextEditingController _nameTextFieldController = TextEditingController();
+  late final FSelectController<DishCategory> _categorySelectController = FSelectController();
+  late final FSelectController<DishCuisine> _cuisineSelectController = FSelectController();
+  late final FSelectController<DishLocation> _locationSelectController = FSelectController();
+  late final FDateFieldController _dateFieldController = FDateFieldController();
+  late final FContinuousSliderController _ratingSliderController;
 
   @override
   void initState() {
     super.initState();
 
     final dish = widget.dish;
+
     if (dish != null) {
       _imagePathController.path = dish.imagePath;
       _nameTextFieldController.text = dish.name;
       _dateFieldController.value = dish.date;
-      _ratingSliderController.selection = FSliderSelection(
-        max: dish.rating,
+      _ratingSliderController = FContinuousSliderController(
+        value: FSliderValue(max: dish.rating),
       );
       _categorySelectController.value = dish.category;
       _cuisineSelectController.value = dish.cuisine;
       _locationSelectController.value = dish.location;
     } else {
       _imagePathController.path = widget.imagePath;
+      _ratingSliderController = FContinuousSliderController(
+        value: FSliderValue(max: 0.5),
+      );
     }
   }
 
@@ -131,7 +123,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView>
                     category: _categorySelectController.value,
                     cuisine: _cuisineSelectController.value,
                     location: _locationSelectController.value,
-                    rating: _ratingSliderController.selection.offset.max,
+                    rating: _ratingSliderController.value.max,
                   );
                   context.read<DishFormCubit>().addDish(dish);
                 },

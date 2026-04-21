@@ -2,7 +2,7 @@ import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class DishFormRatingSlider extends StatelessWidget {
-  final FSliderController controller;
+  final FContinuousSliderController controller;
 
   const DishFormRatingSlider({super.key, required this.controller});
 
@@ -11,11 +11,11 @@ class DishFormRatingSlider extends StatelessWidget {
     return FSlider(
       label: const Text('Rating'),
       layout: FLayout.ltr,
-      tooltipBuilder: (style, value) {
+      tooltipBuilder: (_, value) {
         final hex = (value * 100).round() / 10;
         return Text('$hex');
       },
-      controller: controller,
+      control: FSliderControl.managedContinuous(controller: controller),
       marks: const [
         FSliderMark(value: 0.0, label: Text('0')),
         FSliderMark(value: 0.1, label: Text('1')),

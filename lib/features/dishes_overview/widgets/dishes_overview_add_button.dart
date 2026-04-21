@@ -12,7 +12,7 @@ class DishesOverviewAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FButton.icon(
-      style: FButtonStyle.primary(),
+      variant: FButtonVariant.primary,
       onPress: () async {
         final imagePath = await imagePickerService.pickImage(context);
         if (!context.mounted || imagePath == null) return;

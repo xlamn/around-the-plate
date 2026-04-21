@@ -70,17 +70,17 @@ class DishesOverviewView extends StatelessWidget {
             builder: (_, sortOption) {
               final dishes = state.dishes.sortedBy(sortOption);
               return ListView.separated(
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: AppSizes.spacing16),
+                separatorBuilder: (context, index) => const SizedBox(height: AppSizes.spacing16),
                 itemCount: dishes.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                      margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
                       child: const FHeader(
                         title: Text('Home'),
                         suffixes: [
                           DishesOverviewSortButton(),
+                          SizedBox(width: AppSizes.spacing8),
                           DishesOverviewAddButton(),
                         ],
                       ),

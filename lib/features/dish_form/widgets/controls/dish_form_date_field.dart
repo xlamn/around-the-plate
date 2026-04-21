@@ -8,7 +8,7 @@ class DishFormDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FDateField(
-    controller: controller,
+    control: FDateFieldControl.managed(controller: controller),
     label: const Text('Date'),
     clearable: true,
     canRequestFocus: false,

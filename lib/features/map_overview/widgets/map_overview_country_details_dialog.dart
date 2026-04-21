@@ -26,7 +26,7 @@ class MapOverviewCountryDetailsDialog extends StatelessWidget {
       ),
       actions: [
         FButton(
-          style: FButtonStyle.primary(),
+          variant: FButtonVariant.primary,
           onPress: () => Navigator.of(context).pop(),
           child: const Text('OK'),
         ),

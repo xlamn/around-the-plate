@@ -1,6 +1,5 @@
-import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:forui/forui.dart';
 
 // ignore_for_file: avoid_redundant_argument_values
 
@@ -14,11 +13,16 @@ import 'package:flutter/services.dart';
 /// dart forui style create [styles]
 /// ```
 ///
-/// See https://forui.dev/docs/themes#customize-themes for more information.
+/// See:
+/// * https://forui.dev/docs/guides/customizing-themes for customizing themes.
+/// * https://forui.dev/docs/guides/customizing-widget-styles for customizing individual widget styles.
 FThemeData get zincLight {
+  // Change this to false to generate a desktop variant of the theme.
+  const touch = true;
+
   const colors = FColors(
-    brightness: Brightness.light,
-    systemOverlayStyle: SystemUiOverlayStyle.dark,
+    brightness: .light,
+    systemOverlayStyle: .dark,
     barrier: Color(0x33000000),
     background: Color(0xFFFFFFFF),
     foreground: Color(0xFF09090B),
@@ -27,144 +31,307 @@ FThemeData get zincLight {
     secondary: Color(0xFFF4F4F5),
     secondaryForeground: Color(0xFF18181B),
     muted: Color(0xFFF4F4F5),
-    mutedForeground: Color(0xFF71717A),
-    destructive: Color(0xFFEF4444),
+    mutedForeground: Color(0xFF71717B),
+    destructive: Color(0xFFE7000B),
     destructiveForeground: Color(0xFFFAFAFA),
-    error: Color(0xFFEF4444),
+    error: Color(0xFFE7000B),
     errorForeground: Color(0xFFFAFAFA),
+    card: Color(0xFFFFFFFF),
     border: Color(0xFFE4E4E7),
   );
 
-  final typography = _typography(colors: colors);
-  final style = _style(colors: colors, typography: typography);
+  final typography = _typography(colors: colors, touch: touch);
+  final style = _style(colors: colors, typography: typography, touch: touch);
 
-  return FThemeData(colors: colors, typography: typography, style: style);
+  return FThemeData(
+    colors: colors,
+    typography: typography,
+    style: style,
+    touch: touch,
+  );
 }
 
 FThemeData get zincDark {
+  // Change this to false to generate a desktop variant of the theme.
+  const touch = true;
+
   const colors = FColors(
-    brightness: Brightness.dark,
-    systemOverlayStyle: SystemUiOverlayStyle.light,
+    brightness: .dark,
+    systemOverlayStyle: .light,
     barrier: Color(0x7A000000),
     background: Color(0xFF09090B),
     foreground: Color(0xFFFAFAFA),
-    primary: Color(0xFFFAFAFA),
+    primary: Color(0xFFE4E4E7),
     primaryForeground: Color(0xFF18181B),
     secondary: Color(0xFF27272A),
     secondaryForeground: Color(0xFFFAFAFA),
     muted: Color(0xFF27272A),
-    mutedForeground: Color(0xFFA1A1AA),
-    destructive: Color(0xFF7F1D1D),
+    mutedForeground: Color(0xFF9F9FA9),
+    destructive: Color(0xFFFF6467),
     destructiveForeground: Color(0xFFFAFAFA),
-    error: Color(0xFF7F1D1D),
+    error: Color(0xFFFF6467),
     errorForeground: Color(0xFFFAFAFA),
-    border: Color(0xFF27272A),
+    card: Color(0xFF18181B),
+    border: Color(0x1AFFFFFF),
   );
 
-  final typography = _typography(colors: colors);
-  final style = _style(colors: colors, typography: typography);
+  final typography = _typography(colors: colors, touch: touch);
+  final style = _style(colors: colors, typography: typography, touch: touch);
 
-  return FThemeData(colors: colors, typography: typography, style: style);
+  return FThemeData(
+    colors: colors,
+    typography: typography,
+    style: style,
+    touch: touch,
+  );
 }
 
 FTypography _typography({
   required FColors colors,
-  String defaultFontFamily = 'packages/forui/Inter',
-}) => FTypography(
-  xs: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 12,
-    height: 1,
-  ),
-  sm: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 14,
-    height: 1.25,
-  ),
-  base: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 16,
-    height: 1.5,
-  ),
-  lg: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 18,
-    height: 1.75,
-  ),
-  xl: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 20,
-    height: 1.75,
-  ),
-  xl2: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 22,
-    height: 2,
-  ),
-  xl3: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 30,
-    height: 2.25,
-  ),
-  xl4: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 36,
-    height: 2.5,
-  ),
-  xl5: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 48,
-    height: 1,
-  ),
-  xl6: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 60,
-    height: 1,
-  ),
-  xl7: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 72,
-    height: 1,
-  ),
-  xl8: TextStyle(
-    color: colors.foreground,
-    fontFamily: defaultFontFamily,
-    fontSize: 96,
-    height: 1,
-  ),
-);
-
-FStyle _style({required FColors colors, required FTypography typography}) =>
-    FStyle(
-      formFieldStyle: FFormFieldStyle.inherit(
-        colors: colors,
-        typography: typography,
+  required bool touch,
+  String fontFamily = FTypography.defaultFontFamily,
+}) {
+  assert(
+    fontFamily.isNotEmpty,
+    'fontFamily ($fontFamily) should not be empty.',
+  );
+  final color = colors.foreground;
+  final font = fontFamily;
+  if (touch) {
+    return FTypography(
+      fontFamily: fontFamily,
+      xs3: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 10,
+        height: 1,
+        leadingDistribution: .even,
       ),
-      focusedOutlineStyle: FFocusedOutlineStyle(
-        color: colors.primary,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      xs2: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 12,
+        height: 1,
+        leadingDistribution: .even,
       ),
-      iconStyle: IconThemeData(color: colors.primary, size: 20),
-      tappableStyle: FTappableStyle(),
-      borderRadius: const FLerpBorderRadius.all(Radius.circular(8), min: 24),
-      borderWidth: 1,
-      pagePadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      shadow: const [
-        BoxShadow(
-          color: Color(0x0d000000),
-          offset: Offset(0, 0),
-          blurRadius: 5,
-        ),
-      ],
+      xs: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 14,
+        height: 1.25,
+        leadingDistribution: .even,
+      ),
+      sm: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 16,
+        height: 1.5,
+        leadingDistribution: .even,
+      ),
+      md: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 18,
+        height: 1.75,
+        leadingDistribution: .even,
+      ),
+      lg: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 20,
+        height: 1.75,
+        leadingDistribution: .even,
+      ),
+      xl: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 22,
+        height: 2,
+        leadingDistribution: .even,
+      ),
+      xl2: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 30,
+        height: 2.25,
+        leadingDistribution: .even,
+      ),
+      xl3: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 36,
+        height: 2.5,
+        leadingDistribution: .even,
+      ),
+      xl4: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 48,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl5: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 60,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl6: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 72,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl7: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 96,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl8: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 108,
+        height: 1,
+        leadingDistribution: .even,
+      ),
     );
+  } else {
+    return FTypography(
+      fontFamily: fontFamily,
+      xs3: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 8,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xs2: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 10,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xs: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 12,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      sm: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 14,
+        height: 1.25,
+        leadingDistribution: .even,
+      ),
+      md: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 16,
+        height: 1.5,
+        leadingDistribution: .even,
+      ),
+      lg: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 18,
+        height: 1.75,
+        leadingDistribution: .even,
+      ),
+      xl: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 20,
+        height: 1.75,
+        leadingDistribution: .even,
+      ),
+      xl2: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 22,
+        height: 2,
+        leadingDistribution: .even,
+      ),
+      xl3: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 30,
+        height: 2.25,
+        leadingDistribution: .even,
+      ),
+      xl4: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 36,
+        height: 2.5,
+        leadingDistribution: .even,
+      ),
+      xl5: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 48,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl6: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 60,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl7: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 72,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+      xl8: TextStyle(
+        color: color,
+        fontFamily: font,
+        fontSize: 96,
+        height: 1,
+        leadingDistribution: .even,
+      ),
+    );
+  }
+}
+
+FStyle _style({
+  required FColors colors,
+  required FTypography typography,
+  required bool touch,
+}) {
+  const borderRadius = FBorderRadius();
+  return FStyle(
+    formFieldStyle: .inherit(
+      colors: colors,
+      typography: typography,
+      touch: touch,
+    ),
+    focusedOutlineStyle: FFocusedOutlineStyle(
+      color: colors.primary,
+      borderRadius: borderRadius.md,
+    ),
+    sizes: FSizes.inherit(touch: touch),
+    iconStyle: IconThemeData(
+      color: colors.foreground,
+      size: typography.lg.fontSize,
+    ),
+    tappableStyle: FTappableStyle(),
+    hapticFeedback: const FHapticFeedback(),
+    borderRadius: const FBorderRadius(),
+    borderWidth: 1,
+    pagePadding: const .symmetric(vertical: 8, horizontal: 12),
+    shadow: const [
+      BoxShadow(color: Color(0x0d000000), offset: Offset(0, 1), blurRadius: 2),
+    ],
+  );
+}

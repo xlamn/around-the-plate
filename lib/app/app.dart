@@ -42,15 +42,13 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       supportedLocales: FLocalizations.supportedLocales,
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
-      builder: (_, child) => FAnimatedTheme(data: theme, child: child!),
+      builder: (_, child) => FTheme(data: theme, child: child!),
       theme: theme.toApproximateMaterialTheme(),
       home: BlocBuilder<AppStartupCubit, AppStartupState>(
         builder: (context, state) {
           return !state.completed
               ? OnboardingFlow(
-                  onFinished: context
-                      .read<AppStartupCubit>()
-                      .completeOnboarding,
+                  onFinished: context.read<AppStartupCubit>().completeOnboarding,
                 )
               : const Home();
         },

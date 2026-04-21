@@ -98,7 +98,7 @@ class _DishDetailsContent extends StatelessWidget {
           child: Center(
             child: Text(
               dish.name,
-              style: context.theme.typography.xl4.copyWith(
+              style: context.theme.typography.xl2.copyWith(
                 fontWeight: FontWeight.bold,
                 height: 1.0,
               ),
@@ -152,8 +152,7 @@ class _DishDetailsContent extends StatelessWidget {
                       _DishInfoRow(
                         icon: FIcons.calendar,
                         label: 'Date',
-                        value:
-                            '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
+                        value: '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
                       ),
                     if (dish.location != null)
                       _DishInfoRow(
