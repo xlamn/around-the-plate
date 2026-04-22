@@ -32,7 +32,7 @@ void main() {
 
   group('`$DishFormCubit`', () {
     test('initial state is AddDishState', () {
-      expect(buildCubit().state, equals(DishFormState()));
+      expect(buildCubit().state, equals(const DishFormState()));
     });
 
     blocTest<DishFormCubit, DishFormState>(
@@ -45,7 +45,7 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.addDish(dish),
       expect: () => [
-        DishFormState(status: DishFormStatus.loading),
+        const DishFormState(status: DishFormStatus.loading),
         DishFormState(status: DishFormStatus.success, dish: dish),
       ],
       verify: (_) {
@@ -63,8 +63,8 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.addDish(dish),
       expect: () => [
-        DishFormState(status: DishFormStatus.loading),
-        DishFormState(status: DishFormStatus.failure),
+        const DishFormState(status: DishFormStatus.loading),
+        const DishFormState(status: DishFormStatus.failure),
       ],
     );
   });

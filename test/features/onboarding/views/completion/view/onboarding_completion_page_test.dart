@@ -30,8 +30,7 @@ void main() {
 
       expect(
         find.byWidgetPredicate(
-          (Widget widget) =>
-              widget is Text && widget.style?.fontWeight == FontWeight.bold,
+          (Widget widget) => widget is Text && widget.style?.fontWeight == FontWeight.bold,
         ),
         findsOneWidget,
       );
@@ -42,7 +41,7 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       await tester.tap(find.byType(FButton));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(() => functions.onFinished()).called(1);
     });

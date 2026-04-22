@@ -13,8 +13,7 @@ import '../../../../../helpers/helpers.dart';
 class MockOnboardingCubit extends MockBloc<OnboardingCubit, OnboardingState>
     implements OnboardingCubit {}
 
-class MockOnboardingCameraCubit
-    extends MockBloc<OnboardingCameraCubit, OnboardingCameraState>
+class MockOnboardingCameraCubit extends MockBloc<OnboardingCameraCubit, OnboardingCameraState>
     implements OnboardingCameraCubit {}
 
 void main() {
@@ -41,7 +40,7 @@ void main() {
         BlocProvider.value(value: onboardingCubit),
         BlocProvider.value(value: onboardingCameraCubit),
       ],
-      child: OnboardingCameraView(),
+      child: const OnboardingCameraView(),
     );
   }
 
@@ -59,8 +58,7 @@ void main() {
 
       expect(
         find.byWidgetPredicate(
-          (Widget widget) =>
-              widget is Text && widget.style?.fontWeight == FontWeight.bold,
+          (Widget widget) => widget is Text && widget.style?.fontWeight == FontWeight.bold,
         ),
         findsOneWidget,
       );
@@ -71,7 +69,7 @@ void main() {
       await tester.pumpApp(buildSubject(const OnboardingCameraView()));
 
       await tester.tap(find.byType(FButton));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(() => onboardingCameraCubit.requestCameraPermission()).called(1);
     });
@@ -80,12 +78,12 @@ void main() {
       whenListen(
         onboardingCameraCubit,
         Stream.fromIterable([
-          OnboardingCameraState(status: CameraPermissionStatus.granted),
+          const OnboardingCameraState(status: CameraPermissionStatus.granted),
         ]),
-        initialState: OnboardingCameraState(),
+        initialState: const OnboardingCameraState(),
       );
       await tester.pumpApp(buildSubject(const OnboardingCameraView()));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(() => onboardingCubit.nextStep()).called(1);
     });

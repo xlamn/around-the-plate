@@ -19,7 +19,7 @@ class MapDataCubit extends Cubit<MapDataState> {
   MapDataCubit({
     required DishesRepository dishesRepository,
   }) : _dishesRepository = dishesRepository,
-       super(MapDataState());
+       super(const MapDataState());
 
   Future<void> loadGeoJson() async {
     emit(state.copyWith(status: () => MapDataStatus.loading));
@@ -68,8 +68,8 @@ class MapDataCubit extends Cubit<MapDataState> {
                 props['intensity'] = intensity;
 
                 final color = intensity.generateColorFromNumber(
-                  startColor: Color(0xFFFFF7EA),
-                  endColor: Color(0xFF4CAF50),
+                  startColor: const Color(0xFFFFF7EA),
+                  endColor: const Color(0xFF4CAF50),
                 );
                 props['fillColor'] = color;
                 highlightedFeatures.add(f);
@@ -80,8 +80,8 @@ class MapDataCubit extends Cubit<MapDataState> {
           }
 
           final highlightedGeoJson = {
-            "type": "FeatureCollection",
-            "features": highlightedFeatures,
+            'type': 'FeatureCollection',
+            'features': highlightedFeatures,
           };
           final highlightedCountriesGeoJsonString = jsonEncode(
             highlightedGeoJson,

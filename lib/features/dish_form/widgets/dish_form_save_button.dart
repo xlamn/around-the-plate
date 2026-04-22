@@ -16,7 +16,7 @@ class DishFormSaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FButton(
       onPress: onPressed,
-      child: Text(isEditing ? "Edit Dish" : "Add Dish"),
+      child: Text(isEditing ? 'Edit Dish' : 'Add Dish'),
     );
   }
 }

@@ -24,9 +24,9 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final List<Widget> contents = [
-    DishesOverviewPage(),
-    MapOverviewPage(),
-    SettingsOverviewPage(),
+    const DishesOverviewPage(),
+    const MapOverviewPage(),
+    const SettingsOverviewPage(),
   ];
 
   @override

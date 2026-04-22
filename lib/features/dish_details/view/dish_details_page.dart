@@ -130,7 +130,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                   height: imageSize,
                   child: imageFile != null
                       ? Image.file(imageFile, fit: BoxFit.cover)
-                      : Placeholder(),
+                      : const Placeholder(),
                 ),
 
                 // Card

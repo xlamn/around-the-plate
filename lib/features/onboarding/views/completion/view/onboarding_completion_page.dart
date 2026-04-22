@@ -25,7 +25,7 @@ class OnboardingCompletionPage extends StatelessWidget {
                 spacing: AppSizes.spacing8,
                 children: [
                   Text(
-                    "Yay, you are ready!",
+                    'Yay, you are ready!',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -42,7 +42,7 @@ class OnboardingCompletionPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing16),
               child: FButton(
-                prefix: Icon(FIcons.partyPopper),
+                prefix: const Icon(FIcons.partyPopper),
                 onPress: onFinished,
                 child: const Text('Let\'s go'),
               ),

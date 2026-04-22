@@ -59,7 +59,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           }
                           Navigator.pop(context, imagePath);
                         },
-                        child: Icon(
+                        child: const Icon(
                           FIcons.image,
                           color: Colors.white,
                           size: 36.0,
@@ -72,7 +72,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           Navigator.pop(context, imagePath);
                         },
                         child: Container(
-                          margin: EdgeInsets.all(AppSizes.spacing32),
+                          margin: const EdgeInsets.all(AppSizes.spacing32),
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(
@@ -84,7 +84,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           ),
                         ),
                       ),
-                      SizedBox.square(
+                      const SizedBox.square(
                         dimension: 36.0,
                       ),
                     ],

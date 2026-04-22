@@ -14,7 +14,7 @@ class ThemeSelectionPage extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(FIcons.arrowLeft),
+            icon: const Icon(FIcons.arrowLeft),
           ),
         ),
         body: Column(
@@ -28,21 +28,21 @@ class ThemeSelectionPage extends StatelessWidget {
                   context.read<ThemeModeCubit>().setThemeMode(value);
                 }
               },
-              child: Column(
+              child: const Column(
                 children: [
                   RadioListTile<ThemeMode>(
-                    title: const Text('System'),
+                    title: Text('System'),
                     value: ThemeMode.system,
                     subtitle: Text(
                       'Follows device\'s settings',
                     ),
                   ),
                   RadioListTile<ThemeMode>(
-                    title: const Text('Light'),
+                    title: Text('Light'),
                     value: ThemeMode.light,
                   ),
                   RadioListTile<ThemeMode>(
-                    title: const Text('Dark'),
+                    title: Text('Dark'),
                     value: ThemeMode.dark,
                   ),
                 ],

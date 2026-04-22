@@ -49,7 +49,7 @@ class DishesOverviewView extends StatelessWidget {
           if (state.dishes.isEmpty) {
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
-              child: Column(
+              child: const Column(
                 children: [
                   FHeader(
                     title: Text('Home'),
@@ -58,7 +58,7 @@ class DishesOverviewView extends StatelessWidget {
                     ],
                   ),
                   Expanded(
-                    child: const Center(
+                    child: Center(
                       child: Text('You haven\'t added any dishes yet.'),
                     ),
                   ),

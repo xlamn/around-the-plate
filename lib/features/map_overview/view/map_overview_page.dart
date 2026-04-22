@@ -77,7 +77,7 @@ class MapOverviewView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.status == MapDataStatus.failure) {
-              return const Center(child: Text("Failed to load map"));
+              return const Center(child: Text('Failed to load map'));
             }
             return Column(
               children: [

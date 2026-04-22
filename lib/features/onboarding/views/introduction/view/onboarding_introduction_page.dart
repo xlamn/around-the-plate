@@ -13,10 +13,10 @@ class OnboardingIntroductionPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Spacer(),
+            const Spacer(),
             ShaderMask(
               shaderCallback: (rect) {
-                return LinearGradient(
+                return const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
@@ -38,7 +38,7 @@ class OnboardingIntroductionPage extends StatelessWidget {
                 'assets/onboarding/onboarding_01.png',
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing24),
               child: Column(
@@ -46,7 +46,7 @@ class OnboardingIntroductionPage extends StatelessWidget {
                 spacing: AppSizes.spacing8,
                 children: [
                   Text(
-                    "Welcome to Around The Plate",
+                    'Welcome to Around The Plate',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -69,7 +69,7 @@ class OnboardingIntroductionPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing16),
               child: FButton(
-                prefix: Icon(FIcons.play),
+                prefix: const Icon(FIcons.play),
                 onPress: () => context.read<OnboardingCubit>().nextStep(),
                 child: const Text('Start'),
               ),

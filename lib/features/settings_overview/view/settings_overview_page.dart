@@ -18,8 +18,8 @@ class SettingsOverviewPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          FHeader(
-            title: const Text('Settings'),
+          const FHeader(
+            title: Text('Settings'),
           ),
           Padding(
             padding: const EdgeInsets.all(AppSizes.spacing16),
@@ -27,26 +27,26 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('General'),
               children: [
                 FTile(
-                  prefix: Icon(FIcons.palette),
+                  prefix: const Icon(FIcons.palette),
                   title: const Text('Theme'),
-                  suffix: Icon(FIcons.chevronRight),
+                  suffix: const Icon(FIcons.chevronRight),
                   onPress: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ThemeSelectionPage(),
+                        builder: (context) => const ThemeSelectionPage(),
                       ),
                     );
                   },
                 ),
                 if (Theme.of(context).platform == TargetPlatform.android)
                   FTile(
-                    prefix: Icon(FIcons.refreshCcwDot),
+                    prefix: const Icon(FIcons.refreshCcwDot),
                     title: const Text('Synchronization'),
-                    suffix: Icon(FIcons.chevronRight),
+                    suffix: const Icon(FIcons.chevronRight),
                     onPress: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CloudSyncPage(),
+                          builder: (context) => const CloudSyncPage(),
                         ),
                       );
                     },
@@ -60,25 +60,25 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('Support'),
               children: [
                 FTile(
-                  prefix: Icon(FIcons.mail),
+                  prefix: const Icon(FIcons.mail),
                   title: const Text('Contact Developer'),
-                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FIcons.squareArrowOutUpRight),
                   onPress: () async => await _urlLauncherService.openEmail(
                     subject: 'Around the Plate - Request',
                   ),
                 ),
                 FTile(
-                  prefix: Icon(FIcons.cookie),
+                  prefix: const Icon(FIcons.cookie),
                   title: const Text('Buy a cookie'),
-                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FIcons.squareArrowOutUpRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://paypal.me/xlamn',
                   ),
                 ),
                 FTile(
-                  prefix: Icon(FIcons.star),
+                  prefix: const Icon(FIcons.star),
                   title: const Text('Rate App'),
-                  suffix: Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FIcons.squareArrowOutUpRight),
                   onPress: null,
                 ),
               ],
@@ -90,17 +90,17 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('Legal'),
               children: [
                 FTile(
-                  prefix: Icon(FIcons.fileSpreadsheet),
+                  prefix: const Icon(FIcons.fileSpreadsheet),
                   title: const Text('Imprint'),
-                  suffix: Icon(FIcons.chevronRight),
+                  suffix: const Icon(FIcons.chevronRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://www.tlnguyen.fyi/works/aroundtheplate/imprint',
                   ),
                 ),
                 FTile(
-                  prefix: Icon(FIcons.handshake),
+                  prefix: const Icon(FIcons.handshake),
                   title: const Text('Privacy Policy'),
-                  suffix: Icon(FIcons.chevronRight),
+                  suffix: const Icon(FIcons.chevronRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://www.tlnguyen.fyi/works/aroundtheplate/privacy_policy',
                   ),

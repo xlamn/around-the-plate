@@ -59,7 +59,7 @@ void main() {
         ]);
       },
       expect: () => [
-        DishesOverviewState(status: DishesOverviewStatus.loading),
+        const DishesOverviewState(status: DishesOverviewStatus.loading),
         isA<DishesOverviewState>()
             .having((s) => s.status, 'status', DishesOverviewStatus.success)
             .having((s) => s.dishes.length, 'dishes', 1),
@@ -74,7 +74,7 @@ void main() {
         dishesController.addError(Exception('oops'));
       },
       expect: () => [
-        DishesOverviewState(status: DishesOverviewStatus.loading),
+        const DishesOverviewState(status: DishesOverviewStatus.loading),
         isA<DishesOverviewState>()
             .having((s) => s.status, 'status', DishesOverviewStatus.failure)
             .having((s) => s.dishes.length, 'dishes', 0),

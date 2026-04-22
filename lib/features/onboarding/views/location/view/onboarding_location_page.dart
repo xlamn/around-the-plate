@@ -15,7 +15,7 @@ class OnboardingLocationPage extends StatelessWidget {
       create: (_) => OnboardingLocationCubit(
         service: LocationService.instance,
       ),
-      child: OnboardingLocationView(),
+      child: const OnboardingLocationView(),
     );
   }
 }
@@ -49,7 +49,7 @@ class OnboardingLocationView extends StatelessWidget {
                     spacing: AppSizes.spacing8,
                     children: [
                       Text(
-                        "All Around The World",
+                        'All Around The World',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

@@ -10,7 +10,7 @@ class DishFormCubit extends Cubit<DishFormState> {
   DishFormCubit({
     required DishesRepository dishesRepository,
   }) : _dishesRepository = dishesRepository,
-       super(DishFormState());
+       super(const DishFormState());
 
   Future<void> addDish(Dish dish) async {
     try {

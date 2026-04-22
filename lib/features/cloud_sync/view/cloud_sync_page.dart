@@ -38,7 +38,7 @@ class CloudSyncView extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(FIcons.arrowLeft),
+              icon: const Icon(FIcons.arrowLeft),
             ),
           ),
           body: Column(
@@ -77,10 +77,10 @@ class CloudSyncView extends StatelessWidget {
                           ? () => cubit.sync()
                           : null,
                       child: state.isSyncing
-                          ? SizedBox(
+                          ? const SizedBox(
                               height: AppSizes.iconS,
                               width: AppSizes.iconS,
-                              child: const CircularProgressIndicator.adaptive(),
+                              child: CircularProgressIndicator.adaptive(),
                             )
                           : const Text('Sync Now'),
                     ),
@@ -94,7 +94,7 @@ class CloudSyncView extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               if (state.lastSync != null)
                 SafeArea(
                   child: Padding(

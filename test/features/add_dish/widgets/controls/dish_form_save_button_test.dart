@@ -38,7 +38,7 @@ void main() {
       await tester.pumpApp(buildSubject());
 
       await tester.tap(find.byType(DishFormSaveButton));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(() => functions.onPressed()).called(1);
     });

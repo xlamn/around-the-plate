@@ -12,7 +12,7 @@ class OnboardingCameraPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => OnboardingCameraCubit(),
-      child: OnboardingCameraView(),
+      child: const OnboardingCameraView(),
     );
   }
 }
@@ -47,11 +47,10 @@ class OnboardingCameraView extends StatelessWidget {
                     spacing: AppSizes.spacing8,
                     children: [
                       Text(
-                        "Capture The Moment",
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        'Capture The Moment',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         'To take photos of your dishes, the app requires access to your phone\'s camera first.',
@@ -65,9 +64,7 @@ class OnboardingCameraView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(AppSizes.spacing16),
                   child: FButton(
-                    onPress: () => context
-                        .read<OnboardingCameraCubit>()
-                        .requestCameraPermission(),
+                    onPress: () => context.read<OnboardingCameraCubit>().requestCameraPermission(),
                     child: const Text('Continue'),
                   ),
                 ),

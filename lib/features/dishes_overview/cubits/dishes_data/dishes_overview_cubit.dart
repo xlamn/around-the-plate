@@ -13,7 +13,7 @@ class DishesOverviewCubit extends Cubit<DishesOverviewState> {
   DishesOverviewCubit({
     required DishesRepository dishesRepository,
   }) : _dishesRepository = dishesRepository,
-       super(DishesOverviewState());
+       super(const DishesOverviewState());
 
   void loadDishes() {
     emit(state.copyWith(status: () => DishesOverviewStatus.loading));

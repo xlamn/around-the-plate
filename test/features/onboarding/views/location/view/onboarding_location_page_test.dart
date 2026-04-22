@@ -13,8 +13,7 @@ import '../../../../../helpers/helpers.dart';
 class MockOnboardingCubit extends MockBloc<OnboardingCubit, OnboardingState>
     implements OnboardingCubit {}
 
-class MockOnboardingLocationCubit
-    extends MockBloc<OnboardingLocationCubit, OnboardingLocationState>
+class MockOnboardingLocationCubit extends MockBloc<OnboardingLocationCubit, OnboardingLocationState>
     implements OnboardingLocationCubit {}
 
 void main() {
@@ -41,7 +40,7 @@ void main() {
         BlocProvider.value(value: onboardingCubit),
         BlocProvider.value(value: onboardingLocationCubit),
       ],
-      child: OnboardingLocationView(),
+      child: const OnboardingLocationView(),
     );
   }
 
@@ -59,8 +58,7 @@ void main() {
 
       expect(
         find.byWidgetPredicate(
-          (Widget widget) =>
-              widget is Text && widget.style?.fontWeight == FontWeight.bold,
+          (Widget widget) => widget is Text && widget.style?.fontWeight == FontWeight.bold,
         ),
         findsOneWidget,
       );
@@ -71,7 +69,7 @@ void main() {
       await tester.pumpApp(buildSubject(const OnboardingLocationView()));
 
       await tester.tap(find.byType(FButton));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(
         () => onboardingLocationCubit.requestLocationPermission(),
@@ -82,12 +80,12 @@ void main() {
       whenListen(
         onboardingLocationCubit,
         Stream.fromIterable([
-          OnboardingLocationState(status: LocationPermissionStatus.granted),
+          const OnboardingLocationState(status: LocationPermissionStatus.granted),
         ]),
-        initialState: OnboardingLocationState(),
+        initialState: const OnboardingLocationState(),
       );
       await tester.pumpApp(buildSubject(const OnboardingLocationView()));
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
 
       verify(() => onboardingCubit.nextStep()).called(1);
     });
