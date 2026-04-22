@@ -35,6 +35,7 @@ class DishCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppSizes.spacing16),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          spacing: AppSizes.spacing12,
           children: <Widget>[
             SizedBox(
               width: 80,
@@ -59,6 +60,9 @@ class DishCard extends StatelessWidget {
                       height: 1.0,
                       fontWeight: FontWeight.w700,
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   if (dish.cuisine != null)
                     Text(

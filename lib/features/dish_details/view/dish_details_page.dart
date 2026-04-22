@@ -192,6 +192,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                                             dish.name,
                                             style: context.theme.typography.xl2.copyWith(
                                               fontWeight: FontWeight.bold,
+                                              height: 1.25,
                                             ),
                                           ),
                                         ),
