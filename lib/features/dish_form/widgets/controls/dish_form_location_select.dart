@@ -1,8 +1,8 @@
 import 'package:app_theme/app_theme.dart';
 import 'package:around_the_plate/extensions/extensions.dart';
 import 'package:around_the_plate/features/dish_form/cubits/location_search/dish_form_location_search_cubit.dart';
-import 'package:around_the_plate/services/location_service.dart';
 import 'package:dishes_api/dishes_api.dart';
+import 'package:mapbox_location_api/mapbox_location_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +14,7 @@ class DishFormLocationSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => DishFormLocationSearchCubit(service: LocationService.instance)..init(),
+      create: (_) => DishFormLocationSearchCubit(service: MapboxLocationApi.instance)..init(),
       child: _DishFormLocationSelectView(controller: controller),
     );
   }

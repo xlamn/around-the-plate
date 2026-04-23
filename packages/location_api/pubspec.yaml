@@ -1,0 +1,14 @@
+name: location_api
+description: The interface for an API providing location search and permission management.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  dishes_api:
+    path: ../dishes_api
+
+dev_dependencies:
+  flutter_lints: ^5.0.0

@@ -1,5 +1,4 @@
 import 'package:app_theme/app_theme.dart';
-import 'package:around_the_plate/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,9 +11,7 @@ class OnboardingLocationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OnboardingLocationCubit(
-        service: LocationService.instance,
-      ),
+      create: (_) => OnboardingLocationCubit(),
       child: const OnboardingLocationView(),
     );
   }

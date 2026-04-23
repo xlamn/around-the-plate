@@ -1,23 +1,24 @@
 import 'dart:async';
 
-import 'package:around_the_plate/services/location_service.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_api/location_api.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'dish_form_location_search_state.dart';
 
 class DishFormLocationSearchCubit extends Cubit<DishFormLocationSearchState> {
-  final LocationService _service;
+  final LocationApi _service;
   Timer? _debounce;
   Completer<List<DishLocation>>? _pendingSearch;
 
-  DishFormLocationSearchCubit({required LocationService service})
+  DishFormLocationSearchCubit({required LocationApi service})
     : _service = service,
       super(const DishFormLocationSearchState());
 
   Future<void> init() async {
-    final granted = await _service.hasPermission();
+    final granted = (await Permission.location.status).isGranted;
     if (isClosed) return;
     if (!granted) {
       emit(state.copyWith(permissionGranted: false));

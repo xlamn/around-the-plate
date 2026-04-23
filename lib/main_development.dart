@@ -5,6 +5,7 @@ import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 import 'package:google_drive_sync_api/google_drive_sync_api.dart';
 import 'package:google_vision_dish_detection_api/google_vision_dish_detection_api.dart';
+import 'package:mapbox_location_api/mapbox_location_api.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
   }
 
   GoogleVisionDishDetectionApi.init(apiKey: Env.googleVisionApiKey);
+  MapboxLocationApi.init(accessToken: Env.mapboxApiKey);
 
   bootstrap(dishesApi: dishesApi);
 }

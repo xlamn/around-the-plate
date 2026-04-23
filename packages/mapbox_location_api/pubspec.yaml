@@ -1,0 +1,21 @@
+name: mapbox_location_api
+description: A Mapbox implementation of the LocationApi.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  location_api:
+    path: ../location_api
+  dishes_api:
+    path: ../dishes_api
+  geocoding: ^4.0.0
+  geolocator: ^14.0.2
+  http: ^1.4.0
+
+dev_dependencies:
+  flutter_lints: ^5.0.0

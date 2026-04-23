@@ -1,26 +1,29 @@
 import 'dart:convert';
 
-import 'package:around_the_plate/env/env.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location_api/location_api.dart';
 
-class LocationService {
-  LocationService._();
-  static final instance = LocationService._();
+class MapboxLocationApi implements LocationApi {
+  static MapboxLocationApi? _instance;
 
-  Future<PermissionStatus> requestPermission() async {
-    return await Permission.location.request();
+  static MapboxLocationApi get instance {
+    assert(_instance != null, 'MapboxLocationApi.init() must be called first');
+    return _instance!;
   }
 
-  Future<bool> hasPermission() async {
-    final status = await Permission.location.status;
-    return status.isGranted;
+  final String _accessToken;
+
+  MapboxLocationApi._({required String accessToken}) : _accessToken = accessToken;
+
+  static void init({required String accessToken}) {
+    _instance = MapboxLocationApi._(accessToken: accessToken);
   }
 
+  @override
   Future<DishLocation?> getCurrentLocation() async {
     try {
       final position = await Geolocator.getCurrentPosition();
@@ -49,6 +52,7 @@ class LocationService {
     }
   }
 
+  @override
   Future<List<DishLocation>> searchLocations(
     String query, {
     DishLocation? currentLocation,
@@ -62,7 +66,7 @@ class LocationService {
         'https://api.mapbox.com/search/geocode/v6/forward'
         '?q=${Uri.encodeComponent(query)}'
         '&limit=5'
-        '&access_token=${Env.mapboxApiKey}',
+        '&access_token=$_accessToken',
       );
 
       final response = await http.get(uri);

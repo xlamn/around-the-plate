@@ -37,8 +37,6 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
-  geocoding: ^4.0.0
-  geolocator: ^14.0.2
   http: ^1.4.0
   hydrated_bloc: ^10.1.1
   mapbox_maps_flutter: ^2.11.0
@@ -59,6 +57,10 @@ dependencies:
     path: packages/google_vision_dish_detection_api
   dishes_api:
     path: packages/dishes_api
+  location_api:
+    path: packages/location_api
+  mapbox_location_api:
+    path: packages/mapbox_location_api
   dishes_repository:
     path: packages/dishes_repository
   directory_image_storage_api:
