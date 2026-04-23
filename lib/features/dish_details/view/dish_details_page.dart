@@ -75,8 +75,8 @@ class _DishDetailsContent extends StatefulWidget {
 
 class _DishDetailsContentState extends State<_DishDetailsContent>
     with SingleTickerProviderStateMixin {
-  static const _overlapHeight = 230.0;
-  static const _revealAmount = 120.0;
+  double _overlapHeight = 0;
+  double _revealAmount = 0;
 
   // Current card translation: 0 = card at rest overlapping image,
   // _revealAmount = card dragged down to reveal more image.
@@ -117,6 +117,9 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
       child: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
+            _overlapHeight = constraints.maxHeight * 0.25;
+            _revealAmount = constraints.maxHeight * 0.15;
+
             final imageSize = constraints.maxWidth;
             final cardTop = _overlapHeight + _offset;
 
@@ -331,13 +334,20 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
   void _onDragUpdate(DragUpdateDetails details) {
     _snapController.stop();
     setState(() {
-      _offset = (_offset + (details.primaryDelta ?? 0)).clamp(0, _revealAmount);
+      _offset = (_offset + (details.primaryDelta ?? 0)).clamp(-_revealAmount, _revealAmount);
     });
   }
 
   void _onDragEnd(DragEndDetails details) {
     final velocity = details.primaryVelocity ?? 0;
-    final target = (velocity > 200 || _offset > _revealAmount / 2) ? _revealAmount : 0.0;
+    final double target;
+    if (velocity > 200 || _offset > _revealAmount / 2) {
+      target = _revealAmount;
+    } else if (velocity < -200 || _offset < -_revealAmount / 2) {
+      target = -_revealAmount;
+    } else {
+      target = 0.0;
+    }
     _snapStart = _offset;
     _snapEnd = target;
     _snapController.forward(from: 0);
