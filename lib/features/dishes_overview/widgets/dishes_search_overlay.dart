@@ -119,7 +119,11 @@ class _DishesSearchOverlayViewState extends State<_DishesSearchOverlayView> {
                   child: BlocBuilder<DishesSearchCubit, DishesSearchState>(
                     builder: (context, state) {
                       if (state.query.trim().isEmpty) {
-                        return const SizedBox.shrink();
+                        return GestureDetector(
+                          behavior: .opaque,
+                          onTap: () => Navigator.of(context).pop(),
+                          child: const SizedBox.expand(),
+                        );
                       }
                       if (state.filteredDishes.isEmpty) {
                         return Center(
