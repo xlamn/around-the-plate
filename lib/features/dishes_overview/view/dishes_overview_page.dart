@@ -10,6 +10,7 @@ import '../models/dishes_sort_option.dart';
 import '../widgets/dish_card.dart';
 import '../widgets/dishes_overview_add_button.dart';
 import '../widgets/dishes_overview_sort_button.dart';
+import '../widgets/dishes_search_bar.dart';
 
 class DishesOverviewPage extends StatelessWidget {
   const DishesOverviewPage({super.key});
@@ -72,18 +73,25 @@ class DishesOverviewView extends StatelessWidget {
               return ListView.separated(
                 separatorBuilder: (context, index) => const SizedBox(height: AppSizes.spacing16),
                 itemCount: dishes.length + 1,
-                itemBuilder: (context, index) {
+                itemBuilder: (_, index) {
                   if (index == 0) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
-                      child: const FHeader(
-                        title: Text('Home'),
-                        suffixes: [
-                          DishesOverviewSortButton(),
-                          SizedBox(width: AppSizes.spacing8),
-                          DishesOverviewAddButton(),
-                        ],
-                      ),
+                    return Column(
+                      crossAxisAlignment: .stretch,
+                      spacing: AppSizes.spacing8,
+                      children: [
+                        Container(
+                          margin: const .symmetric(horizontal: AppSizes.spacing4),
+                          child: const FHeader(
+                            title: Text('Home'),
+                            suffixes: [
+                              DishesOverviewSortButton(),
+                              SizedBox(width: AppSizes.spacing8),
+                              DishesOverviewAddButton(),
+                            ],
+                          ),
+                        ),
+                        DishesSearchBar(dishes: state.dishes),
+                      ],
                     );
                   }
                   final dish = dishes[index - 1];
