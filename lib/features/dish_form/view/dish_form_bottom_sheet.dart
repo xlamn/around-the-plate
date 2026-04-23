@@ -3,8 +3,10 @@ import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_vision_dish_detection_api/google_vision_dish_detection_api.dart';
 import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
 
+import '../cubits/dish_detection/dish_detection_cubit.dart';
 import '../cubits/dish_form_cubit.dart';
 import '../widgets/controls/controls.dart';
 import '../widgets/dish_form_app_bar.dart';
@@ -27,10 +29,20 @@ class DishFormBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DishFormCubit(
-        dishesRepository: context.read<DishesRepository>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => DishFormCubit(
+            dishesRepository: context.read<DishesRepository>(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => DishDetectionCubit(
+            imagePath: imagePath,
+            dishDetectionApi: GoogleVisionDishDetectionApi.instance,
+          ),
+        ),
+      ],
       child: DishFormBottomSheetView(
         imagePath: imagePath,
         dish: dish,

@@ -6,4 +6,7 @@ part 'env.g.dart';
 abstract class Env {
   @EnviedField(varName: 'MAPBOX_API_KEY', obfuscate: true)
   static final String mapboxApiKey = _Env.mapboxApiKey;
+
+  @EnviedField(varName: 'GOOGLE_VISION_API_KEY', obfuscate: true)
+  static final String googleVisionApiKey = _Env.googleVisionApiKey;
 }

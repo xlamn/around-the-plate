@@ -1,0 +1,15 @@
+name: google_vision_dish_detection_api
+description: A Google Cloud Vision implementation of the DishDetectionApi.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  dish_detection_api:
+    path: ../dish_detection_api
+  http: ^1.4.0
+
+dev_dependencies:
+  flutter_lints: ^5.0.0

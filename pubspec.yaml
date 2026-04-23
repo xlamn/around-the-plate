@@ -51,8 +51,12 @@ dependencies:
     path: packages/app_theme
   cloud_sync_api:
     path: packages/cloud_sync_api
+  dish_detection_api:
+    path: packages/dish_detection_api
   google_drive_sync_api:
     path: packages/google_drive_sync_api
+  google_vision_dish_detection_api:
+    path: packages/google_vision_dish_detection_api
   dishes_api:
     path: packages/dishes_api
   dishes_repository:
