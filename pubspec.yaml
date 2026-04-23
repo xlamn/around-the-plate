@@ -37,7 +37,6 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
-  http: ^1.4.0
   hydrated_bloc: ^10.1.1
   mapbox_maps_flutter: ^2.11.0
   path_provider: ^2.1.5
