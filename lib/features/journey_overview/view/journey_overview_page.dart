@@ -65,7 +65,7 @@ class JourneyOverviewView extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               spacing: AppSizes.spacing16,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 const FHeader(title: Text('Journey')),
                 JourneyHeaderCards(stats: state.stats),
@@ -75,7 +75,7 @@ class JourneyOverviewView extends StatelessWidget {
                     spacing: AppSizes.spacing16,
                     children: [
                       JourneyMapSection(
-                        onMoreTap: () => Navigator.push(
+                        onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => const JourneyMapDetailPage(),
@@ -84,7 +84,7 @@ class JourneyOverviewView extends StatelessWidget {
                       ),
                       JourneyTopDishesSection(
                         stats: state.stats,
-                        onMoreTap: () => Navigator.push(
+                        onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => JourneyTopDishesDetailPage(stats: state.stats),
@@ -93,7 +93,7 @@ class JourneyOverviewView extends StatelessWidget {
                       ),
                       JourneyStatsSection(
                         stats: state.stats,
-                        onMoreTap: () => Navigator.push(
+                        onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => JourneyStatisticsDetailPage(stats: state.stats),
@@ -102,7 +102,7 @@ class JourneyOverviewView extends StatelessWidget {
                       ),
                       JourneyAchievementsSection(
                         achievements: achievements,
-                        onMoreTap: () => Navigator.push(
+                        onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => JourneyAchievementsDetailPage(
