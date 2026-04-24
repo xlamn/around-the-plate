@@ -53,10 +53,11 @@ class CountryMap extends StatelessWidget {
           if (state.status == MapDataStatus.failure) {
             return const Center(child: Text('Failed to load map'));
           }
+          final loc = state.initialLocation!;
           return MapWidget(
             cameraOptions: CameraOptions(
-              center: Point(coordinates: Position(12.12247, 47.85637)),
-              zoom: 2.2,
+              center: Point(coordinates: Position(loc.longitude!, loc.latitude!)),
+              zoom: 1.5,
             ),
             styleUri: context.isDarkTheme ? MapboxStyles.DARK : MapboxStyles.LIGHT,
             key: ValueKey(context.isDarkTheme),

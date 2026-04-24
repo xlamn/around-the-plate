@@ -7,12 +7,14 @@ class MapDataState extends Equatable {
   final List<Dish> dishes;
   final String? countriesGeoJson;
   final String? highlightedCountriesGeoJson;
+  final DishLocation? initialLocation;
 
   const MapDataState({
     this.status = MapDataStatus.initial,
     this.dishes = const [],
     this.countriesGeoJson,
     this.highlightedCountriesGeoJson,
+    this.initialLocation,
   });
 
   MapDataState copyWith({
@@ -20,16 +22,16 @@ class MapDataState extends Equatable {
     List<Dish> Function()? dishes,
     String? Function()? countriesGeoJson,
     String? Function()? highlightedCountriesGeoJson,
+    DishLocation? Function()? initialLocation,
   }) {
     return MapDataState(
       status: status != null ? status() : this.status,
       dishes: dishes != null ? dishes() : this.dishes,
-      countriesGeoJson: countriesGeoJson != null
-          ? countriesGeoJson()
-          : this.countriesGeoJson,
+      countriesGeoJson: countriesGeoJson != null ? countriesGeoJson() : this.countriesGeoJson,
       highlightedCountriesGeoJson: highlightedCountriesGeoJson != null
           ? highlightedCountriesGeoJson()
           : this.highlightedCountriesGeoJson,
+      initialLocation: initialLocation != null ? initialLocation() : this.initialLocation,
     );
   }
 

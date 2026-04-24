@@ -6,6 +6,7 @@ import 'package:dishes_repository/dishes_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_api/location_api.dart';
 
 import '../../../../extensions/extensions.dart';
 
@@ -13,16 +14,22 @@ part 'map_data_state.dart';
 
 class MapDataCubit extends Cubit<MapDataState> {
   static const _geoJsonPath = 'assets/countries/countries.geojson';
+
   final DishesRepository _dishesRepository;
+  final LocationApi _locationApi;
   StreamSubscription<List<Dish>>? _dishesSubscription;
 
   MapDataCubit({
     required DishesRepository dishesRepository,
+    required LocationApi locationApi,
   }) : _dishesRepository = dishesRepository,
+       _locationApi = locationApi,
        super(const MapDataState());
 
   Future<void> loadGeoJson() async {
     emit(state.copyWith(status: () => MapDataStatus.loading));
+
+    final locationFuture = _locationApi.getCurrentLocation();
 
     _dishesSubscription?.cancel(); // avoid multiple subscriptions
 
@@ -58,9 +65,7 @@ class MapDataCubit extends Cubit<MapDataState> {
           for (final f in geoJson['features']) {
             try {
               final props = f['properties'] as Map<String, dynamic>;
-              final countryName = (props['ADMIN'] ?? props['name'] ?? '')
-                  .toString()
-                  .toLowerCase();
+              final countryName = (props['ADMIN'] ?? props['name'] ?? '').toString().toLowerCase();
 
               if (countryIntensity.containsKey(countryName)) {
                 final intensity = countryIntensity[countryName] ?? 0;
@@ -87,13 +92,16 @@ class MapDataCubit extends Cubit<MapDataState> {
             highlightedGeoJson,
           );
 
+          final location = await locationFuture;
+
           emit(
             state.copyWith(
               status: () => MapDataStatus.success,
               dishes: () => dishes,
               countriesGeoJson: () => geoJsonString,
-              highlightedCountriesGeoJson: () =>
-                  highlightedCountriesGeoJsonString,
+              highlightedCountriesGeoJson: () => highlightedCountriesGeoJsonString,
+              initialLocation: () =>
+                  location ?? DishLocation(latitude: 47.85637, longitude: 12.12247),
             ),
           );
         } catch (_) {
