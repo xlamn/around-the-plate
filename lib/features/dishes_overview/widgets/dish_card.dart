@@ -5,8 +5,8 @@ import 'package:directory_image_storage_api/directory_image_storage_api.dart';
 import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
-import '../../dish_details/view/dish_details_page.dart';
 import '../../../widgets/dish_rating.dart';
+import '../../dish_details/view/dish_details_page.dart';
 
 class DishCard extends StatelessWidget {
   final imageStorage = DirectoryImageStorageApi.instance;
@@ -22,26 +22,23 @@ class DishCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: context.theme.colors.muted,
-          borderRadius: BorderRadius.circular(AppSizes.radiusL),
-          border: Border.all(width: 0.2),
-          boxShadow: [
-            BoxShadow(
-              color: context.theme.colors.primary.withValues(alpha: 0.2),
-              blurRadius: 5,
-            ),
-          ],
+          borderRadius: .circular(AppSizes.radiusM),
+          border: Border.all(
+            color: context.theme.colors.border,
+            width: 0.5,
+          ),
         ),
-        margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
-        padding: const EdgeInsets.all(AppSizes.spacing16),
+        margin: const .symmetric(horizontal: AppSizes.spacing16),
+        padding: const .all(AppSizes.spacing16),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: .min,
           spacing: AppSizes.spacing12,
           children: <Widget>[
             SizedBox(
               width: 80,
               height: 80,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppSizes.radiusL),
+                borderRadius: .circular(AppSizes.radiusM),
                 child: Image.file(
                   File(
                     imageStorage.getImageFile(dish.imagePath)!.path,
@@ -58,11 +55,11 @@ class DishCard extends StatelessWidget {
                     dish.name,
                     style: context.theme.typography.lg.copyWith(
                       height: 1.0,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: .w700,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: .center,
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: .ellipsis,
                   ),
                   if (dish.cuisine != null)
                     Text(
@@ -75,7 +72,7 @@ class DishCard extends StatelessWidget {
                     Text(
                       '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
                       style: context.theme.typography.xs.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: .w500,
                       ),
                     ),
                 ],
