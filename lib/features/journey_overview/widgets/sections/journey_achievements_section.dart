@@ -6,12 +6,12 @@ import '../journey_section.dart';
 
 class JourneyAchievementsSection extends StatelessWidget {
   final List<Achievement> achievements;
-  final VoidCallback? onMoreTap;
+  final VoidCallback? onTap;
 
   const JourneyAchievementsSection({
     super.key,
     required this.achievements,
-    this.onMoreTap,
+    this.onTap,
   });
 
   @override
@@ -26,7 +26,7 @@ class JourneyAchievementsSection extends StatelessWidget {
 
         return JourneySection(
           title: 'Achievements',
-          onTap: onMoreTap,
+          onTap: onTap,
           child: JourneyAchievementsGrid(achievements: displayed),
         );
       },
