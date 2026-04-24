@@ -29,9 +29,7 @@ class DishesOverviewCubit extends Cubit<DishesOverviewState> {
           ),
         );
       },
-      onError: (_) {
-        emit(state.copyWith(status: () => DishesOverviewStatus.failure));
-      },
+      onError: (_) => emit(state.copyWith(status: () => DishesOverviewStatus.failure)),
     );
   }
 

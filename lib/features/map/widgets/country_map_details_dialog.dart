@@ -2,12 +2,12 @@ import 'package:app_theme/app_theme.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 
-class MapOverviewCountryDetailsDialog extends StatelessWidget {
+class CountryMapDetailsDialog extends StatelessWidget {
   final String country;
   final String flagEmoji;
   final List<Dish> dishes;
 
-  const MapOverviewCountryDetailsDialog({
+  const CountryMapDetailsDialog({
     super.key,
     required this.country,
     required this.flagEmoji,

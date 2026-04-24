@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../dishes_overview/view/dishes_overview_page.dart';
-import '../../map_overview/view/map_overview_page.dart';
+import '../../journey_overview/journey_overview.dart';
 import '../../settings_overview/view/settings_overview_page.dart';
 import '../cubits/home_cubit.dart';
 
@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
 
   final List<Widget> contents = [
     const DishesOverviewPage(),
-    const MapOverviewPage(),
+    const JourneyOverviewPage(),
     const SettingsOverviewPage(),
   ];
 
@@ -44,8 +44,8 @@ class HomeView extends StatelessWidget {
             label: Text('Home'),
           ),
           FBottomNavigationBarItem(
-            icon: Icon(FIcons.map),
-            label: Text('Map'),
+            icon: Icon(FIcons.planeTakeoff),
+            label: Text('Journey'),
           ),
           FBottomNavigationBarItem(
             icon: Icon(FIcons.settings),

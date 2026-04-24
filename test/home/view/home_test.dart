@@ -1,7 +1,7 @@
 import 'package:around_the_plate/features/dishes_overview/view/dishes_overview_page.dart';
-import 'package:around_the_plate/features/map_overview/view/map_overview_page.dart';
-import 'package:around_the_plate/features/settings_overview/view/settings_overview_page.dart';
 import 'package:around_the_plate/features/home/home.dart';
+import 'package:around_the_plate/features/journey_overview/view/journey_overview_page.dart';
+import 'package:around_the_plate/features/settings_overview/view/settings_overview_page.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/widgets.dart';
@@ -61,11 +61,11 @@ void main() {
       );
 
       expect(find.byType(DishesOverviewPage), findsOneWidget);
-      expect(find.byType(MapOverviewPage), findsNothing);
+      expect(find.byType(JourneyOverviewPage), findsNothing);
       expect(find.byType(SettingsOverviewPage), findsNothing);
     });
 
-    testWidgets('renders `$MapOverviewPage` when tab is set to 1', (
+    testWidgets('renders `$JourneyOverviewPage` when tab is set to 1', (
       tester,
     ) async {
       when(() => cubit.state).thenReturn(1);
@@ -76,7 +76,7 @@ void main() {
       );
 
       expect(find.byType(DishesOverviewPage), findsNothing);
-      expect(find.byType(MapOverviewPage), findsOneWidget);
+      expect(find.byType(JourneyOverviewPage), findsOneWidget);
       expect(find.byType(SettingsOverviewPage), findsNothing);
     });
 
@@ -91,7 +91,7 @@ void main() {
       );
 
       expect(find.byType(DishesOverviewPage), findsNothing);
-      expect(find.byType(MapOverviewPage), findsNothing);
+      expect(find.byType(JourneyOverviewPage), findsNothing);
       expect(find.byType(SettingsOverviewPage), findsOneWidget);
     });
   });
