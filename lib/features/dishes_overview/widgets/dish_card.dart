@@ -6,7 +6,7 @@ import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
 import '../../dish_details/view/dish_details_page.dart';
-import '../../dishes_overview/widgets/dish_card_rating.dart';
+import '../../../widgets/dish_rating.dart';
 
 class DishCard extends StatelessWidget {
   final imageStorage = DirectoryImageStorageApi.instance;
@@ -84,7 +84,7 @@ class DishCard extends StatelessWidget {
             SizedBox(
               width: 80,
               child: Center(
-                child: DishCardRating(
+                child: DishRating(
                   rating: dish.rating,
                 ),
               ),
