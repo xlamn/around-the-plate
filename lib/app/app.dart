@@ -43,7 +43,13 @@ class AppView extends StatelessWidget {
       supportedLocales: FLocalizations.supportedLocales,
       localizationsDelegates: const [...FLocalizations.localizationsDelegates],
       builder: (_, child) => FTheme(data: theme, child: child!),
-      theme: theme.toApproximateMaterialTheme(),
+      theme: theme.toApproximateMaterialTheme().copyWith(
+        actionIconTheme: ActionIconThemeData(
+          backButtonIconBuilder: (context) => const Icon(
+            FIcons.arrowLeft,
+          ),
+        ),
+      ),
       home: BlocBuilder<AppStartupCubit, AppStartupState>(
         builder: (context, state) {
           return !state.completed

@@ -11,12 +11,7 @@ class ThemeSelectionPage extends StatelessWidget {
 
     return Material(
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(FIcons.arrowLeft),
-          ),
-        ),
+        appBar: AppBar(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
