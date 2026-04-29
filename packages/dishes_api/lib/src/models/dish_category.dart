@@ -1,7 +1,10 @@
 enum DishCategory {
-  appetizer,
-  dessert,
-  drink,
-  meal,
-  snack,
+  appetizer('Appetizer'),
+  dessert('Dessert'),
+  drink('Drink'),
+  meal('Meal'),
+  snack('Snack');
+
+  const DishCategory(this.label);
+  final String label;
 }
