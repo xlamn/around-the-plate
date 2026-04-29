@@ -15,48 +15,57 @@ class JourneyTopDishesDetailPage extends StatelessWidget {
     final flop10 = stats.topDishes.reversed.take(10).toList();
 
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        padding: const .symmetric(
-          horizontal: AppSizes.spacing16,
-          vertical: AppSizes.spacing12,
-        ),
-        child: Column(
-          crossAxisAlignment: .start,
-          spacing: AppSizes.spacing24,
-          children: [
-            Column(
-              crossAxisAlignment: .start,
-              spacing: AppSizes.spacing16,
-              children: [
-                Text(
-                  'Top 10',
-                  style: context.theme.typography.md.copyWith(
-                    fontWeight: .w600,
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(),
+          SliverToBoxAdapter(
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const .symmetric(
+                  horizontal: AppSizes.spacing16,
+                  vertical: AppSizes.spacing12,
                 ),
-                Column(
-                  children: top10.map((dish) => JourneyDishRow(dish: dish)).toList(),
+                child: Column(
+                  crossAxisAlignment: .start,
+                  spacing: AppSizes.spacing24,
+                  children: [
+                    Column(
+                      crossAxisAlignment: .start,
+                      spacing: AppSizes.spacing16,
+                      children: [
+                        Text(
+                          'Top 10',
+                          style: context.theme.typography.md.copyWith(
+                            fontWeight: .w600,
+                          ),
+                        ),
+                        Column(
+                          children: top10.map((dish) => JourneyDishRow(dish: dish)).toList(),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: .start,
+                      spacing: AppSizes.spacing16,
+                      children: [
+                        Text(
+                          'Flop 10',
+                          style: context.theme.typography.md.copyWith(
+                            fontWeight: .w600,
+                          ),
+                        ),
+                        Column(
+                          children: flop10.map((dish) => JourneyDishRow(dish: dish)).toList(),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-            Column(
-              crossAxisAlignment: .start,
-              spacing: AppSizes.spacing16,
-              children: [
-                Text(
-                  'Flop 10',
-                  style: context.theme.typography.md.copyWith(
-                    fontWeight: .w600,
-                  ),
-                ),
-                Column(
-                  children: flop10.map((dish) => JourneyDishRow(dish: dish)).toList(),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -12,16 +12,21 @@ class JourneyAchievementsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const .all(AppSizes.spacing16),
-          child: SafeArea(
-            child: JourneyAchievementsGrid(
-              achievements: achievements,
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(),
+          SliverToBoxAdapter(
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const .all(AppSizes.spacing16),
+                child: JourneyAchievementsGrid(
+                  achievements: achievements,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -16,31 +16,36 @@ class JourneyStatisticsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            spacing: AppSizes.spacing12,
-            children: [
-              JourneySection(
-                title: 'Activity',
-                child: JourneyActivityChart(stats: stats),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(),
+          SliverToBoxAdapter(
+            child: SafeArea(
+              top: false,
+              child: Column(
+                spacing: AppSizes.spacing12,
+                children: [
+                  JourneySection(
+                    title: 'Activity',
+                    child: JourneyActivityChart(stats: stats),
+                  ),
+                  JourneySection(
+                    title: 'Dishes by Category',
+                    child: JourneyCategoryChart(stats: stats),
+                  ),
+                  JourneySection(
+                    title: 'Dishes by Region',
+                    child: JourneyRegionChart(stats: stats),
+                  ),
+                  JourneySection(
+                    title: 'Rating Distribution',
+                    child: JourneyRatingChart(stats: stats),
+                  ),
+                ],
               ),
-              JourneySection(
-                title: 'Dishes by Category',
-                child: JourneyCategoryChart(stats: stats),
-              ),
-              JourneySection(
-                title: 'Dishes by Region',
-                child: JourneyRegionChart(stats: stats),
-              ),
-              JourneySection(
-                title: 'Rating Distribution',
-                child: JourneyRatingChart(stats: stats),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
