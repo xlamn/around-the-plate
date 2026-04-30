@@ -7,7 +7,7 @@ class ThemeSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final current = context.read<ThemeModeCubit>().state;
+    final current = context.watch<ThemeModeCubit>().state;
 
     return Material(
       child: Scaffold(

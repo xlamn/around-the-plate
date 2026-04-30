@@ -50,12 +50,26 @@ class _StatCard extends StatelessWidget {
           horizontal: AppSizes.spacing8,
         ),
         decoration: BoxDecoration(
-          color: context.theme.colors.muted,
-          borderRadius: BorderRadius.circular(AppSizes.radiusM),
-          border: Border.all(
+          gradient: LinearGradient(
+            begin: .topCenter,
+            end: .bottomCenter,
+            colors: [
+              context.theme.colors.card,
+              context.theme.colors.muted,
+            ],
+          ),
+          borderRadius: .circular(AppSizes.radiusM),
+          border: .all(
             color: context.theme.colors.border,
             width: 0.5,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           children: [

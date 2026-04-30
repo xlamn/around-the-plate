@@ -21,12 +21,26 @@ class DishCard extends StatelessWidget {
       onTap: () => _openDetailsPage(context),
       child: Container(
         decoration: BoxDecoration(
-          color: context.theme.colors.muted,
+          gradient: LinearGradient(
+            begin: .topLeft,
+            end: .bottomRight,
+            colors: [
+              context.theme.colors.card,
+              context.theme.colors.muted,
+            ],
+          ),
           borderRadius: .circular(AppSizes.radiusM),
-          border: Border.all(
+          border: .all(
             color: context.theme.colors.border,
             width: 0.5,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.18),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         margin: const .symmetric(horizontal: AppSizes.spacing16),
         padding: const .all(AppSizes.spacing16),

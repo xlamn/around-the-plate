@@ -37,7 +37,7 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.isDarkTheme ? zincDark : zincLight;
+    final theme = context.isDarkTheme ? plateDark : plateLight;
 
     return MaterialApp(
       supportedLocales: FLocalizations.supportedLocales,
