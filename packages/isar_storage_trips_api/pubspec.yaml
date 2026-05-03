@@ -1,0 +1,23 @@
+name: isar_storage_trips_api
+description: A Flutter implementation of the TripsApi that uses isar storage.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  isar: ^3.1.0
+  isar_flutter_libs: ^3.1.0
+  rxdart: ^0.28.0
+  trips_api:
+    path: ../trips_api
+  image_storage_api:
+    path: ../image_storage_api
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter

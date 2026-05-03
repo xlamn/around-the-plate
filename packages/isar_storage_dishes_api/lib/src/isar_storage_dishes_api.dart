@@ -77,42 +77,22 @@ class IsarStorageDishesApi extends DishesApi {
     await _dishStreamController.close();
   }
 
-  /// Returns the local isar database as bytes
   @override
   Future<Uint8List?> exportDb() async {
     final dishes = await _isar.dishs.where().findAll();
-    if (dishes.isEmpty) {
-      return null;
-    }
-
-    final dirPath = _isar.directory;
-    final directory = Directory(dirPath!);
-
-    final dbFile = directory.listSync().whereType<File>().firstWhere(
-      (f) => f.path.endsWith('.isar'),
-    );
-
-    return dbFile.readAsBytes();
+    if (dishes.isEmpty) return null;
+    return File(_isar.path!).readAsBytes();
   }
 
-  /// Replaces current Isar DB with the given database
   @override
   Future<void> importDb(Uint8List dbBytes) async {
     final dirPath = _isar.directory!;
-    final directory = Directory(dirPath);
-
-    final dbFile = directory.listSync().whereType<File>().firstWhere(
-      (f) => f.path.endsWith('.isar'),
-    );
+    final dbFile = File(_isar.path!);
 
     await _isar.close();
-
     await dbFile.writeAsBytes(dbBytes, flush: true);
 
-    _isar = await Isar.open(
-      [DishSchema],
-      directory: dirPath,
-    );
+    _isar = await Isar.open([DishSchema], directory: dirPath);
 
     final dishes = await _isar.dishs.where().findAll();
     _dishStreamController.add(dishes);
