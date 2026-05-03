@@ -8,7 +8,7 @@ class Trip extends Equatable {
   final Id id;
   final String name;
   final String? description;
-  final String? coverImagePath;
+  final String coverImagePath;
   final List<int> dishIds;
   final DateTime createdDate;
   final DateTime lastModifiedDate;
@@ -17,7 +17,7 @@ class Trip extends Equatable {
     this.id = Isar.autoIncrement,
     required this.name,
     this.description,
-    this.coverImagePath,
+    required this.coverImagePath,
     required this.dishIds,
     required this.createdDate,
     required this.lastModifiedDate,
@@ -26,7 +26,7 @@ class Trip extends Equatable {
   factory Trip.create({
     required String name,
     String? description,
-    String? coverImagePath,
+    required String coverImagePath,
     List<int> dishIds = const [],
   }) {
     final now = DateTime.now();
@@ -45,13 +45,12 @@ class Trip extends Equatable {
     String? description,
     String? coverImagePath,
     List<int>? dishIds,
-    bool clearCoverImage = false,
   }) {
     return Trip(
       id: id,
       name: name ?? this.name,
       description: description ?? this.description,
-      coverImagePath: clearCoverImage ? null : (coverImagePath ?? this.coverImagePath),
+      coverImagePath: coverImagePath ?? this.coverImagePath,
       dishIds: dishIds ?? this.dishIds,
       createdDate: createdDate,
       lastModifiedDate: DateTime.now(),

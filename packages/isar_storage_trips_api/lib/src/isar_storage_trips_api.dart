@@ -30,15 +30,13 @@ class IsarStorageTripsApi extends TripsApi {
 
   @override
   Future<void> saveTrip(Trip trip) async {
-    String? coverImagePath = trip.coverImagePath;
+    String coverImagePath = trip.coverImagePath;
 
     // Only copy the image if it's an absolute path (new gallery image, not already managed)
-    if (coverImagePath != null && coverImagePath.startsWith('/')) {
+    if (coverImagePath.startsWith('/')) {
       final file = File(coverImagePath);
       if (await file.exists()) {
         coverImagePath = await _imageStorageApi.saveImage(file);
-      } else {
-        coverImagePath = null;
       }
     }
 

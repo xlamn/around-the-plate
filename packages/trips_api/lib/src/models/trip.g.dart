@@ -68,12 +68,7 @@ int _tripEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.coverImagePath;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.coverImagePath.length * 3;
   {
     final value = object.description;
     if (value != null) {
@@ -106,7 +101,7 @@ Trip _tripDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Trip(
-    coverImagePath: reader.readStringOrNull(offsets[0]),
+    coverImagePath: reader.readString(offsets[0]),
     createdDate: reader.readDateTime(offsets[1]),
     description: reader.readStringOrNull(offsets[2]),
     dishIds: reader.readLongList(offsets[3]) ?? [],
@@ -125,7 +120,7 @@ P _tripDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
@@ -227,24 +222,8 @@ extension TripQueryWhere on QueryBuilder<Trip, Trip, QWhereClause> {
 }
 
 extension TripQueryFilter on QueryBuilder<Trip, Trip, QFilterCondition> {
-  QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'coverImagePath',
-      ));
-    });
-  }
-
-  QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'coverImagePath',
-      ));
-    });
-  }
-
   QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -257,7 +236,7 @@ extension TripQueryFilter on QueryBuilder<Trip, Trip, QFilterCondition> {
   }
 
   QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -272,7 +251,7 @@ extension TripQueryFilter on QueryBuilder<Trip, Trip, QFilterCondition> {
   }
 
   QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -287,8 +266,8 @@ extension TripQueryFilter on QueryBuilder<Trip, Trip, QFilterCondition> {
   }
 
   QueryBuilder<Trip, Trip, QAfterFilterCondition> coverImagePathBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1132,7 +1111,7 @@ extension TripQueryProperty on QueryBuilder<Trip, Trip, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Trip, String?, QQueryOperations> coverImagePathProperty() {
+  QueryBuilder<Trip, String, QQueryOperations> coverImagePathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'coverImagePath');
     });
