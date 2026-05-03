@@ -6,8 +6,7 @@ import 'package:path/path.dart' as path;
 class DirectoryImageStorageApi extends ImageStorageApi {
   const DirectoryImageStorageApi._internal();
 
-  static const DirectoryImageStorageApi instance =
-      DirectoryImageStorageApi._internal();
+  static const DirectoryImageStorageApi instance = DirectoryImageStorageApi._internal();
 
   static String? _directory;
 
@@ -42,9 +41,7 @@ class DirectoryImageStorageApi extends ImageStorageApi {
 
   @override
   File? getImageFile(String imagePath) {
-    final file = imagePath.startsWith('/')
-        ? File(imagePath)
-        : File('$directory/$imagePath');
+    final file = imagePath.startsWith('/') ? File(imagePath) : File('$directory/$imagePath');
     return file.existsSync() ? file : null;
   }
 
@@ -59,10 +56,6 @@ class DirectoryImageStorageApi extends ImageStorageApi {
   List<String> listLocalImages() {
     final dir = Directory(directory);
     if (!dir.existsSync()) return [];
-    return dir
-        .listSync()
-        .whereType<File>()
-        .map((f) => path.basename(f.path))
-        .toList();
+    return dir.listSync().whereType<File>().map((f) => path.basename(f.path)).toList();
   }
 }
