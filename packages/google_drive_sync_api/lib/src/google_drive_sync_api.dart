@@ -23,7 +23,6 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   static drive.DriveApi? _driveApi;
   static http.Client? _httpClient;
 
-  static const String _dbFileName = 'isar_db.isar';
   static const String _imagesFolderName = 'around_the_plate';
 
   static Future<void> init() async {
@@ -56,99 +55,97 @@ class GoogleDriveSyncApi implements CloudSyncApi {
   @override
   bool isSignedIn() => _httpClient != null && _driveApi != null;
 
-  Future<void> uploadDatabase(Uint8List bytes) async {
+  @override
+  Future<SyncResult> sync({
+    required Map<String, Uint8List?> databases,
+    required String imageStorageDirectory,
+  }) async {
     if (_driveApi == null) throw SyncException('Drive API not initialized');
 
-    final media = drive.Media(Stream.value(bytes), bytes.length);
-    final remote = await _findRemoteDb();
+    final hasLocalData = databases.values.any((db) => db != null);
 
-    if (remote == null) {
-      final metadata = drive.File()
-        ..name = _dbFileName
-        ..parents = ['root'];
-      await _driveApi!.files.create(metadata, uploadMedia: media);
-    } else {
+    if (!hasLocalData) {
+      final downloadedDbs = <String, Uint8List>{};
+      for (final fileName in databases.keys) {
+        final bytes = await _downloadDb(fileName);
+        if (bytes != null) downloadedDbs[fileName] = bytes;
+      }
+
+      if (downloadedDbs.isEmpty) {
+        return SyncResult(success: true, direction: SyncDirection.none);
+      }
+
+      await _downloadAllImages(imageStorageDirectory);
+      return SyncResult(
+        success: true,
+        direction: SyncDirection.download,
+        downloadedDbs: downloadedDbs,
+      );
+    }
+
+    for (final entry in databases.entries) {
+      if (entry.value != null) await _uploadDb(entry.key, entry.value!);
+    }
+    for (final entity in Directory(imageStorageDirectory).listSync()) {
+      if (entity is File) await _uploadImage(entity);
+    }
+    return SyncResult(success: true, direction: SyncDirection.upload);
+  }
+
+  Future<drive.File?> _findFileInFolder(String fileName, String folderId) async {
+    final fileList = await _driveApi!.files.list(
+      q: "'$folderId' in parents and name = '$fileName'",
+      $fields: 'files(id,name)',
+    );
+    return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
+  }
+
+  Future<void> _uploadDb(String fileName, Uint8List bytes) async {
+    final folder = await _getOrCreateAppFolder();
+    final media = drive.Media(Stream.value(bytes), bytes.length);
+    final existing = await _findFileInFolder(fileName, folder.id!);
+
+    if (existing != null) {
       await _driveApi!.files.update(
-        drive.File()..name = _dbFileName,
-        remote.id!,
+        drive.File()..name = fileName,
+        existing.id!,
+        uploadMedia: media,
+      );
+    } else {
+      await _driveApi!.files.create(
+        drive.File()
+          ..name = fileName
+          ..parents = [folder.id!],
         uploadMedia: media,
       );
     }
   }
 
-  Future<Uint8List> downloadDatabase() async {
-    if (_driveApi == null) throw SyncException('Drive API not initialized');
-
-    final remote = await _findRemoteDb();
-    if (remote == null) throw SyncException('Remote DB not found');
+  Future<Uint8List?> _downloadDb(String fileName) async {
+    final folder = await _getOrCreateAppFolder();
+    final remote = await _findFileInFolder(fileName, folder.id!);
+    if (remote == null) return null;
 
     final media = await _driveApi!.files.get(
       remote.id!,
       downloadOptions: drive.DownloadOptions.fullMedia,
     );
-
-    if (media is! drive.Media) {
-      throw SyncException('Unexpected download response');
-    }
+    if (media is! drive.Media) return null;
 
     final buffer = <int>[];
     await for (final chunk in media.stream) {
       buffer.addAll(chunk);
     }
-
     return Uint8List.fromList(buffer);
   }
 
-  @override
-  Future<SyncResult> sync({
-    required Uint8List? localDb,
-    required String imageStorageDirectory,
-  }) async {
-    final remote = await _findRemoteDb();
-    final hasLocalDb = localDb != null;
-
-    if (!hasLocalDb && remote != null) {
-      final downloadedDb = await downloadDatabase();
-      await _downloadAllImages(imageStorageDirectory);
-      return SyncResult(
-        success: true,
-        direction: SyncDirection.download,
-        downloadedBytes: downloadedDb,
-      );
-    }
-
-    if (hasLocalDb) {
-      await uploadDatabase(localDb);
-      final localImageFiles = Directory(imageStorageDirectory).listSync();
-      for (final entity in localImageFiles) {
-        if (entity is File) {
-          await _uploadImage(entity);
-        }
-      }
-    }
-    return SyncResult(success: true, direction: SyncDirection.upload);
-  }
-
-  Future<drive.File?> _findRemoteDb() async {
-    if (_driveApi == null) throw SyncException('Drive API not initialized');
-
-    final fileList = await _driveApi!.files.list(
-      spaces: 'drive',
-      q: "name = '$_dbFileName'",
-      $fields: 'files(id,name,modifiedTime)',
-    );
-
-    return fileList.files?.isNotEmpty == true ? fileList.files!.first : null;
-  }
-
   Future<void> _uploadImage(File file) async {
-    final folder = await _getOrCreateImagesFolder();
+    final folder = await _getOrCreateAppFolder();
     final fileName = path.basename(file.path);
 
-    // check if file already exists
     final existing = await _driveApi!.files.list(
       q: "'${folder.id}' in parents and name='$fileName'",
-      $fields: "files(id)",
+      $fields: 'files(id)',
     );
 
     final media = drive.Media(file.openRead(), await file.length());
@@ -160,61 +157,57 @@ class GoogleDriveSyncApi implements CloudSyncApi {
         uploadMedia: media,
       );
     } else {
-      final metadata = drive.File()
-        ..name = fileName
-        ..parents = [folder.id!];
-
-      await _driveApi!.files.create(metadata, uploadMedia: media);
+      await _driveApi!.files.create(
+        drive.File()
+          ..name = fileName
+          ..parents = [folder.id!],
+        uploadMedia: media,
+      );
     }
   }
 
   Future<void> _downloadAllImages(String localDirPath) async {
-    final folder = await _getOrCreateImagesFolder();
+    final folder = await _getOrCreateAppFolder();
     final list = await _driveApi!.files.list(
       q: "'${folder.id}' in parents",
-      $fields: "files(id,name)",
+      $fields: 'files(id,name)',
     );
 
     if (list.files == null) return;
 
     final localDir = Directory(localDirPath);
-
     for (final f in list.files!) {
+      if (f.name!.endsWith('.isar')) continue;
       final media = await _driveApi!.files.get(
         f.id!,
         downloadOptions: drive.DownloadOptions.fullMedia,
       );
-
       if (media is drive.Media) {
         final file = File(path.join(localDir.path, f.name!));
         final sink = file.openWrite();
-
         await for (final chunk in media.stream) {
           sink.add(chunk);
         }
-
         await sink.close();
       }
     }
   }
 
-  Future<drive.File> _getOrCreateImagesFolder() async {
+  Future<drive.File> _getOrCreateAppFolder() async {
     final list = await _driveApi!.files.list(
       q: "name='$_imagesFolderName' and mimeType='application/vnd.google-apps.folder'",
       spaces: 'drive',
       $fields: 'files(id,name)',
     );
 
-    if (list.files?.isNotEmpty == true) {
-      return list.files!.first;
-    }
+    if (list.files?.isNotEmpty == true) return list.files!.first;
 
-    final folder = drive.File()
-      ..name = _imagesFolderName
-      ..mimeType = 'application/vnd.google-apps.folder'
-      ..parents = ['root'];
-
-    return await _driveApi!.files.create(folder);
+    return await _driveApi!.files.create(
+      drive.File()
+        ..name = _imagesFolderName
+        ..mimeType = 'application/vnd.google-apps.folder'
+        ..parents = ['root'],
+    );
   }
 }
 

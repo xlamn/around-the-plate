@@ -6,7 +6,7 @@ abstract class CloudSyncApi {
   Future<void> logout();
 
   Future<SyncResult> sync({
-    required Uint8List? localDb,
+    required Map<String, Uint8List?> databases,
     required String imageStorageDirectory,
   });
 
@@ -17,13 +17,13 @@ class SyncResult {
   final bool success;
   final String? message;
   final SyncDirection? direction;
-  final Uint8List? downloadedBytes;
+  final Map<String, Uint8List>? downloadedDbs;
 
   SyncResult({
     required this.success,
     this.message,
     this.direction,
-    this.downloadedBytes,
+    this.downloadedDbs,
   });
 }
 
