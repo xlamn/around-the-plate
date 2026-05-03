@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:dishes_api/src/models/dish.dart';
+import 'models/models.dart';
 
 abstract class DishesApi {
   const DishesApi();
