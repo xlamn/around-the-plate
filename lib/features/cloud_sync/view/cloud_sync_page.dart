@@ -5,6 +5,7 @@ import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_drive_sync_api/google_drive_sync_api.dart';
+import 'package:trips_repository/trips_repository.dart';
 
 import '../cubit/cloud_sync_cubit.dart';
 
@@ -17,6 +18,7 @@ class CloudSyncPage extends StatelessWidget {
       create: (_) => CloudSyncCubit(
         cloudSyncService: CloudSyncService(
           repository: context.read<DishesRepository>(),
+          tripsRepository: context.read<TripsRepository>(),
           cloudApi: GoogleDriveSyncApi.instance,
           imageStorageDirectory: DirectoryImageStorageApi.instance.directory,
         ),
