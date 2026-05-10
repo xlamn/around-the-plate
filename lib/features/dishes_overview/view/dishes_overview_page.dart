@@ -39,6 +39,19 @@ class DishesOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        leading: IconButton(
+          icon: const Icon(FIcons.arrowLeft),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const DishesSearchBar(),
+        actions: const [
+          DishesOverviewSortButton(),
+          SizedBox(width: AppSizes.spacing16),
+        ],
+      ),
+      floatingActionButton: const DishesOverviewAddButton(),
       body: BlocBuilder<DishesOverviewCubit, DishesOverviewState>(
         builder: (context, state) {
           if (state.status == DishesOverviewStatus.loading) {
@@ -48,55 +61,22 @@ class DishesOverviewView extends StatelessWidget {
             return const Center(child: Text('Failed to load dishes'));
           }
           if (state.dishes.isEmpty) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
-              child: const Column(
-                children: [
-                  FHeader(
-                    title: Text('Home'),
-                    suffixes: [
-                      DishesOverviewAddButton(),
-                    ],
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text('You haven\'t added any dishes yet.'),
-                    ),
-                  ),
-                ],
-              ),
+            return const Center(
+              child: Text('You haven\'t added any dishes yet.'),
             );
           }
           return BlocBuilder<DishesSortCubit, DishesSortOption>(
             builder: (_, sortOption) {
               final dishes = state.dishes.sortedBy(sortOption);
               return ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(height: AppSizes.spacing16),
-                itemCount: dishes.length + 1,
-                itemBuilder: (_, index) {
-                  if (index == 0) {
-                    return Column(
-                      crossAxisAlignment: .stretch,
-                      spacing: AppSizes.spacing8,
-                      children: [
-                        Container(
-                          margin: const .symmetric(horizontal: AppSizes.spacing4),
-                          child: const FHeader(
-                            title: Text('Home'),
-                            suffixes: [
-                              DishesOverviewSortButton(),
-                              SizedBox(width: AppSizes.spacing8),
-                              DishesOverviewAddButton(),
-                            ],
-                          ),
-                        ),
-                        DishesSearchBar(dishes: state.dishes),
-                      ],
-                    );
-                  }
-                  final dish = dishes[index - 1];
-                  return DishCard(dish: dish);
-                },
+                separatorBuilder: (_, __) => const SizedBox(height: AppSizes.spacing16),
+                padding: const .symmetric(
+                  vertical: AppSizes.spacing16,
+                ),
+                itemCount: dishes.length,
+                itemBuilder: (_, index) => DishCard(
+                  dish: dishes.elementAt(index),
+                ),
               );
             },
           );

@@ -11,9 +11,8 @@ class DishesOverviewAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FButton.icon(
-      variant: FButtonVariant.primary,
-      onPress: () async {
+    return FloatingActionButton(
+      onPressed: () async {
         final imagePath = await imagePickerService.pickImage(context);
         if (!context.mounted || imagePath == null) return;
 
@@ -25,7 +24,8 @@ class DishesOverviewAddButton extends StatelessWidget {
           builder: (_) => DishFormBottomSheet(imagePath: imagePath),
         );
       },
-      child: const Icon(FIcons.plus),
+      backgroundColor: context.theme.colors.primary,
+      child: Icon(FIcons.plus, color: context.theme.colors.primaryForeground),
     );
   }
 }
