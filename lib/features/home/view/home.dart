@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide Tab;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../dishes_overview/view/dishes_overview_page.dart';
+import '../../home_overview/view/home_overview_page.dart';
 import '../../journey_overview/journey_overview.dart';
 import '../../settings_overview/view/settings_overview_page.dart';
 import '../cubits/home_cubit.dart';
@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final List<Widget> contents = [
-    const DishesOverviewPage(),
+    const HomeOverviewPage(),
     const JourneyOverviewPage(),
     const SettingsOverviewPage(),
   ];
