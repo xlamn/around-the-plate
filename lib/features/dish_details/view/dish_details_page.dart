@@ -8,10 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../widgets/glass_button.dart';
 import '../../dish_form/view/dish_form_bottom_sheet.dart';
 import '../../trips/widgets/add_to_trip_bottom_sheet.dart';
 import '../cubit/dish_details_cubit.dart';
-import '../widgets/dish_details_glass_button.dart';
 import '../widgets/dish_details_rating.dart';
 
 class DishDetailsPage extends StatelessWidget {
@@ -269,14 +269,16 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DishDetailsGlassButton(
+                          GlassButton(
+                            circular: true,
                             icon: FIcons.arrowLeft,
                             onTap: () => Navigator.pop(context),
                           ),
                           Row(
                             spacing: AppSizes.spacing8,
                             children: [
-                              DishDetailsGlassButton(
+                              GlassButton(
+                                circular: true,
                                 icon: FIcons.ticketsPlane,
                                 onTap: () => showModalBottomSheet<void>(
                                   context: context,
@@ -284,7 +286,8 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                                   builder: (_) => AddToTripBottomSheet(dish: widget.dish),
                                 ),
                               ),
-                              DishDetailsGlassButton(
+                              GlassButton(
+                                circular: true,
                                 icon: FIcons.squarePen,
                                 onTap: () async {
                                   final result = await showModalBottomSheet<DishFormResult>(
