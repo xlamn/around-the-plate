@@ -1,13 +1,17 @@
 import 'package:app_theme/app_theme.dart';
-import 'package:dishes_api/dishes_api.dart';
 import 'package:flutter/material.dart';
 
 import '../models/dish_stats.dart';
 
 class JourneyHeaderCards extends StatelessWidget {
   final DishStats stats;
+  final int tripCount;
 
-  const JourneyHeaderCards({super.key, required this.stats});
+  const JourneyHeaderCards({
+    super.key,
+    required this.stats,
+    required this.tripCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class JourneyHeaderCards extends StatelessWidget {
             value: '${stats.totalDishes}',
           ),
           _StatCard(
-            label: 'Cuisines',
-            value: '${stats.uniqueCuisines} / ${DishCuisine.values.length}',
+            label: 'Trips',
+            value: '$tripCount',
           ),
           _StatCard(
             label: 'Avg Rating',

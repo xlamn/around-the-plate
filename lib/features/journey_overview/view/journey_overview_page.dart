@@ -3,8 +3,10 @@ import 'package:around_the_plate/features/journey_overview/widgets/sections/jour
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trips_repository/trips_repository.dart';
 
 import '../../achievements/achievements.dart';
+import '../../trips/cubits/trips_overview/trips_overview_cubit.dart';
 import '../cubits/journey_overview_cubit.dart';
 import '../widgets/journey_header_cards.dart';
 import '../widgets/sections/journey_map_section.dart';
@@ -32,6 +34,11 @@ class JourneyOverviewPage extends StatelessWidget {
             dishesRepository: context.read<DishesRepository>(),
           )..load(),
         ),
+        BlocProvider(
+          create: (_) => TripsOverviewCubit(
+            tripsRepository: context.read<TripsRepository>(),
+          )..loadTrips(),
+        ),
       ],
       child: const JourneyOverviewView(),
     );
@@ -45,6 +52,7 @@ class JourneyOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<JourneyOverviewCubit>().state;
     final achievements = context.watch<AchievementsCubit>().state.achievements;
+    final tripCount = context.watch<TripsOverviewCubit>().state.trips.length;
 
     if (state.status == JourneyOverviewStatus.loading ||
         state.status == JourneyOverviewStatus.initial) {
@@ -68,7 +76,7 @@ class JourneyOverviewView extends StatelessWidget {
               crossAxisAlignment: .start,
               children: [
                 const FHeader(title: Text('Journey')),
-                JourneyHeaderCards(stats: state.stats),
+                JourneyHeaderCards(stats: state.stats, tripCount: tripCount),
                 Padding(
                   padding: const .only(bottom: AppSizes.spacing16),
                   child: Column(
