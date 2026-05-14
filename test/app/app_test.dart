@@ -35,7 +35,10 @@ void main() {
       ).thenReturn(AppStartupState.loaded(true));
 
       await tester.pumpWidget(
-        App(createDishesRepository: () => dishesRepository),
+        App(
+          createDishesRepository: () => dishesRepository,
+          createTripsRepository: () => MockTripsRepository(),
+        ),
       );
 
       expect(find.byType(BlocProvider<AppStartupCubit>), findsOneWidget);

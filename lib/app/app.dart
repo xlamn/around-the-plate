@@ -2,29 +2,39 @@ import 'package:app_theme/app_theme.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trips_repository/trips_repository.dart';
 
 import '../features/home/view/home.dart';
 import '../features/onboarding/views/onboarding_flow.dart';
 import 'cubits/app_startup_cubit.dart';
 
 class App extends StatelessWidget {
-  const App({required this.createDishesRepository, super.key});
+  const App({
+    required this.createDishesRepository,
+    required this.createTripsRepository,
+    super.key,
+  });
 
   final DishesRepository Function() createDishesRepository;
+  final TripsRepository Function() createTripsRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<DishesRepository>(
-      create: (_) => createDishesRepository(),
-      dispose: (repository) => repository.dispose(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<DishesRepository>(
+          create: (_) => createDishesRepository(),
+          dispose: (r) => r.dispose(),
+        ),
+        RepositoryProvider<TripsRepository>(
+          create: (_) => createTripsRepository(),
+          dispose: (r) => r.dispose(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (_) => ThemeModeCubit(),
-          ),
-          BlocProvider(
-            create: (_) => AppStartupCubit(),
-          ),
+          BlocProvider(create: (_) => ThemeModeCubit()),
+          BlocProvider(create: (_) => AppStartupCubit()),
         ],
         child: const AppView(),
       ),

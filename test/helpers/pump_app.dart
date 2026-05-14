@@ -5,8 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:trips_repository/trips_repository.dart';
 
 class MockDishesRepository extends Mock implements DishesRepository {}
+
+class MockTripsRepository extends Mock implements TripsRepository {}
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(

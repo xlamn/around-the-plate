@@ -67,6 +67,12 @@ dependencies:
     path: packages/directory_image_storage_api
   isar_storage_dishes_api:
     path: packages/isar_storage_dishes_api
+  isar_storage_trips_api:
+    path: packages/isar_storage_trips_api
+  trips_api:
+    path: packages/trips_api
+  trips_repository:
+    path: packages/trips_repository
 
 dev_dependencies:
   bloc_test: ^10.0.0

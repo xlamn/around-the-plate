@@ -5,11 +5,12 @@ import 'package:dishes_api/dishes_api.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:trips_repository/trips_repository.dart';
 
 import 'app/app.dart';
 import 'app/app_bloc_observer.dart';
 
-void bootstrap({required DishesApi dishesApi}) {
+void bootstrap({required DishesApi dishesApi, required TripsApi tripsApi}) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -22,6 +23,9 @@ void bootstrap({required DishesApi dishesApi}) {
   Bloc.observer = const AppBlocObserver();
 
   runApp(
-    App(createDishesRepository: () => DishesRepository(dishesApi: dishesApi)),
+    App(
+      createDishesRepository: () => DishesRepository(dishesApi: dishesApi),
+      createTripsRepository: () => TripsRepository(tripsApi: tripsApi),
+    ),
   );
 }

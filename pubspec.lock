@@ -875,6 +875,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  isar_storage_trips_api:
+    dependency: "direct main"
+    description:
+      path: "packages/isar_storage_trips_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   isolate_channel:
     dependency: transitive
     description:
@@ -1414,6 +1421,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  trips_api:
+    dependency: "direct main"
+    description:
+      path: "packages/trips_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  trips_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/trips_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   turf:
     dependency: transitive
     description:
