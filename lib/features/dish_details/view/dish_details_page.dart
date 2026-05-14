@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../dish_form/view/dish_form_bottom_sheet.dart';
+import '../../trips/widgets/add_to_trip_bottom_sheet.dart';
 import '../cubit/dish_details_cubit.dart';
 import '../widgets/dish_details_glass_button.dart';
 import '../widgets/dish_details_rating.dart';
@@ -272,23 +273,36 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                             icon: FIcons.arrowLeft,
                             onTap: () => Navigator.pop(context),
                           ),
-                          DishDetailsGlassButton(
-                            icon: FIcons.squarePen,
-                            onTap: () async {
-                              final result = await showModalBottomSheet<DishFormResult>(
-                                context: context,
-                                isDismissible: false,
-                                enableDrag: false,
-                                isScrollControlled: true,
-                                builder: (_) => DishFormBottomSheet(dish: widget.dish),
-                              );
-                              if (!context.mounted) return;
-                              if (result == DishFormResult.deleted) {
-                                Navigator.pop(context);
-                              } else if (result == DishFormResult.updated) {
-                                await context.read<DishDetailsCubit>().refreshDish();
-                              }
-                            },
+                          Row(
+                            spacing: AppSizes.spacing8,
+                            children: [
+                              DishDetailsGlassButton(
+                                icon: FIcons.ticketsPlane,
+                                onTap: () => showModalBottomSheet<void>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (_) => AddToTripBottomSheet(dish: widget.dish),
+                                ),
+                              ),
+                              DishDetailsGlassButton(
+                                icon: FIcons.squarePen,
+                                onTap: () async {
+                                  final result = await showModalBottomSheet<DishFormResult>(
+                                    context: context,
+                                    isDismissible: false,
+                                    enableDrag: false,
+                                    isScrollControlled: true,
+                                    builder: (_) => DishFormBottomSheet(dish: widget.dish),
+                                  );
+                                  if (!context.mounted) return;
+                                  if (result == DishFormResult.deleted) {
+                                    Navigator.pop(context);
+                                  } else if (result == DishFormResult.updated) {
+                                    await context.read<DishDetailsCubit>().refreshDish();
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -12,6 +12,7 @@ import '../../dishes_overview/widgets/dish_card.dart';
 import '../../dishes_overview/widgets/new_dish_card.dart';
 import '../../trips/cubits/trips_overview/trips_overview_cubit.dart';
 import '../../trips/view/trips_overview_page.dart';
+import '../../trips/widgets/new_trip_card.dart';
 import '../../trips/widgets/trip_card.dart';
 import '../../trips/widgets/trip_form_bottom_sheet.dart';
 
