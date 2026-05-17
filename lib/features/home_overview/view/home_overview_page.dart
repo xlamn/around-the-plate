@@ -49,7 +49,7 @@ class HomeOverviewView extends StatelessWidget {
 
     final dishes = dishState.dishes;
     final trips = tripState.trips;
-    final recentDishes = dishes.length > 5 ? dishes.sublist(dishes.length - 5) : dishes;
+    final recentDishes = dishes.reversed.take(5).toList();
 
     return Scaffold(
       body: CustomScrollView(
@@ -123,7 +123,7 @@ class HomeOverviewView extends StatelessWidget {
                           ),
                         );
                       }
-                      return TripCard(trip: trips[i]);
+                      return TripCard(trip: trips.elementAt(i));
                     },
                   ),
                 ),
