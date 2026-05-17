@@ -12,14 +12,24 @@ class DishCard extends StatelessWidget {
   final imageStorage = DirectoryImageStorageApi.instance;
 
   final Dish dish;
+  final bool isSelected;
+  final VoidCallback? onToggle;
 
-  const DishCard({super.key, required this.dish});
+  const DishCard({
+    super.key,
+    required this.dish,
+    this.isSelected = false,
+    this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final imageFile = imageStorage.getImageFile(dish.imagePath);
+
     return GestureDetector(
-      onTap: () => _openDetailsPage(context),
-      child: Container(
+      onTap: onToggle ?? () => _openDetailsPage(context),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: .topLeft,
@@ -31,8 +41,8 @@ class DishCard extends StatelessWidget {
           ),
           borderRadius: .circular(AppSizes.radiusM),
           border: .all(
-            color: context.theme.colors.border,
-            width: 0.5,
+            color: isSelected ? context.theme.colors.primary : context.theme.colors.border,
+            width: isSelected ? 1.5 : 0.5,
           ),
           boxShadow: [
             BoxShadow(
@@ -47,18 +57,18 @@ class DishCard extends StatelessWidget {
         child: Row(
           mainAxisSize: .min,
           spacing: AppSizes.spacing12,
-          children: <Widget>[
+          children: [
             SizedBox(
               width: 80,
               height: 80,
               child: ClipRRect(
                 borderRadius: .circular(AppSizes.radiusM),
-                child: Image.file(
-                  File(
-                    imageStorage.getImageFile(dish.imagePath)!.path,
-                  ),
-                  fit: BoxFit.cover,
-                ),
+                child: imageFile != null
+                    ? Image.file(File(imageFile.path), fit: .cover)
+                    : Container(
+                        color: context.theme.colors.muted,
+                        child: Icon(FIcons.utensils, color: context.theme.colors.mutedForeground),
+                      ),
               ),
             ),
             Expanded(
@@ -79,7 +89,7 @@ class DishCard extends StatelessWidget {
                     Text(
                       dish.cuisine!.displayName,
                       style: context.theme.typography.xs.copyWith(
-                        fontWeight: FontWeight.w400,
+                        fontWeight: .w400,
                       ),
                     ),
                   if (dish.date != null)
@@ -95,11 +105,32 @@ class DishCard extends StatelessWidget {
             SizedBox(
               width: 80,
               child: Center(
-                child: DishRating(
-                  rating: dish.rating,
-                ),
+                child: DishRating(rating: dish.rating),
               ),
             ),
+            if (onToggle != null)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isSelected ? context.theme.colors.primary : Colors.transparent,
+                  border: Border.all(
+                    color: isSelected
+                        ? context.theme.colors.primary
+                        : context.theme.colors.mutedForeground,
+                    width: 1.5,
+                  ),
+                ),
+                child: isSelected
+                    ? Icon(
+                        Icons.check_rounded,
+                        size: 14,
+                        color: context.theme.colors.primaryForeground,
+                      )
+                    : null,
+              ),
           ],
         ),
       ),
@@ -109,9 +140,7 @@ class DishCard extends StatelessWidget {
   Future<String?> _openDetailsPage(BuildContext context) async {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => DishDetailsPage(
-          dishId: dish.id,
-        ),
+        builder: (context) => DishDetailsPage(dishId: dish.id),
       ),
     );
   }
