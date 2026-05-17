@@ -1,38 +1,36 @@
 import 'package:app_theme/app_theme.dart';
-import 'package:dishes_api/dishes_api.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trips_api/trips_api.dart';
 
-import '../cubits/dish_form_cubit.dart';
+import '../../cubits/trip_form/trip_form_cubit.dart';
 
-class DishFormDeleteButton extends StatelessWidget {
-  final Dish dish;
+class TripFormDeleteButton extends StatelessWidget {
+  final Trip? trip;
 
-  const DishFormDeleteButton({
-    super.key,
-    required this.dish,
-  });
+  const TripFormDeleteButton({super.key, this.trip});
 
   @override
   Widget build(BuildContext context) {
     return FButton(
       variant: .destructive,
       onPress: () async {
+        if (trip == null) return;
         await showFDialog(
           context: context,
           builder: (_, style, animation) {
             return FDialog(
               direction: .horizontal,
-              body: const Text('Are you sure you want to delete this dish?'),
+              body: const Text('Are you sure you want to delete this trip?'),
               actions: [
                 FButton(
                   variant: .destructive,
                   onPress: () async {
-                    await context.read<DishFormCubit>().deleteDish(dish);
+                    context.read<TripFormCubit>().deleteTrip(trip!);
                     if (!context.mounted) return;
                     Navigator.pop(context);
                   },
-                  child: const Text('Delete Dish'),
+                  child: const Text('Delete Trip'),
                 ),
                 FButton(
                   variant: .ghost,
@@ -44,7 +42,7 @@ class DishFormDeleteButton extends StatelessWidget {
           },
         );
       },
-      child: const Text('Delete Dish'),
+      child: const Text('Delete trip'),
     );
   }
 }

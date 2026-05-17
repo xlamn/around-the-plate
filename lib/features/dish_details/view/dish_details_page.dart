@@ -262,12 +262,12 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                   child: SafeArea(
                     bottom: false,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
+                      padding: const .symmetric(
                         horizontal: AppSizes.spacing8,
                         vertical: AppSizes.spacing4,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: .spaceBetween,
                         children: [
                           GlassButton(
                             circular: true,

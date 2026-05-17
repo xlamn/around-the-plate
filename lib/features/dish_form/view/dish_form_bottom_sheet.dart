@@ -8,8 +8,8 @@ import 'package:isar_storage_dishes_api/isar_storage_dishes_api.dart';
 
 import '../cubits/dish_detection/dish_detection_cubit.dart';
 import '../cubits/dish_form_cubit.dart';
+import '../../../widgets/form_app_bar.dart';
 import '../widgets/controls/controls.dart';
-import '../widgets/dish_form_app_bar.dart';
 import '../widgets/dish_form_delete_button.dart';
 
 enum DishFormResult {
@@ -123,8 +123,8 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView> {
             mainAxisSize: MainAxisSize.min,
             spacing: AppSizes.spacing16,
             children: [
-              DishFormAppBar(
-                isEditing: isEditing,
+              FormAppBar(
+                saveLabel: isEditing ? 'Edit Dish' : 'Add Dish',
                 onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
                   final dish = Dish.create(

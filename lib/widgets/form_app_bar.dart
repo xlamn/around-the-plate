@@ -1,31 +1,30 @@
 import 'package:app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'dish_form_save_button.dart';
-
-class DishFormAppBar extends StatelessWidget {
-  final bool isEditing;
+class FormAppBar extends StatelessWidget {
+  final String? saveLabel;
   final Future<void> Function() onPressed;
 
-  const DishFormAppBar({
+  const FormAppBar({
     super.key,
-    required this.isEditing,
+    this.saveLabel,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: .spaceBetween,
       children: [
         IconButton(
           icon: const Icon(FIcons.x),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        DishFormSaveButton(
-          isEditing: isEditing,
-          onPressed: onPressed,
-        ),
+        if (saveLabel != null)
+          FButton(
+            onPress: onPressed,
+            child: Text(saveLabel!),
+          ),
       ],
     );
   }
