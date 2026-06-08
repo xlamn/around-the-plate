@@ -30,11 +30,6 @@ class JourneyOverviewPage extends StatelessWidget {
           )..load(),
         ),
         BlocProvider(
-          create: (_) => AchievementsCubit(
-            dishesRepository: context.read<DishesRepository>(),
-          )..load(),
-        ),
-        BlocProvider(
           create: (_) => TripsOverviewCubit(
             tripsRepository: context.read<TripsRepository>(),
           )..loadTrips(),
