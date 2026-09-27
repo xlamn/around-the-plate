@@ -36,7 +36,7 @@ class JourneyTopDishesDetailPage extends StatelessWidget {
                       children: [
                         Text(
                           'Top 10',
-                          style: context.theme.typography.md.copyWith(
+                          style: context.theme.typography.body.md.copyWith(
                             fontWeight: .w600,
                           ),
                         ),
@@ -51,7 +51,7 @@ class JourneyTopDishesDetailPage extends StatelessWidget {
                       children: [
                         Text(
                           'Flop 10',
-                          style: context.theme.typography.md.copyWith(
+                          style: context.theme.typography.body.md.copyWith(
                             fontWeight: .w600,
                           ),
                         ),

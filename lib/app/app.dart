@@ -2,6 +2,7 @@ import 'package:app_theme/app_theme.dart';
 import 'package:dishes_repository/dishes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:trips_repository/trips_repository.dart';
 
 import '../features/home/view/home.dart';
@@ -51,12 +52,27 @@ class AppView extends StatelessWidget {
 
     return MaterialApp(
       supportedLocales: FLocalizations.supportedLocales,
-      localizationsDelegates: const [...FLocalizations.localizationsDelegates],
+      localizationsDelegates: const [
+        ...FLocalizations.localizationsDelegates,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       builder: (_, child) => FTheme(data: theme, child: child!),
-      theme: theme.toApproximateMaterialTheme().copyWith(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme(
+          brightness: theme.colors.brightness,
+          primary: theme.colors.primary,
+          onPrimary: theme.colors.primaryForeground,
+          secondary: theme.colors.secondary,
+          onSecondary: theme.colors.secondaryForeground,
+          error: theme.colors.error,
+          onError: theme.colors.errorForeground,
+          surface: theme.colors.background,
+          onSurface: theme.colors.foreground,
+        ),
         actionIconTheme: ActionIconThemeData(
           backButtonIconBuilder: (context) => const Icon(
-            FIcons.arrowLeft,
+            FLucideIcons.arrowLeft,
           ),
         ),
       ),

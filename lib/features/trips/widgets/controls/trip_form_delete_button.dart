@@ -20,24 +20,43 @@ class TripFormDeleteButton extends StatelessWidget {
           context: context,
           builder: (_, style, animation) {
             return FDialog(
-              direction: .horizontal,
-              body: const Text('Are you sure you want to delete this trip?'),
-              actions: [
-                FButton(
-                  variant: .destructive,
-                  onPress: () async {
-                    context.read<TripFormCubit>().deleteTrip(trip!);
-                    if (!context.mounted) return;
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Delete Trip'),
-                ),
-                FButton(
-                  variant: .ghost,
-                  onPress: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-              ],
+              animation: animation,
+              builder: (_, style) {
+                return Padding(
+                  padding: const .all(AppSizes.spacing16),
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    mainAxisSize: .min,
+                    spacing: AppSizes.spacing16,
+                    children: [
+                      DefaultTextStyle.merge(
+                        style: style.bodyTextStyle,
+                        child: const Text('Are you sure you want to delete this trip?'),
+                      ),
+                      Row(
+                        mainAxisAlignment: .end,
+                        spacing: AppSizes.spacing8,
+                        children: [
+                          FButton(
+                            variant: .destructive,
+                            onPress: () async {
+                              context.read<TripFormCubit>().deleteTrip(trip!);
+                              if (!context.mounted) return;
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Delete Trip'),
+                          ),
+                          FButton(
+                            variant: .ghost,
+                            onPress: () => Navigator.pop(context),
+                            child: const Text('Cancel'),
+                          ),
+                        ].toList(),
+                      ),
+                    ],
+                  ),
+                );
+              },
             );
           },
         );

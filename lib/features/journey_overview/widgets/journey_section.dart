@@ -28,7 +28,7 @@ class JourneySection extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: context.theme.typography.md.copyWith(
+                  style: context.theme.typography.body.md.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -36,7 +36,7 @@ class JourneySection extends StatelessWidget {
                   GestureDetector(
                     onTap: onTap,
                     child: Icon(
-                      FIcons.arrowRight,
+                      FLucideIcons.arrowRight,
                       color: context.theme.colors.mutedForeground,
                     ),
                   ),

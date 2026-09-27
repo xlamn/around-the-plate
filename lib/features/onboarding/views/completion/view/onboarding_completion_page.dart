@@ -42,7 +42,7 @@ class OnboardingCompletionPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing16),
               child: FButton(
-                prefix: const Icon(FIcons.partyPopper),
+                prefix: const Icon(FLucideIcons.partyPopper),
                 onPress: onFinished,
                 child: const Text('Let\'s go'),
               ),

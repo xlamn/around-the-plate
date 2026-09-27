@@ -30,7 +30,7 @@ class _TripsOverviewSortButtonState extends State<TripsOverviewSortButton>
                   FTile(
                     title: Text(option.label.toCapitalized()),
                     selected: option == selectedOption,
-                    suffix: option == selectedOption ? const Icon(FIcons.check) : null,
+                    suffix: option == selectedOption ? const Icon(FLucideIcons.check) : null,
                     onPress: () {
                       context.read<TripsSortCubit>().changeSort(option);
                       _popoverController.hide();
@@ -52,7 +52,7 @@ class _TripsOverviewSortButtonState extends State<TripsOverviewSortButton>
             child: FButton.icon(
               variant: FButtonVariant.secondary,
               onPress: _popoverController.toggle,
-              child: const Icon(FIcons.arrowUpDown),
+              child: const Icon(FLucideIcons.arrowUpDown),
             ),
           ),
         );

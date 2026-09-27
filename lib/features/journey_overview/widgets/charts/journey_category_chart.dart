@@ -77,14 +77,14 @@ class JourneyCategoryChart extends StatelessWidget {
                   children: [
                     Text(
                       '$grandTotal',
-                      style: context.theme.typography.xl.copyWith(
+                      style: context.theme.typography.body.xl.copyWith(
                         fontWeight: .w700,
                         height: 1,
                       ),
                     ),
                     Text(
                       'dishes',
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         color: context.theme.colors.mutedForeground,
                         fontSize: 11,
                       ),
@@ -118,19 +118,19 @@ class JourneyCategoryChart extends StatelessWidget {
                       Expanded(
                         child: Text(
                           e.label,
-                          style: context.theme.typography.xs,
+                          style: context.theme.typography.body.xs,
                         ),
                       ),
                       Text(
                         '${e.count}',
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontWeight: .w600,
                         ),
                       ),
                       Text(
                         '$pct%',
                         textAlign: .right,
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontSize: 10,
                           color: context.theme.colors.mutedForeground,
                         ),

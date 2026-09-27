@@ -61,7 +61,7 @@ class TripCard extends StatelessWidget {
                 children: [
                   Text(
                     trip.name,
-                    style: context.theme.typography.sm.copyWith(
+                    style: context.theme.typography.body.sm.copyWith(
                       fontWeight: .w600,
                       height: 1.2,
                     ),
@@ -70,7 +70,7 @@ class TripCard extends StatelessWidget {
                   ),
                   Text(
                     '${trip.dishIds.length} ${trip.dishIds.length == 1 ? 'dish' : 'dishes'}',
-                    style: context.theme.typography.xs.copyWith(
+                    style: context.theme.typography.body.xs.copyWith(
                       color: context.theme.colors.mutedForeground,
                     ),
                   ),

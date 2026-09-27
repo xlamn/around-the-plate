@@ -40,7 +40,7 @@ class CloudSyncView extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(FIcons.arrowLeft),
+              icon: const Icon(FLucideIcons.arrowLeft),
             ),
           ),
           body: Column(
@@ -54,7 +54,7 @@ class CloudSyncView extends StatelessWidget {
                   children: [
                     Text(
                       'Google Drive Login',
-                      style: context.theme.typography.sm,
+                      style: context.theme.typography.body.sm,
                     ),
                     FSwitch(
                       value: state.isSignedIn,
@@ -89,7 +89,7 @@ class CloudSyncView extends StatelessWidget {
                     Text(
                       'Your dishes will be uploaded to your Cloud. If you do not have any dishes, the app will download your dishes instead.',
                       textAlign: TextAlign.center,
-                      style: context.theme.typography.sm.copyWith(
+                      style: context.theme.typography.body.sm.copyWith(
                         color: context.theme.colors.mutedForeground,
                       ),
                     ),
@@ -105,7 +105,7 @@ class CloudSyncView extends StatelessWidget {
                     ),
                     child: Text(
                       'Last synced: ${state.lastSync?.toLocal()}',
-                      style: context.theme.typography.sm.copyWith(
+                      style: context.theme.typography.body.sm.copyWith(
                         color: context.theme.colors.mutedForeground,
                       ),
                     ),

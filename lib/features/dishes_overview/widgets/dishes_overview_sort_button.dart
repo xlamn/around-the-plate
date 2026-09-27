@@ -36,7 +36,7 @@ class _DishesOverviewSortButtonState extends State<DishesOverviewSortButton>
                   FTile(
                     title: Text(option.label.toCapitalized()),
                     selected: option == selectedOption,
-                    suffix: option == selectedOption ? const Icon(FIcons.check) : null,
+                    suffix: option == selectedOption ? const Icon(FLucideIcons.check) : null,
                     onPress: () {
                       context.read<DishesSortCubit>().changeSort(option);
                       _popoverController.hide();
@@ -58,7 +58,7 @@ class _DishesOverviewSortButtonState extends State<DishesOverviewSortButton>
             child: FButton.icon(
               variant: FButtonVariant.secondary,
               onPress: _popoverController.toggle,
-              child: const Icon(FIcons.arrowUpDown),
+              child: const Icon(FLucideIcons.arrowUpDown),
             ),
           ),
         );

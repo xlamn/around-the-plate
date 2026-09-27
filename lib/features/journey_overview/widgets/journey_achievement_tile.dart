@@ -64,7 +64,7 @@ class JourneyAchievementTile extends StatelessWidget {
             children: [
               Text(
                 achievement.name,
-                style: context.theme.typography.xs.copyWith(
+                style: context.theme.typography.body.xs.copyWith(
                   fontWeight: .w600,
                 ),
                 textAlign: .center,
@@ -73,7 +73,7 @@ class JourneyAchievementTile extends StatelessWidget {
               ),
               Text(
                 achievement.description,
-                style: context.theme.typography.xs.copyWith(
+                style: context.theme.typography.body.xs.copyWith(
                   fontSize: 11,
                   color: context.theme.colors.mutedForeground,
                 ),
@@ -110,7 +110,7 @@ class JourneyAchievementTile extends StatelessWidget {
                   ),
                   Text(
                     achievement.progressLabel,
-                    style: context.theme.typography.xs.copyWith(
+                    style: context.theme.typography.body.xs.copyWith(
                       fontSize: 10,
                       color: context.theme.colors.mutedForeground,
                     ),

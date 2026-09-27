@@ -135,13 +135,13 @@ class _TripFormBottomSheetViewState extends State<TripFormBottomSheetView> {
                                 spacing: AppSizes.spacing8,
                                 children: [
                                   Icon(
-                                    FIcons.image,
+                                    FLucideIcons.image,
                                     size: AppSizes.iconL,
                                     color: context.theme.colors.mutedForeground,
                                   ),
                                   Text(
                                     'Add cover photo',
-                                    style: context.theme.typography.sm.copyWith(
+                                    style: context.theme.typography.body.sm.copyWith(
                                       color: context.theme.colors.mutedForeground,
                                     ),
                                     textAlign: .center,

@@ -30,7 +30,7 @@ class TripStatsChip extends StatelessWidget {
           Icon(icon, size: 14, color: context.theme.colors.mutedForeground),
           Text(
             label,
-            style: context.theme.typography.xs.copyWith(
+            style: context.theme.typography.body.xs.copyWith(
               color: context.theme.colors.mutedForeground,
               fontWeight: .w500,
             ),

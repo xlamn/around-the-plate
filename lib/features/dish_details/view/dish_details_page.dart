@@ -44,7 +44,7 @@ class DishDetailsView extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(FIcons.arrowLeft),
+              icon: const Icon(FLucideIcons.arrowLeft),
             ),
           ),
           body: switch (state.status) {
@@ -194,7 +194,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                                         Expanded(
                                           child: Text(
                                             dish.name,
-                                            style: context.theme.typography.xl2.copyWith(
+                                            style: context.theme.typography.body.xl2.copyWith(
                                               fontWeight: FontWeight.bold,
                                               height: 1.25,
                                             ),
@@ -209,26 +209,26 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                                         children: [
                                           if (dish.cuisineValue != null)
                                             _InfoRow(
-                                              icon: FIcons.cookingPot,
+                                              icon: FLucideIcons.cookingPot,
                                               label: 'Cuisine',
                                               value: dish.cuisine?.displayName ?? '',
                                             ),
                                           if (dish.categoryValue != null)
                                             _InfoRow(
-                                              icon: FIcons.vegan,
+                                              icon: FLucideIcons.vegan,
                                               label: 'Category',
                                               value: dish.category?.name.toCapitalized() ?? '',
                                             ),
                                           if (dish.date != null)
                                             _InfoRow(
-                                              icon: FIcons.calendar,
+                                              icon: FLucideIcons.calendar,
                                               label: 'Date',
                                               value:
                                                   '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
                                             ),
                                           if (dish.location != null)
                                             _InfoRow(
-                                              icon: FIcons.locate,
+                                              icon: FLucideIcons.locate,
                                               label: 'Location',
                                               value: dish.location?.placeName ?? '',
                                             ),
@@ -238,7 +238,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                                     Center(
                                       child: Text(
                                         'Last modified: ${DateFormat.yMMMd().add_Hm().format(dish.lastModifiedDate)}',
-                                        style: context.theme.typography.xs.copyWith(
+                                        style: context.theme.typography.body.xs.copyWith(
                                           color: context.theme.colors.mutedForeground,
                                         ),
                                       ),
@@ -271,7 +271,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                         children: [
                           GlassButton(
                             circular: true,
-                            icon: FIcons.arrowLeft,
+                            icon: FLucideIcons.arrowLeft,
                             onTap: () => Navigator.pop(context),
                           ),
                           Row(
@@ -279,7 +279,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                             children: [
                               GlassButton(
                                 circular: true,
-                                icon: FIcons.ticketsPlane,
+                                icon: FLucideIcons.ticketsPlane,
                                 onTap: () => showModalBottomSheet<void>(
                                   context: context,
                                   isScrollControlled: true,
@@ -288,7 +288,7 @@ class _DishDetailsContentState extends State<_DishDetailsContent>
                               ),
                               GlassButton(
                                 circular: true,
-                                icon: FIcons.squarePen,
+                                icon: FLucideIcons.squarePen,
                                 onTap: () async {
                                   final result = await showModalBottomSheet<DishFormResult>(
                                     context: context,
@@ -402,7 +402,7 @@ class _InfoRow extends StatelessWidget {
             flex: 3,
             child: Text(
               label,
-              style: context.theme.typography.sm.copyWith(
+              style: context.theme.typography.body.sm.copyWith(
                 color: context.theme.colors.mutedForeground,
                 height: 1,
               ),
@@ -413,7 +413,7 @@ class _InfoRow extends StatelessWidget {
             flex: 5,
             child: Text(
               value,
-              style: context.theme.typography.sm.copyWith(
+              style: context.theme.typography.body.sm.copyWith(
                 fontWeight: FontWeight.w500,
                 height: 1,
               ),

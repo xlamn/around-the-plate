@@ -60,7 +60,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           Navigator.pop(context, imagePath);
                         },
                         child: const Icon(
-                          FIcons.image,
+                          FLucideIcons.image,
                           color: Colors.white,
                           size: 36.0,
                         ),

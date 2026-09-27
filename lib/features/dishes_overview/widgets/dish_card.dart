@@ -67,7 +67,7 @@ class DishCard extends StatelessWidget {
                     ? Image.file(File(imageFile.path), fit: .cover)
                     : Container(
                         color: context.theme.colors.muted,
-                        child: Icon(FIcons.utensils, color: context.theme.colors.mutedForeground),
+                        child: Icon(FLucideIcons.utensils, color: context.theme.colors.mutedForeground),
                       ),
               ),
             ),
@@ -77,7 +77,7 @@ class DishCard extends StatelessWidget {
                 children: [
                   Text(
                     dish.name,
-                    style: context.theme.typography.lg.copyWith(
+                    style: context.theme.typography.body.lg.copyWith(
                       height: 1.0,
                       fontWeight: .w700,
                     ),
@@ -88,14 +88,14 @@ class DishCard extends StatelessWidget {
                   if (dish.cuisine != null)
                     Text(
                       dish.cuisine!.displayName,
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         fontWeight: .w400,
                       ),
                     ),
                   if (dish.date != null)
                     Text(
                       '${dish.date?.day}.${dish.date?.month}.${dish.date?.year}',
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         fontWeight: .w500,
                       ),
                     ),

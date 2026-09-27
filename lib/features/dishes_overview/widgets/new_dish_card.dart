@@ -28,13 +28,13 @@ class NewDishCard extends StatelessWidget {
             spacing: AppSizes.spacing12,
             children: [
               Icon(
-                FIcons.plus,
+                FLucideIcons.plus,
                 size: AppSizes.iconM,
                 color: context.theme.colors.mutedForeground,
               ),
               Text(
                 'Add new dish',
-                style: context.theme.typography.sm.copyWith(
+                style: context.theme.typography.body.sm.copyWith(
                   color: context.theme.colors.mutedForeground,
                   fontWeight: .w500,
                 ),

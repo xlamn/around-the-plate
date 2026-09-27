@@ -4,7 +4,7 @@ import 'package:forui/forui.dart';
 FThemeData get plateLight {
   const touch = true;
 
-  const colors = FColors(
+  final colors = FColors(
     brightness: .light,
     systemOverlayStyle: .dark,
     barrier: Color(0x33000000),
@@ -38,7 +38,7 @@ FThemeData get plateLight {
 FThemeData get plateDark {
   const touch = true;
 
-  const colors = FColors(
+  final colors = FColors(
     brightness: .dark,
     systemOverlayStyle: .light,
     barrier: Color(0x7A000000),
@@ -73,11 +73,19 @@ FTypography _typography({
   required FColors colors,
   required bool touch,
 }) {
-  final font = FTypography.defaultFontFamily;
+  final typeface = _typeface(colors: colors, touch: touch);
+  return FTypography(display: typeface, body: typeface);
+}
+
+FTypeface _typeface({
+  required FColors colors,
+  required bool touch,
+}) {
+  final font = FTypeface.defaultFontFamily;
   final color = colors.foreground;
 
   if (touch) {
-    return FTypography(
+    return FTypeface(
       fontFamily: font,
       xs3: TextStyle(
         color: color,
@@ -189,7 +197,7 @@ FTypography _typography({
       ),
     );
   } else {
-    return FTypography(
+    return FTypeface(
       fontFamily: font,
       xs3: TextStyle(
         color: color,
@@ -322,10 +330,9 @@ FStyle _style({
     sizes: FSizes.inherit(touch: touch),
     iconStyle: IconThemeData(
       color: colors.foreground,
-      size: typography.lg.fontSize,
+      size: typography.body.lg.fontSize,
     ),
     tappableStyle: FTappableStyle(),
-    hapticFeedback: const FHapticFeedback(),
     borderRadius: const FBorderRadius(),
     borderWidth: 1,
     pagePadding: const .symmetric(vertical: 8, horizontal: 12),

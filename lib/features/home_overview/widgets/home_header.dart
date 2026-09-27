@@ -41,14 +41,14 @@ class HomeHeader extends StatelessWidget {
         children: [
           Text(
             '$_greeting!',
-            style: context.theme.typography.xl2.copyWith(
+            style: context.theme.typography.body.xl2.copyWith(
               fontWeight: .bold,
               height: 1.2,
             ),
           ),
           Text(
             _formattedDate,
-            style: context.theme.typography.sm.copyWith(
+            style: context.theme.typography.body.sm.copyWith(
               color: context.theme.colors.mutedForeground,
               fontWeight: .w400,
               letterSpacing: 0.5,

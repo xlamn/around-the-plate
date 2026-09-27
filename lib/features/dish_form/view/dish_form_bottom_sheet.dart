@@ -72,7 +72,7 @@ class _DishFormBottomSheetViewState extends State<DishFormBottomSheetView> {
   late final FSelectController<DishCategory> _categorySelectController = FSelectController();
   late final FSelectController<DishCuisine> _cuisineSelectController = FSelectController();
   late final FSelectController<DishLocation> _locationSelectController = FSelectController();
-  late final FDateFieldController _dateFieldController = FDateFieldController();
+  late final FDateSelectionController<DateTime?> _dateFieldController = FDateSelectionController.single();
   late final FContinuousSliderController _ratingSliderController;
 
   @override

@@ -30,7 +30,7 @@ class TripPlaceholder extends StatelessWidget {
         ),
       ),
       child: Icon(
-        FIcons.utensils,
+        FLucideIcons.utensils,
         size: 32,
         color: context.theme.colors.primaryForeground.withValues(alpha: 0.8),
       ),

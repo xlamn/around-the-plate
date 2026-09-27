@@ -59,7 +59,7 @@ class JourneyRegionChart extends StatelessWidget {
                   final entry = entries[groupIndex];
                   return BarTooltipItem(
                     '${entry.fullLabel}\n${rod.toY.toInt()}',
-                    context.theme.typography.xs.copyWith(
+                    context.theme.typography.body.xs.copyWith(
                       color: context.theme.colors.foreground,
                     ),
                   );
@@ -85,7 +85,7 @@ class JourneyRegionChart extends StatelessWidget {
                     final pct = (entry.count / grandTotal * 100).round();
                     return Text(
                       '$pct%',
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         fontSize: 10,
                         fontWeight: .w600,
                         color: entry.color,
@@ -107,7 +107,7 @@ class JourneyRegionChart extends StatelessWidget {
                       padding: const .symmetric(vertical: AppSizes.spacing4),
                       child: Text(
                         entries[i].shortLabel,
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontSize: 10,
                           color: context.theme.colors.mutedForeground,
                         ),

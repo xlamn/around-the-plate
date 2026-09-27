@@ -69,7 +69,7 @@ class OnboardingIntroductionPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacing16),
               child: FButton(
-                prefix: const Icon(FIcons.play),
+                prefix: const Icon(FLucideIcons.play),
                 onPress: () => context.read<OnboardingCubit>().nextStep(),
                 child: const Text('Start'),
               ),

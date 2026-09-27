@@ -113,7 +113,7 @@ class _AchievementCelebrationDialogState extends State<AchievementCelebrationDia
                     ),
                     child: Text(
                       '★  Achievement Unlocked',
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         color: const Color(0xFFD4A017),
                         fontWeight: .w700,
                         letterSpacing: 0.4,
@@ -148,14 +148,14 @@ class _AchievementCelebrationDialogState extends State<AchievementCelebrationDia
                     children: [
                       Text(
                         widget.achievement.name,
-                        style: context.theme.typography.lg.copyWith(
+                        style: context.theme.typography.body.lg.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         widget.achievement.description,
-                        style: context.theme.typography.sm.copyWith(
+                        style: context.theme.typography.body.sm.copyWith(
                           color: context.theme.colors.mutedForeground,
                         ),
                         textAlign: TextAlign.center,
@@ -177,7 +177,7 @@ class _AchievementCelebrationDialogState extends State<AchievementCelebrationDia
                       ),
                       child: Text(
                         'Collect',
-                        style: context.theme.typography.sm.copyWith(
+                        style: context.theme.typography.body.sm.copyWith(
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF1A1A1A),
                         ),

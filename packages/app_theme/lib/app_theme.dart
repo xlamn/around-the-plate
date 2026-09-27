@@ -1,6 +1,7 @@
 library;
 
 export 'package:forui/forui.dart';
+export 'package:forui_lucide/forui_lucide.dart';
 
 export 'src/constants/sizes.dart';
 export 'src/cubits/theme_selection_cubit.dart';

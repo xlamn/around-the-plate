@@ -25,7 +25,7 @@ class DishesOverviewAddButton extends StatelessWidget {
         );
       },
       backgroundColor: context.theme.colors.primary,
-      child: Icon(FIcons.plus, color: context.theme.colors.primaryForeground),
+      child: Icon(FLucideIcons.plus, color: context.theme.colors.primaryForeground),
     );
   }
 }

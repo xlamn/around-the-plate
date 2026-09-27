@@ -27,6 +27,7 @@ extension PumpApp on WidgetTester {
               GlobalMaterialLocalizations.delegate,
             ],
             supportedLocales: FLocalizations.supportedLocales,
+            builder: (_, child) => FTheme(data: plateLight, child: child!),
             home: Scaffold(body: widget),
           ),
         ),

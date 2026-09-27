@@ -56,7 +56,7 @@ class JourneyActivityChart extends StatelessWidget {
                   final label = DateFormat('MMM yyyy').format(months.elementAt(i).key);
                   return LineTooltipItem(
                     '$label\n${spot.y.toInt()} dish(es)',
-                    context.theme.typography.xs.copyWith(
+                    context.theme.typography.body.xs.copyWith(
                       color: context.theme.colors.foreground,
                     ),
                   );
@@ -85,7 +85,7 @@ class JourneyActivityChart extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         DateFormat('MMM').format(months[i].key),
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontSize: 10,
                           color: isLast
                               ? JourneyChartColors.gradient.elementAt(1)

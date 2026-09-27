@@ -79,14 +79,14 @@ class _StatCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: context.theme.typography.xl.copyWith(
+              style: context.theme.typography.body.xl.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: AppSizes.spacing4),
             Text(
               label,
-              style: context.theme.typography.xs.copyWith(
+              style: context.theme.typography.body.xs.copyWith(
                 color: context.theme.colors.mutedForeground,
               ),
             ),

@@ -87,14 +87,14 @@ class _DishesSearchOverlayViewState extends State<_DishesSearchOverlayView> {
                                     context.read<DishesSearchCubit>().search(query),
                                 decoration: InputDecoration(
                                   hintText: 'Search dishes...',
-                                  hintStyle: context.theme.typography.sm.copyWith(
+                                  hintStyle: context.theme.typography.body.sm.copyWith(
                                     color: context.theme.colors.mutedForeground,
                                   ),
                                   border: .none,
                                   contentPadding: .zero,
                                   isDense: true,
                                 ),
-                                style: context.theme.typography.sm,
+                                style: context.theme.typography.body.sm,
                               ),
                             ),
                             if (_hasText)
@@ -129,7 +129,7 @@ class _DishesSearchOverlayViewState extends State<_DishesSearchOverlayView> {
                         return Center(
                           child: Text(
                             'No dishes found',
-                            style: context.theme.typography.sm.copyWith(
+                            style: context.theme.typography.body.sm.copyWith(
                               color: context.theme.colors.mutedForeground,
                             ),
                           ),

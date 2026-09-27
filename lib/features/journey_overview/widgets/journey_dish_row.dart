@@ -34,7 +34,7 @@ class JourneyDishRow extends StatelessWidget {
                     height: 56,
                     color: context.theme.colors.muted,
                     child: Icon(
-                      FIcons.hamburger,
+                      FLucideIcons.hamburger,
                       color: context.theme.colors.mutedForeground,
                     ),
                   ),
@@ -45,7 +45,7 @@ class JourneyDishRow extends StatelessWidget {
               children: [
                 Text(
                   dish.name,
-                  style: context.theme.typography.sm.copyWith(
+                  style: context.theme.typography.body.sm.copyWith(
                     fontWeight: .w600,
                   ),
                   maxLines: 1,
@@ -54,7 +54,7 @@ class JourneyDishRow extends StatelessWidget {
                 if (dish.cuisine != null)
                   Text(
                     dish.cuisine!.displayName,
-                    style: context.theme.typography.xs.copyWith(
+                    style: context.theme.typography.body.xs.copyWith(
                       color: context.theme.colors.mutedForeground,
                     ),
                   ),

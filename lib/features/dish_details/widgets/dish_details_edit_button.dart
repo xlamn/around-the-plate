@@ -29,7 +29,7 @@ class DishDetailsEditButton extends StatelessWidget {
           await context.read<DishDetailsCubit>().refreshDish();
         }
       },
-      icon: const Icon(FIcons.squarePen),
+      icon: const Icon(FLucideIcons.squarePen),
     );
   }
 }

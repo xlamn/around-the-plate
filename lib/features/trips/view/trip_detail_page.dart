@@ -48,7 +48,7 @@ class TripDetailView extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(FIcons.arrowLeft),
+              icon: const Icon(FLucideIcons.arrowLeft),
             ),
           ),
           body: switch (state.status) {
@@ -94,7 +94,7 @@ class _TripDetailContent extends StatelessWidget {
               leading: Padding(
                 padding: const .all(AppSizes.spacing8),
                 child: GlassButton(
-                  icon: FIcons.arrowLeft,
+                  icon: FLucideIcons.arrowLeft,
                   onTap: () => Navigator.pop(context),
                 ),
               ),
@@ -102,7 +102,7 @@ class _TripDetailContent extends StatelessWidget {
                 Padding(
                   padding: const .all(AppSizes.spacing8),
                   child: GlassButton(
-                    icon: FIcons.squarePen,
+                    icon: FLucideIcons.squarePen,
                     onTap: () => _openEdit(context),
                   ),
                 ),
@@ -138,7 +138,7 @@ class _TripDetailContent extends StatelessWidget {
                   children: [
                     Text(
                       trip.name,
-                      style: context.theme.typography.xl2.copyWith(
+                      style: context.theme.typography.body.xl2.copyWith(
                         fontWeight: .bold,
                         height: 1.1,
                         letterSpacing: -0.5,
@@ -147,7 +147,7 @@ class _TripDetailContent extends StatelessWidget {
                     if (trip.description != null && trip.description!.isNotEmpty)
                       Text(
                         trip.description!,
-                        style: context.theme.typography.sm.copyWith(
+                        style: context.theme.typography.body.sm.copyWith(
                           color: context.theme.colors.mutedForeground,
                           height: 1.5,
                         ),
@@ -157,16 +157,16 @@ class _TripDetailContent extends StatelessWidget {
                       runSpacing: AppSizes.spacing8,
                       children: [
                         TripStatsChip(
-                          icon: FIcons.utensils,
+                          icon: FLucideIcons.utensils,
                           label: '${dishes.length} ${dishes.length == 1 ? 'dish' : 'dishes'}',
                         ),
                         if (dishes.isNotEmpty)
                           TripStatsChip(
-                            icon: FIcons.star,
+                            icon: FLucideIcons.star,
                             label: 'Avg ${(_avgRating * 10).toStringAsFixed(1)}',
                           ),
                         TripStatsChip(
-                          icon: FIcons.calendar,
+                          icon: FLucideIcons.calendar,
                           label: DateFormat('dd MMM yyyy').format(trip.createdDate),
                         ),
                       ],
@@ -186,13 +186,13 @@ class _TripDetailContent extends StatelessWidget {
                     children: [
                       const Spacer(),
                       Icon(
-                        FIcons.planeTakeoff,
+                        FLucideIcons.planeTakeoff,
                         size: 48,
                         color: context.theme.colors.mutedForeground,
                       ),
                       Text(
                         'No dishes yet',
-                        style: context.theme.typography.md.copyWith(
+                        style: context.theme.typography.body.md.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -223,7 +223,7 @@ class _TripDetailContent extends StatelessWidget {
                     children: [
                       Text(
                         'Dishes',
-                        style: context.theme.typography.lg.copyWith(
+                        style: context.theme.typography.body.lg.copyWith(
                           fontWeight: .bold,
                         ),
                       ),
@@ -363,7 +363,7 @@ class _TripDishRow extends StatelessWidget {
                       height: 68,
                       color: context.theme.colors.muted,
                       child: Icon(
-                        FIcons.utensils,
+                        FLucideIcons.utensils,
                         size: AppSizes.iconM,
                         color: context.theme.colors.mutedForeground,
                       ),
@@ -376,7 +376,7 @@ class _TripDishRow extends StatelessWidget {
                 children: [
                   Text(
                     dish.name,
-                    style: context.theme.typography.sm.copyWith(
+                    style: context.theme.typography.body.sm.copyWith(
                       fontWeight: .w600,
                       height: 1.2,
                     ),
@@ -389,7 +389,7 @@ class _TripDishRow extends StatelessWidget {
                         if (dish.cuisine != null) dish.cuisine!.displayName,
                         if (dish.category != null) dish.category!.name,
                       ].join(' · '),
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         color: context.theme.colors.mutedForeground,
                       ),
                       maxLines: 1,
@@ -398,7 +398,7 @@ class _TripDishRow extends StatelessWidget {
                   if (dish.date != null)
                     Text(
                       DateFormat('dd MMM yyyy').format(dish.date!),
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         color: context.theme.colors.mutedForeground,
                       ),
                     ),

@@ -25,13 +25,13 @@ class NewTripCard extends StatelessWidget {
           spacing: AppSizes.spacing8,
           children: [
             Icon(
-              FIcons.plus,
+              FLucideIcons.plus,
               size: AppSizes.iconL,
               color: context.theme.colors.mutedForeground,
             ),
             Text(
               'New Trip',
-              style: context.theme.typography.sm.copyWith(
+              style: context.theme.typography.body.sm.copyWith(
                 color: context.theme.colors.mutedForeground,
                 fontWeight: .w500,
               ),

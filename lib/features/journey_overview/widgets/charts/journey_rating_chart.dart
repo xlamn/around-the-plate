@@ -40,7 +40,7 @@ class JourneyRatingChart extends StatelessWidget {
             children: [
               Text(
                 '$avgDisplay ',
-                style: context.theme.typography.xl2.copyWith(
+                style: context.theme.typography.body.xl2.copyWith(
                   fontWeight: .w700,
                   height: 1,
                 ),
@@ -49,7 +49,7 @@ class JourneyRatingChart extends StatelessWidget {
                 padding: const .only(bottom: 4),
                 child: Text(
                   '/ 10',
-                  style: context.theme.typography.sm.copyWith(
+                  style: context.theme.typography.body.sm.copyWith(
                     color: context.theme.colors.mutedForeground,
                     height: 1,
                   ),
@@ -58,7 +58,7 @@ class JourneyRatingChart extends StatelessWidget {
               const Spacer(),
               Text(
                 'avg score',
-                style: context.theme.typography.xs.copyWith(
+                style: context.theme.typography.body.xs.copyWith(
                   color: context.theme.colors.mutedForeground,
                 ),
               ),
@@ -77,7 +77,7 @@ class JourneyRatingChart extends StatelessWidget {
                       width: 30,
                       child: Text(
                         _bucketLabels.elementAt(i),
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontSize: 10,
                           color: context.theme.colors.mutedForeground,
                         ),
@@ -95,7 +95,7 @@ class JourneyRatingChart extends StatelessWidget {
                       child: Text(
                         '$count',
                         textAlign: .right,
-                        style: context.theme.typography.xs.copyWith(
+                        style: context.theme.typography.body.xs.copyWith(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),

@@ -62,15 +62,15 @@ class HomeView extends StatelessWidget {
           onChange: (index) => context.read<HomeCubit>().changeTab(index),
           children: const [
             FBottomNavigationBarItem(
-              icon: Icon(FIcons.house),
+              icon: Icon(FLucideIcons.house),
               label: Text('Home'),
             ),
             FBottomNavigationBarItem(
-              icon: Icon(FIcons.planeTakeoff),
+              icon: Icon(FLucideIcons.planeTakeoff),
               label: Text('Journey'),
             ),
             FBottomNavigationBarItem(
-              icon: Icon(FIcons.settings),
+              icon: Icon(FLucideIcons.settings),
               label: Text('Settings'),
             ),
           ],

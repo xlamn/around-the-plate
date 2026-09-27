@@ -27,9 +27,9 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('General'),
               children: [
                 FTile(
-                  prefix: const Icon(FIcons.palette),
+                  prefix: const Icon(FLucideIcons.palette),
                   title: const Text('Theme'),
-                  suffix: const Icon(FIcons.chevronRight),
+                  suffix: const Icon(FLucideIcons.chevronRight),
                   onPress: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -40,9 +40,9 @@ class SettingsOverviewPage extends StatelessWidget {
                 ),
                 if (Theme.of(context).platform == TargetPlatform.android)
                   FTile(
-                    prefix: const Icon(FIcons.refreshCcwDot),
+                    prefix: const Icon(FLucideIcons.refreshCcwDot),
                     title: const Text('Synchronization'),
-                    suffix: const Icon(FIcons.chevronRight),
+                    suffix: const Icon(FLucideIcons.chevronRight),
                     onPress: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -60,25 +60,25 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('Support'),
               children: [
                 FTile(
-                  prefix: const Icon(FIcons.mail),
+                  prefix: const Icon(FLucideIcons.mail),
                   title: const Text('Contact Developer'),
-                  suffix: const Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FLucideIcons.squareArrowOutUpRight),
                   onPress: () async => await _urlLauncherService.openEmail(
                     subject: 'Around the Plate - Request',
                   ),
                 ),
                 FTile(
-                  prefix: const Icon(FIcons.cookie),
+                  prefix: const Icon(FLucideIcons.cookie),
                   title: const Text('Buy a cookie'),
-                  suffix: const Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FLucideIcons.squareArrowOutUpRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://paypal.me/xlamn',
                   ),
                 ),
                 FTile(
-                  prefix: const Icon(FIcons.star),
+                  prefix: const Icon(FLucideIcons.star),
                   title: const Text('Rate App'),
-                  suffix: const Icon(FIcons.squareArrowOutUpRight),
+                  suffix: const Icon(FLucideIcons.squareArrowOutUpRight),
                   onPress: null,
                 ),
               ],
@@ -90,17 +90,17 @@ class SettingsOverviewPage extends StatelessWidget {
               label: const Text('Legal'),
               children: [
                 FTile(
-                  prefix: const Icon(FIcons.fileSpreadsheet),
+                  prefix: const Icon(FLucideIcons.fileSpreadsheet),
                   title: const Text('Imprint'),
-                  suffix: const Icon(FIcons.chevronRight),
+                  suffix: const Icon(FLucideIcons.chevronRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://www.tlnguyen.fyi/works/aroundtheplate/imprint',
                   ),
                 ),
                 FTile(
-                  prefix: const Icon(FIcons.handshake),
+                  prefix: const Icon(FLucideIcons.handshake),
                   title: const Text('Privacy Policy'),
-                  suffix: const Icon(FIcons.chevronRight),
+                  suffix: const Icon(FLucideIcons.chevronRight),
                   onPress: () async => await _urlLauncherService.openUrl(
                     'https://www.tlnguyen.fyi/works/aroundtheplate/privacy_policy',
                   ),

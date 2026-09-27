@@ -44,7 +44,7 @@ class TripAddDishesView extends StatelessWidget {
               backgroundColor: context.theme.colors.background,
               surfaceTintColor: Colors.transparent,
               leading: IconButton(
-                icon: const Icon(FIcons.arrowLeft),
+                icon: const Icon(FLucideIcons.arrowLeft),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -61,21 +61,21 @@ class TripAddDishesView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                FIcons.utensils,
+                                FLucideIcons.utensils,
                                 size: 48,
                                 color: context.theme.colors.mutedForeground,
                               ),
                               const SizedBox(height: AppSizes.spacing12),
                               Text(
                                 'No dishes yet',
-                                style: context.theme.typography.md.copyWith(
+                                style: context.theme.typography.body.md.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: AppSizes.spacing4),
                               Text(
                                 'Add some dishes first to include them in this trip.',
-                                style: context.theme.typography.sm.copyWith(
+                                style: context.theme.typography.body.sm.copyWith(
                                   color: context.theme.colors.mutedForeground,
                                 ),
                                 textAlign: TextAlign.center,

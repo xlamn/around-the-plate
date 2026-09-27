@@ -54,7 +54,7 @@ class _AddToTripBottomSheetState extends State<AddToTripBottomSheet> {
                         Expanded(
                           child: Text(
                             'Add to Trip',
-                            style: context.theme.typography.xl.copyWith(
+                            style: context.theme.typography.body.xl.copyWith(
                               fontWeight: .bold,
                             ),
                           ),
@@ -67,7 +67,7 @@ class _AddToTripBottomSheetState extends State<AddToTripBottomSheet> {
                       padding: const .all(AppSizes.spacing32),
                       child: Text(
                         'No trips yet. Create one from the Home tab.',
-                        style: context.theme.typography.sm.copyWith(
+                        style: context.theme.typography.body.sm.copyWith(
                           color: context.theme.colors.mutedForeground,
                         ),
                         textAlign: .center,
@@ -166,7 +166,7 @@ class _TripTile extends StatelessWidget {
                 children: [
                   Text(
                     trip.name,
-                    style: context.theme.typography.sm.copyWith(
+                    style: context.theme.typography.body.sm.copyWith(
                       fontWeight: .w600,
                     ),
                     maxLines: 1,
@@ -174,7 +174,7 @@ class _TripTile extends StatelessWidget {
                   ),
                   Text(
                     '${trip.dishIds.length} ${trip.dishIds.length == 1 ? 'dish' : 'dishes'}',
-                    style: context.theme.typography.xs.copyWith(
+                    style: context.theme.typography.body.xs.copyWith(
                       color: context.theme.colors.mutedForeground,
                     ),
                   ),

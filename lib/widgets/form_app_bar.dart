@@ -17,7 +17,7 @@ class FormAppBar extends StatelessWidget {
       mainAxisAlignment: .spaceBetween,
       children: [
         IconButton(
-          icon: const Icon(FIcons.x),
+          icon: const Icon(FLucideIcons.x),
           onPressed: () => Navigator.of(context).pop(),
         ),
         if (saveLabel != null)

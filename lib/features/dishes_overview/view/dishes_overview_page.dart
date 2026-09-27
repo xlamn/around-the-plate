@@ -42,7 +42,7 @@ class DishesOverviewView extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 0,
         leading: IconButton(
-          icon: const Icon(FIcons.arrowLeft),
+          icon: const Icon(FLucideIcons.arrowLeft),
           onPressed: () => Navigator.pop(context),
         ),
         title: const DishesSearchBar(),

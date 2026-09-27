@@ -87,7 +87,7 @@ class HomeOverviewView extends StatelessWidget {
                     children: [
                       Text(
                         'Trips',
-                        style: context.theme.typography.lg.copyWith(fontWeight: FontWeight.bold),
+                        style: context.theme.typography.body.lg.copyWith(fontWeight: FontWeight.bold),
                       ),
                       if (trips.isNotEmpty)
                         GestureDetector(
@@ -96,7 +96,7 @@ class HomeOverviewView extends StatelessWidget {
                           ),
                           child: Text(
                             'See all',
-                            style: context.theme.typography.sm.copyWith(
+                            style: context.theme.typography.body.sm.copyWith(
                               color: context.theme.colors.primary,
                               fontWeight: .w500,
                             ),
@@ -146,7 +146,7 @@ class HomeOverviewView extends StatelessWidget {
                 children: [
                   Text(
                     'Recent dishes',
-                    style: context.theme.typography.lg.copyWith(
+                    style: context.theme.typography.body.lg.copyWith(
                       fontWeight: .bold,
                     ),
                   ),
@@ -157,7 +157,7 @@ class HomeOverviewView extends StatelessWidget {
                       ),
                       child: Text(
                         'See all',
-                        style: context.theme.typography.sm.copyWith(
+                        style: context.theme.typography.body.sm.copyWith(
                           color: context.theme.colors.primary,
                           fontWeight: .w500,
                         ),

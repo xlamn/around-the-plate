@@ -105,14 +105,14 @@ class _HomeSearchOverlayViewState extends State<HomeSearchOverlayView> {
                                     controller: _controller,
                                     decoration: InputDecoration(
                                       hintText: 'Search dishes and trips...',
-                                      hintStyle: context.theme.typography.sm.copyWith(
+                                      hintStyle: context.theme.typography.body.sm.copyWith(
                                         color: context.theme.colors.mutedForeground,
                                       ),
                                       border: .none,
                                       contentPadding: .zero,
                                       isDense: true,
                                     ),
-                                    style: context.theme.typography.sm,
+                                    style: context.theme.typography.body.sm,
                                   ),
                                 ),
                                 if (hasText)
@@ -154,7 +154,7 @@ class _HomeSearchOverlayViewState extends State<HomeSearchOverlayView> {
       return Center(
         child: Text(
           'No results found',
-          style: context.theme.typography.sm.copyWith(
+          style: context.theme.typography.body.sm.copyWith(
             color: context.theme.colors.mutedForeground,
           ),
         ),
@@ -175,7 +175,7 @@ class _HomeSearchOverlayViewState extends State<HomeSearchOverlayView> {
                 ),
                 child: Text(
                   'Trips',
-                  style: context.theme.typography.sm.copyWith(
+                  style: context.theme.typography.body.sm.copyWith(
                     color: context.theme.colors.mutedForeground,
                     fontWeight: .w600,
                     letterSpacing: 0.5,
@@ -208,7 +208,7 @@ class _HomeSearchOverlayViewState extends State<HomeSearchOverlayView> {
                 ),
                 child: Text(
                   'Dishes',
-                  style: context.theme.typography.sm.copyWith(
+                  style: context.theme.typography.body.sm.copyWith(
                     color: context.theme.colors.mutedForeground,
                     fontWeight: .w600,
                     letterSpacing: 0.5,

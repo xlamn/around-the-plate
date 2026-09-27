@@ -17,20 +17,41 @@ class CountryMapDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FDialog(
-      title: Text('$country $flagEmoji'),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
-        child: Text(
-          'You have enjoyed ${dishes.length} dish(es) from $country so far!',
-        ),
-      ),
-      actions: [
-        FButton(
-          variant: FButtonVariant.primary,
-          onPress: () => Navigator.of(context).pop(),
-          child: const Text('OK'),
-        ),
-      ],
+      builder: (context, style) {
+        return Padding(
+          padding: const .all(AppSizes.spacing16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            spacing: AppSizes.spacing8,
+            children: [
+              DefaultTextStyle.merge(
+                style: style.titleTextStyle,
+                child: Text('$country $flagEmoji'),
+              ),
+              Flexible(
+                child: DefaultTextStyle.merge(
+                  style: style.bodyTextStyle,
+                  child: Text(
+                    'You have enjoyed ${dishes.length} dish(es) from $country so far!',
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                spacing: AppSizes.spacing8,
+                children: [
+                  FButton(
+                    variant: FButtonVariant.primary,
+                    onPress: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ].toList(),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

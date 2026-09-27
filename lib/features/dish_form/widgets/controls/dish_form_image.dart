@@ -38,7 +38,7 @@ class DishFormImage extends StatelessWidget {
                   : const SizedBox(
                       width: 120,
                       height: 120,
-                      child: Icon(FIcons.imageOff),
+                      child: Icon(FLucideIcons.imageOff),
                     ),
             ),
             Positioned(
@@ -62,7 +62,7 @@ class DishFormImage extends StatelessWidget {
                     ),
                   ),
                   child: Icon(
-                    FIcons.pencil,
+                    FLucideIcons.pencil,
                     color: context.theme.colors.primaryForeground,
                     size: AppSizes.iconS,
                   ),

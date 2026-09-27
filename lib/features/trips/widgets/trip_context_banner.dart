@@ -45,7 +45,7 @@ class TripContextBanner extends StatelessWidget {
               children: [
                 Text(
                   trip.name,
-                  style: context.theme.typography.sm.copyWith(fontWeight: .w600),
+                  style: context.theme.typography.body.sm.copyWith(fontWeight: .w600),
                   maxLines: 1,
                   overflow: .ellipsis,
                 ),
@@ -58,7 +58,7 @@ class TripContextBanner extends StatelessWidget {
                       selectedCount == 0
                           ? 'No dishes selected'
                           : '$selectedCount ${selectedCount == 1 ? 'dish' : 'dishes'} selected',
-                      style: context.theme.typography.xs.copyWith(
+                      style: context.theme.typography.body.xs.copyWith(
                         color: selectedCount > 0
                             ? context.theme.colors.primary
                             : context.theme.colors.mutedForeground,

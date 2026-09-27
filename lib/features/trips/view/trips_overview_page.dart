@@ -42,7 +42,7 @@ class TripsOverviewView extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 0,
         leading: IconButton(
-          icon: const Icon(FIcons.arrowLeft),
+          icon: const Icon(FLucideIcons.arrowLeft),
           onPressed: () => Navigator.pop(context),
         ),
         title: BlocBuilder<TripsOverviewCubit, TripsOverviewState>(
@@ -61,7 +61,7 @@ class TripsOverviewView extends StatelessWidget {
           builder: (_) => const TripFormBottomSheet(),
         ),
         backgroundColor: context.theme.colors.primary,
-        child: Icon(FIcons.plus, color: context.theme.colors.primaryForeground),
+        child: Icon(FLucideIcons.plus, color: context.theme.colors.primaryForeground),
       ),
       body: BlocBuilder<TripsOverviewCubit, TripsOverviewState>(
         builder: (context, state) {

@@ -36,13 +36,13 @@ class DishesSearchBar extends StatelessWidget {
                   spacing: AppSizes.spacing12,
                   children: [
                     Icon(
-                      FIcons.search,
+                      FLucideIcons.search,
                       size: AppSizes.iconM,
                       color: context.theme.colors.mutedForeground,
                     ),
                     Text(
                       'Search dishes...',
-                      style: context.theme.typography.sm.copyWith(
+                      style: context.theme.typography.body.sm.copyWith(
                         color: context.theme.colors.mutedForeground,
                       ),
                     ),
