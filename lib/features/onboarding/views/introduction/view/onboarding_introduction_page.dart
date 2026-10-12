@@ -35,7 +35,7 @@ class OnboardingIntroductionPage extends StatelessWidget {
               },
               blendMode: BlendMode.dstIn,
               child: Image.asset(
-                'assets/onboarding/onboarding_01.png',
+                'assets/onboarding/onboarding_01.jpg',
               ),
             ),
             const Spacer(),

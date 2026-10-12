@@ -35,11 +35,32 @@ class OnboardingCameraView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.transparent,
+                const Spacer(),
+                ShaderMask(
+                  shaderCallback: (rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black,
+                        Colors.black,
+                        Colors.transparent,
+                      ],
+                      stops: [
+                        0.0,
+                        0.2,
+                        0.8,
+                        1.0,
+                      ],
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                  },
+                  blendMode: BlendMode.dstIn,
+                  child: Image.asset(
+                    'assets/onboarding/onboarding_02.jpg',
                   ),
                 ),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(AppSizes.spacing24),
                   child: Column(
